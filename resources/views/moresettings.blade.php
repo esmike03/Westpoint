@@ -1,19 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" x-data="{ openModal: false }">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <link rel="icon" type="image/png" href="{{ asset('IMAGES/logowestpoint.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>Westpoint pharma inc.</title>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
-    <title>Modify Products</title>
+    <style>
+        .fade {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .fade.show {
+            opacity: 1;
+        }
+    </style>
 </head>
 
-<body class="font-mono">
-    <!-- source: https://github.com/mfg888/Responsive-Tailwind-CSS-Grid/blob/main/index.html -->
 
+<body class="font-mono">
     <aside
         class="fixed mt-20 left-0 top-0 w-64 h-screen bg-white shadow-lg p-4 transition-transform transform -translate-x-full sm:translate-x-0">
         <div class="flex items-center justify-between mb-6">
@@ -85,78 +98,91 @@
 
         </header>
 
+        <section class="mt-32">
+            <div class="bg-white border border-4 rounded-lg shadow relative m-10">
 
-        <!-- ✅ Grid Section - Starts Here 👇 -->
-        <section id="Projects"
-        class="pt-24 w-fit mx-20 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-6 mb-5">
-
-        <!--   ✅ Product card 1 - Starts Here 👇 -->
-
-        @forelse ($products as $product)
-            <div
-                class="w-64 h-fit max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg transform transition-all duration-500 hover:scale-105">
-                <a>
-                    <i class="fa fa-trash text-red-500 m-2 text-sm shadow-lg p-1 rounded-md"> Delete</i>
-                </a>
-                <a href="#" class="w-full justify-center flex">
-                    <img class="p-2 rounded-t-lg h-36" src="{{ asset('storage/' . $product->image) }}"
-                        alt="product image" />
-                </a>
-                <div class="px-5 pb-5">
-                    <div class="flex">
-                        <a href="#">
-                            <h5 class="text-lg font-semibold tracking-tight text-gray-900"><span
-                                    class="text-xs text-gray-500">{{ $product->category }}</span><br>{{ $product->name }}
-                            </h5>
-                        </a>
-                        <div class="ml-auto text-right mt-1">
-                            <p class="text-sm text-green-400">{{ $product->brand }}</p>
+                <div class="flex items-start justify-between p-5 border-b rounded-t">
+                    <h3 class="text-xl font-semibold">
+                        Add Category
+                    </h3>
+                    @if (session('error'))
+                        <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                            {{ session('error') }}
                         </div>
-
-                    </div>
-
-                    <div class="flex items-center mt-2.5 mb-5">
-                        <div x-data="{ expanded: false }" class="relative">
-                            <p class="text-justify text-gray-700 text-xs" :class="expanded ? '' : 'line-clamp-3'">
-                                {{ $product->details }}
-                            </p>
-                            <button @click="expanded = !expanded"
-                                class="text-blue-600 text-xs font-medium mt-1 hover:underline">
-                                <span x-show="!expanded">Read More</span>
-                                <span x-show="expanded">Show Less</span>
-                            </button>
-                        </div>
+                    @endif
 
 
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-xl font-bold text-gray-900 ">₱{{ $product->price }}</span>
-                        <a href="#"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Modify</a>
-                    </div>
+
+
                 </div>
+
+                <div class="p-6 space-y-6">
+
+
+
+
+                </div>
+
+
+
             </div>
-        @empty
-            <p class="text-gray-500 text-lg">No products found.</p>
-        @endforelse
+            <div class="bg-white border border-4 rounded-lg shadow relative m-10">
+
+                <div class="flex items-start justify-between p-5 border-b rounded-t">
+                    <h3 class="text-xl font-semibold">
+                        Add Category
+                    </h3>
+                    @if (session('error'))
+                        <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                            {{ session('error') }}
+                        </div>
+                    @endif
 
 
 
 
+                </div>
+
+                <div class="p-6 space-y-6">
 
 
-    </section>
-
-        <!-- 🛑 Grid Section - Ends Here -->
 
 
-        <!-- credit -->
-        <div class="text-center py-10 px-10">
-
-        </div>
+                </div>
 
 
-        <!-- Support Me 🙏🥰 -->
+
+            </div>
+            <div class="bg-white border border-4 rounded-lg shadow relative m-10">
+
+                <div class="flex items-start justify-between p-5 border-b rounded-t">
+                    <h3 class="text-xl font-semibold">
+                        Add Category
+                    </h3>
+                    @if (session('error'))
+                        <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+
+
+
+                </div>
+
+                <div class="p-6 space-y-6">
+
+
+
+
+                </div>
+
+
+
+            </div>
+        </section>
+
+        <!-- Changed background color to green -->
     </main>
     <script>
         // Sidebar Toggle for Mobile
@@ -176,5 +202,6 @@
         });
     </script>
 </body>
+
 
 </html>

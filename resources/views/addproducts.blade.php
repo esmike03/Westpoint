@@ -41,6 +41,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/admin" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
+                        <i class="fas fa-shopping-cart mr-2"></i>Orders
+                    </a>
+                </li>
+                <li>
                     <a href="#" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
                         <i class="fas fa-user mr-2"></i>Profile
                     </a>
@@ -56,7 +61,7 @@
                                 Products</a></li>
                         <li><a href="/modifyproducts" class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Modify
                                 Products</a></li>
-
+                                <li><a href="/moresettings" class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">More Settings</a></li>
                     </ul>
                 </li>
                 <li>

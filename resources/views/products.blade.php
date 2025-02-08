@@ -57,6 +57,18 @@
                                 About us</button>
                         </a>
                     </li>
+                    <li>
+                        <a href="/">
+                            <button class="text-black hover:text-green-400"><i class="fas fa-cart-shopping"></i>
+                                Cart</button>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/">
+                            <button class="text-black hover:text-green-400"><i class="fas fa-arrow-right-to-bracket"></i>
+                                Login</button>
+                        </a>
+                    </li>
 
                 </ul>
             </nav>
@@ -124,9 +136,9 @@
 
                     </div>
 
-                    <div class="flex items-center mt-2.5 mb-5">
+                    <div class="flex items-center mt-1 mb-1">
                         <div x-data="{ expanded: false }" class="relative">
-                            <p class="text-justify text-gray-700 text-xs" :class="expanded ? '' : 'line-clamp-3'">
+                            <p class="text-justify text-gray-700 text-xs" :class="expanded ? '' : 'line-clamp-2'">
                                 {{ $product->details }}
                             </p>
                             <button @click="expanded = !expanded"

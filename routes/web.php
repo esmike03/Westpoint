@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
@@ -8,7 +9,9 @@ use App\Http\Controllers\ProductController;
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 
 Route::get('/', function () {
-    return view('index');
+
+    $products = Product::all();
+    return view('index', compact('products'));
 });
 
 Route::get('/admin', [AuthController::class, 'admin'])->name('admin');
@@ -26,3 +29,6 @@ Route::get('/addproducts', function () {
     return view('addproducts');
 })->name('addproducts');
 
+Route::get('/moresettings', function () {
+    return view('moresettings');
+})->name('moresettings');
