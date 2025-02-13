@@ -86,11 +86,57 @@
             </div>
 
         </header>
+        <div class="mt-28 mx-4 justify-items-center justify-center">
+            <form method="GET" action="/modifyproducts" x-data="{ search: '{{ request('search') }}' }"
+                class=" flex flex-wrap gap-4 justify-start" x-init="$watch('search', value => $event.target.form.submit())">
+
+                <!-- Search Bar (Auto-submits when typing) -->
+                <input type="text" name="search" x-model="search" placeholder="Search products..."
+                    class="border text-sm border-gray-300 rounded-md px-3 py-1 text-gray-700 w-32">
+
+                <!-- Category Filter (Auto-submits on change) -->
+                <select name="category" class="border border-gray-300 rounded-md px-3 py-1 text-sm w-32 text-gray-700"
+                    x-on:change="$event.target.form.submit()">
+                    <option value="">All Categories</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category }}" {{ request('category') == $category ? 'selected' : '' }}>
+                            {{ ucfirst($category) }}
+                        </option>
+                    @endforeach
+                </select>
+
+                <!-- Brand Filter (Auto-submits on change) -->
+                <select name="brand" class="border border-gray-300 rounded-md px-3 py-1 text-sm text-gray-700"
+                    x-on:change="$event.target.form.submit()">
+                    <option value="">All Brands</option>
+                    @foreach ($brands as $brand)
+                        <option value="{{ $brand }}" {{ request('brand') == $brand ? 'selected' : '' }}>
+                            {{ ucfirst($brand) }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
+        </div>
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Whoops!</strong> Something went wrong.
+                <ul class="mt-2 list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
 
+        @if (session('success'))
+            <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg">
+                {{ session('success') }}
+            </div>
+        @endif
         <!-- ✅ Grid Section - Starts Here 👇 -->
         <section id="Projects"
-            class="pt-24 w-fit mx-20 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-6 mb-5">
+            class=" w-fit mx-20 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-6 mb-5">
 
             <!--   ✅ Product card 1 - Starts Here 👇 -->
 
@@ -101,14 +147,17 @@
                     <form method="POST" action="{{ route('products.destroy', $product->id) }}" class="inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" @click.prevent="if(confirm('Are you sure?')) { show = false; $el.remove(); fetch('{{ route('products.destroy', $product->id) }}', { method: 'DELETE', headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } }); }"
-                            class="text-red-500 m-2 text-sm shadow-lg p-1 rounded-md hover:bg-red-100">
-                            <i class="fa fa-trash text-red-500 m-2 text-sm shadow-lg p-1 rounded-md"> Delete</i>
+                        <button type="submit"
+                            @click.prevent="if(confirm('Are you sure?')) { show = false; $el.remove(); fetch('{{ route('products.destroy', $product->id) }}', { method: 'DELETE', headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } }); }"
+                            class="text-red-500 m-2 text-sm  rounded-md">
+                            <i class="fa fa-trash text-red-500 m-2 text-sm shadow-lg p-1 rounded-md "> Delete</i>
                         </button>
                     </form>
                     <a href="#" class="w-full justify-center flex">
-                        <img class="p-2 rounded-t-lg h-36" src="{{ asset('storage/' . $product->image) }}"
+                        <img class="p-2 rounded-t-lg h-36"
+                            src="{{ isset($product->image) && !empty($product->image) ? asset('storage/' . $product->image) : asset('IMAGES/logowestpoint.png') }}"
                             alt="product image" />
+
                     </a>
                     <div class="px-5 pb-5">
                         <div class="flex">
@@ -123,9 +172,9 @@
 
                         </div>
 
-                        <div class="flex items-center mt-2.5 mb-5">
+                        <div class="flex items-center">
                             <div x-data="{ expanded: false }" class="relative">
-                                <p class="text-justify text-gray-700 text-xs" :class="expanded ? '' : 'line-clamp-3'">
+                                <p class="text-justify text-gray-700 text-xs" :class="expanded ? '' : 'line-clamp-1'">
                                     {{ $product->details }}
                                 </p>
                                 <button @click="expanded = !expanded"

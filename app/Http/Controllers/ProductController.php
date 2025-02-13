@@ -69,10 +69,34 @@ class ProductController extends Controller
         return view('products', compact('products', 'categories', 'brands'));
     }
 
-    public function modifyproducts()
+    public function modifyproducts(Request $request)
     {
-        $products = Product::all(); // Fetch all products
-        return view('modifyproducts', compact('products'));
+
+        $query = Product::query();
+
+        // Get unique categories and brands for the filter dropdowns
+        $categories = Product::pluck('category')->unique();
+        $brands = Product::pluck('brand')->unique();
+
+        // Apply search filter
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Apply category filter if selected
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        // Apply brand filter if selected
+        if ($request->filled('brand')) {
+            $query->where('brand', $request->brand);
+        }
+
+        // Get filtered products
+        $products = $query->get();
+        // $products = Product::all(); // Fetch all products
+        return view('modifyproducts', compact('products', 'categories', 'brands'));
     }
 
     public function import(Request $request)
@@ -84,7 +108,7 @@ class ProductController extends Controller
         try {
             Excel::import(new ProductsImport, $request->file('file'));
 
-            return redirect()->with('success', 'Products imported successfully!');
+            return redirect()->back()->with('success', 'Products imported successfully!');
         } catch (ValidationException $e) {
             $failures = $e->failures();
             $errorMessages = [];
@@ -93,9 +117,9 @@ class ProductController extends Controller
                 $errorMessages[] = "Row {$failure->row()}: " . implode(', ', $failure->errors());
             }
 
-            return redirect()->with('error', implode('<br>', $errorMessages));
+            return redirect()->back()->with('error', implode('<br>', $errorMessages));
         } catch (\Exception $e) {
-            return redirect()->with('error', 'There was an error importing the file. Please check the format.');
+            return redirect()->back()->with('error', 'There was an error importing the file. Please check the format.');
         }
     }
 
@@ -104,11 +128,11 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if (!$product) {
-            return response()->json(['message' => 'Product not found'], 404);
+            return redirect()->back()->with('error', 'An error occured!');
         }
 
         $product->delete();
 
-        return response()->json(['message' => 'Product deleted successfully']);
+        return redirect()->back()->with('success', 'Product deleted successfully!');
     }
 }

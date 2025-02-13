@@ -120,6 +120,30 @@
                         </button>
 
                         <!-- Modal -->
+                        <div x-show="openModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                            <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+                                <!-- Modal Header -->
+                                <h2 class="text-lg font-semibold text-gray-900 mb-4">Batch Upload Products</h2>
+
+                                <!-- File Upload Form -->
+                                <form action="{{ route('products.import') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" name="file" required class="border p-2 w-full rounded-md"
+                                        accept=".xls, .xlsx">
+
+                                    <!-- Modal Buttons -->
+                                    <div class="flex justify-end mt-4 space-x-2">
+                                        <button @click="openModal = false" type="button"
+                                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">
+                                            Cancel
+                                        </button>
+                                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-md">
+                                            Upload
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
 
                     </div>
 
@@ -210,30 +234,7 @@
 
             </div>
         </section>
-        <div x-show="openModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-                <!-- Modal Header -->
-                <h2 class="text-lg font-semibold text-gray-900 mb-4">Batch Upload Products</h2>
 
-                <!-- File Upload Form -->
-                <form action="{{ route('products.import') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <input type="file" name="excel_file" required class="border p-2 w-full rounded-md"
-                        accept=".xls, .xlsx">
-
-                    <!-- Modal Buttons -->
-                    <div class="flex justify-end mt-4 space-x-2">
-                        <button @click="openModal = false" type="button"
-                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">
-                            Cancel
-                        </button>
-                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-md">
-                            Upload
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
 
         <!-- Changed background color to green -->
     </main>
