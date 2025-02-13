@@ -40,44 +40,39 @@
 
     </header>
 
-    <section class="mt-36 ">
+    <section class="mt-36">
         <div class="flex flex-col items-center mt-14 px-6 mx-auto md:h-screen lg:py-0">
-            <div
-                class="w-full rounded-lg  md:mt-0 sm:max-w-md xl:p-0 bg-green-700 backdrop-filter backdrop-blur-md bg-opacity-100">
+            <div class="w-full rounded-lg md:mt-0 sm:max-w-md xl:p-0 bg-white shadow-lg">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                    <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white">
+                    <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl text-gray-900">
                         LOG IN
                     </h1>
                     <form class="space-y-4 md:space-y-6" action="/admin/authenticate" method="GET">
                         @csrf
                         <div>
-                            <label for="username" class="block mb-2 text-sm font-medium text-gray-200">
+                            <label for="username" class="block mb-2 text-sm font-medium text-gray-700">
                                 Username</label>
-                            <input type="text" name="username" id="username" placeholder="Username" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            required=""/>
+                            <input type="text" name="username" id="username" placeholder="Username"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                required />
                         </div>
                         <div>
-                            <label for="password"
-                                class="block mb-2 text-sm font-medium text-gray-200">Password</label>
-                            <input type="password" name="password" id="password" placeholder="••••••••" value="{{ old('password')}}"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required="">
+                            <label for="password" class="block mb-2 text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" name="password" id="password" placeholder="••••••••"
+                                value="{{ old('password')}}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                required>
                         </div>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-start">
-                            </div>
-                            {{-- <a href="#"
-                                class="text-sm font-medium hover:underline text-gray-400">Reset
-                                password?</a> --}}
-                        </div>
-                        <button type="submit" @click="loading = true; fetch('/api/endpoint').then(() => loading = false)"
-                            class="w-full text-white bg-amber-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 hover:bg-amber-700 dark:focus:ring-primary-800">Sign
-                            in</button>
+                        <button type="submit"
+                            class="w-full text-white bg-amber-500 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            Sign in
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+    
 
 
 </body>

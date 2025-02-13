@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,14 +27,13 @@
 
 
             </a>
+            <!-- Move the input before the nav for peer to work -->
             <input class="peer hidden" type="checkbox" id="navbar-open" />
-            <label class="absolute right-0 mt-1 cursor-pointer text-white text-xl sm:hidden" for="navbar-open">
+
+            <!-- Label for toggle button -->
+            <label class="absolute right-4 top-6 cursor-pointer text-black text-2xl sm:hidden" for="navbar-open">
                 <span class="sr-only">Toggle Navigation</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="0.88em" height="1em"
-                    preserveAspectRatio="xMidYMid meet" viewBox="0 0 448 512">
-                    <path fill="currentColor"
-                        d="M0 96c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zm0 160c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zm448 160c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32-14.3 32 32z" />
-                </svg>
+                <i class="fa-solid fa-bars"></i>
             </label>
             <nav aria-label="Header Navigation" class="peer-checked:block hidden pl-2 py-6 sm:block sm:py-0">
                 <ul class="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
@@ -74,8 +78,8 @@
         <div class="container mt-10 mx-auto py-16 px-4 sm:px-6 lg:px-8 ">
             <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
                 <div class="max-w-lg">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">About us</h2>
-                    <p class="mt-4 text-gray-600 text-lg text-justify">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-8">About us</h2>
+                    <p class="mt-2 text-gray-600 text-lg text-justify">
                         Westpoint Pharma is a trusted pharmaceutical distributor committed to delivering high-quality
                         medicines and healthcare products to pharmacies, hospitals, and medical institutions. With a
                         strong focus on reliability, affordability, and excellence, we ensure that essential medications
@@ -85,7 +89,7 @@
                         pharmaceutical solutions with integrity and care.
                     </p>
                 </div>
-                <div class="mt-12 md:mt-16">
+                <div class="mt-4 md:mt-16">
                     <img src="{{ asset('images/WESTPOINT.jpg') }}" alt="About Us Image"
                         class="w-full h-full object-cover rounded-lg">
                 </div>
@@ -122,6 +126,47 @@
                 <p class="text-gray-800 text-justify mb-2"><span class="font-bold">Service Oriented</span> - delivering sincere care or services to our employees, co-workers, business partners and society we live in.</p>
                 <p class="text-gray-800 text-justify mb-2"><span class="font-bold">Teamwork</span> - working together as a team or always thinking of the welfare of the whole team.</p>
                 <p class="text-gray-800 text-justify mb-2"><span class="font-bold">Perseverance</span> - being hardworking and finishing taks despite barriers and obstacles encountered.</p>
+            </div>
+        </div>
+    </section>
+    <section>
+        {{-- <div class="w-full max-w-5xl mx-auto p-6" x-data="{ scrollAmount: 300 }">
+            <h2 class="text-3xl font-bold text-center mb-6">Meet Our Team</h2>
+            <div class="relative">
+                <!-- Scroll Buttons -->
+                <button @click="$refs.team.scrollBy({ left: -scrollAmount, behavior: 'smooth' })" class="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-lg">◀</button>
+                <button @click="$refs.team.scrollBy({ left: scrollAmount, behavior: 'smooth' })" class="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-lg">▶</button>
+
+                <!-- Scrollable Team Section -->
+                <div class="flex space-x-4 overflow-x-auto scroll-smooth no-scrollbar" x-ref="team">
+                    <template x-for="i in 5" :key="i">
+                        <div class="flex-shrink-0 w-64 bg-white p-4 rounded-lg shadow-lg text-center">
+                            <img :src="'https://via.placeholder.com/150?text=Person+' + i" alt="Team Member" class="w-32 h-32 mx-auto rounded-full mb-4">
+                            <h3 class="text-xl font-semibold">Member <span x-text="i"></span></h3>
+                            <p class="text-gray-500">Position</p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div> --}}
+
+        <div class="w-full  mx-auto p-6 " x-data="{ scrollAmount: 300 }">
+            <h2 class="text-3xl font-bold text-center mb-6">Meet Our Team</h2>
+            <div class="relative">
+                <!-- Scroll Buttons -->
+                <button @click="$refs.team.scrollBy({ left: -scrollAmount, behavior: 'smooth' })" class="absolute left-0 top-1/2 -translate-y-1/2  text-gray-800 p-2 rounded-full shadow-lg"><i class="fa fa-circle-left"></i></button>
+                <button @click="$refs.team.scrollBy({ left: scrollAmount, behavior: 'smooth' })" class="absolute right-0 top-1/2 -translate-y-1/2  text-gray-800 p-2 rounded-full shadow-lg"><i class="fa fa-circle-right"></i></button>
+
+                <!-- Scrollable Team Section -->
+                <div class="flex space-x-4 overflow-x-auto scroll-smooth no-scrollbar" x-ref="team">
+                    <template x-for="i in 5" :key="i">
+                        <div class="flex-shrink-0 w-64 p-4 rounded-lg text-center">
+                            <img :src="'https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg' " alt="Team Member" class="w-32 h-32 mx-auto rounded-full mb-4">
+                            <h3 class="text-xl font-semibold">Member <span x-text="i"></span></h3>
+                            <p class="text-gray-500">Position</p>
+                        </div>
+                    </template>
+                </div>
             </div>
         </div>
     </section>

@@ -46,9 +46,11 @@
                     <ul id="settingsSublist" class="ml-6 mt-1 hidden space-y-2">
                         <li><a href="/addproducts" class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Add
                                 Products</a></li>
-                        <li><a href="/modifyproducts" class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Modify
+                        <li><a href="/modifyproducts"
+                                class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Modify
                                 Products</a></li>
-                                <li><a href="/moresettings" class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">More Settings</a></li>
+                        <li><a href="/moresettings"
+                                class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">More Settings</a></li>
                     </ul>
                 </li>
                 <li>
@@ -88,64 +90,64 @@
 
         <!-- ✅ Grid Section - Starts Here 👇 -->
         <section id="Projects"
-        class="pt-24 w-fit mx-20 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-6 mb-5">
+            class="pt-24 w-fit mx-20 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-6 mb-5">
 
-        <!--   ✅ Product card 1 - Starts Here 👇 -->
+            <!--   ✅ Product card 1 - Starts Here 👇 -->
 
-        @forelse ($products as $product)
-            <div
-                class="w-64 h-fit max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg transform transition-all duration-500 hover:scale-105">
-                <a>
-                    <i class="fa fa-trash text-red-500 m-2 text-sm shadow-lg p-1 rounded-md"> Delete</i>
-                </a>
-                <a href="#" class="w-full justify-center flex">
-                    <img class="p-2 rounded-t-lg h-36" src="{{ asset('storage/' . $product->image) }}"
-                        alt="product image" />
-                </a>
-                <div class="px-5 pb-5">
-                    <div class="flex">
-                        <a href="#">
-                            <h5 class="text-lg font-semibold tracking-tight text-gray-900"><span
-                                    class="text-xs text-gray-500">{{ $product->category }}</span><br>{{ $product->name }}
-                            </h5>
-                        </a>
-                        <div class="ml-auto text-right mt-1">
-                            <p class="text-sm text-green-400">{{ $product->brand }}</p>
+            @forelse ($products as $product)
+                <div
+                    class="w-64 h-fit max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg transform transition-all duration-500 hover:scale-105">
+
+                    <form method="POST" action="{{ route('products.destroy', $product->id) }}" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" @click.prevent="if(confirm('Are you sure?')) { show = false; $el.remove(); fetch('{{ route('products.destroy', $product->id) }}', { method: 'DELETE', headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } }); }"
+                            class="text-red-500 m-2 text-sm shadow-lg p-1 rounded-md hover:bg-red-100">
+                            <i class="fa fa-trash text-red-500 m-2 text-sm shadow-lg p-1 rounded-md"> Delete</i>
+                        </button>
+                    </form>
+                    <a href="#" class="w-full justify-center flex">
+                        <img class="p-2 rounded-t-lg h-36" src="{{ asset('storage/' . $product->image) }}"
+                            alt="product image" />
+                    </a>
+                    <div class="px-5 pb-5">
+                        <div class="flex">
+                            <a href="#">
+                                <h5 class="text-lg font-semibold tracking-tight text-gray-900"><span
+                                        class="text-xs text-gray-500">{{ $product->category }}</span><br>{{ $product->name }}
+                                </h5>
+                            </a>
+                            <div class="ml-auto text-right mt-1">
+                                <p class="text-sm text-green-400">{{ $product->brand }}</p>
+                            </div>
+
                         </div>
 
-                    </div>
+                        <div class="flex items-center mt-2.5 mb-5">
+                            <div x-data="{ expanded: false }" class="relative">
+                                <p class="text-justify text-gray-700 text-xs" :class="expanded ? '' : 'line-clamp-3'">
+                                    {{ $product->details }}
+                                </p>
+                                <button @click="expanded = !expanded"
+                                    class="text-blue-600 text-xs font-medium mt-1 hover:underline">
+                                    <span x-show="!expanded">Read More</span>
+                                    <span x-show="expanded">Show Less</span>
+                                </button>
+                            </div>
 
-                    <div class="flex items-center mt-2.5 mb-5">
-                        <div x-data="{ expanded: false }" class="relative">
-                            <p class="text-justify text-gray-700 text-xs" :class="expanded ? '' : 'line-clamp-3'">
-                                {{ $product->details }}
-                            </p>
-                            <button @click="expanded = !expanded"
-                                class="text-blue-600 text-xs font-medium mt-1 hover:underline">
-                                <span x-show="!expanded">Read More</span>
-                                <span x-show="expanded">Show Less</span>
-                            </button>
+
                         </div>
-
-
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-xl font-bold text-gray-900 ">₱{{ $product->price }}</span>
-                        <a href="#"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Modify</a>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-gray-900 ">₱{{ $product->price }}</span>
+                            <a href="#"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Modify</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        @empty
-            <p class="text-gray-500 text-lg">No products found.</p>
-        @endforelse
-
-
-
-
-
-
-    </section>
+            @empty
+                <p class="text-gray-500 text-lg">No products found.</p>
+            @endforelse
+        </section>
 
         <!-- 🛑 Grid Section - Ends Here -->
 

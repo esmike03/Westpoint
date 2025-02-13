@@ -25,6 +25,7 @@
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
         }
+
         .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
@@ -43,15 +44,16 @@
 
 
             </a>
+            <!-- Move the input before the nav for peer to work -->
             <input class="peer hidden" type="checkbox" id="navbar-open" />
-            <label class="absolute right-0 mt-1 cursor-pointer text-white text-xl sm:hidden" for="navbar-open">
+
+            <!-- Label for toggle button -->
+            <label class="absolute right-4 top-6 cursor-pointer text-black text-2xl sm:hidden" for="navbar-open">
                 <span class="sr-only">Toggle Navigation</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="0.88em" height="1em"
-                    preserveAspectRatio="xMidYMid meet" viewBox="0 0 448 512">
-                    <path fill="currentColor"
-                        d="M0 96c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zm0 160c0-17.7 14.3-32 32-32h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zm448 160c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32h384c17.7 0 32-14.3 32 32z" />
-                </svg>
+                <i class="fa-solid fa-bars"></i>
             </label>
+
+
             <nav aria-label="Header Navigation" class="peer-checked:block hidden pl-2 py-6 sm:block sm:py-0">
                 <ul class="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
 
@@ -65,7 +67,7 @@
                     <li>
                         <a href="/products">
                             <button class="text-black hover:text-green-400"><i class="fas fa-prescription-bottle"></i>
-                                Products</button>
+                                <span class="">Products</span></button>
                         </a>
 
                     </li>
@@ -83,7 +85,8 @@
                     </li>
                     <li>
                         <a href="/">
-                            <button class="text-black hover:text-green-400"><i class="fas fa-arrow-right-to-bracket"></i>
+                            <button class="text-black hover:text-green-400"><i
+                                    class="fas fa-arrow-right-to-bracket"></i>
                                 Login</button>
                         </a>
                     </li>
@@ -95,10 +98,11 @@
     </header>
 
 
+
     <!-- Changed background color to green -->
     <section class="pt-12 bg-[url('https://pagedone.io/asset/uploads/1691055810.png')] bg-center bg-cover ">
         <div id="animated-section"
-            class="grid max-w-screen-xl h-screen px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 opacity-0 transition-opacity duration-1000">
+            class="grid max-w-screen-xl sm:h-fit md:h-fit px-4 py-24 mt-12 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 opacity-0 transition-opacity duration-1000">
             <div class="mr-auto place-self-center lg:col-span-7">
                 <h1
                     class="max-w-2xl mb-4 text-4xl font-bold tracking-tight leading-none md:text-4xl xl:text-5xl text-black">
@@ -132,136 +136,69 @@
         </div>
 
     </section>
-    <section id="quality" class="px-28 py-36  opacity-0 translate-y-20 transition-all duration-1000">
-        <div class="relative w-full h-screen overflow-hidden rounded-lg shadow-lg">
-            <div class="relative w-fit h-fit overflow-hidden">
+    <section id="quality"
+        class="px-6 sm:px-12 md:px-20 lg:px-28 py-12 sm:py-32 md:py-36 opacity-0 translate-y-20 transition-all duration-1000">
+        <div class="relative w-full h-fit sm:h-fit md:h-fit overflow-hidden rounded-lg shadow-lg">
+            <div class="relative w-full h-full overflow-hidden">
                 <div class="flex transition-transform duration-500 ease-in-out w-full h-full" id="slider">
-                    <img src="{{ asset('IMAGES/testpost.png') }}" class="w-full h-full object-cover flex-shrink-0">
+                    <img src="{{ asset('IMAGES/testpost.png') }}" class="w-full h-full object-contain flex-shrink-0">
                     <img src="{{ asset('IMAGES/testpost.png') }}" class="w-full h-full object-cover flex-shrink-0">
                     <img src="{{ asset('IMAGES/testpost.png') }}" class="w-full h-full object-cover flex-shrink-0">
                 </div>
             </div>
-
 
             <!-- Navigation Buttons -->
             <button id="prev"
-                class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-2 rounded-full">❮</button>
+                class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-1 sm:p-2 rounded-full">❮</button>
             <button id="next"
-                class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-2 rounded-full">❯</button>
+                class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-1 sm:p-2 rounded-full">❯</button>
         </div>
     </section>
 
 
-    <section id="whyus" class="text-gray-700 body-font mx-auto mt-1 ">
-        <div id="quality"
-            class="flex  justify-center text-3xl font-bold text-gray-800 text-center opacity-0 translate-y-20 transition-all duration-1000">
-            Why Us?
-        </div>
-        <div class="container px-5 py-12 mx-auto">
-            <div class="flex flex-wrap md:flex-nowrap items-center">
-                <!-- Left Side Image -->
-                <div id="quality"
-                    class="w-full md:w-1/2 flex justify-center mb-6 md:mb-0 opacity-0 translate-y-20 transition-all duration-1000">
-                    <img src="{{ asset('IMAGES/women.png') }}" alt="Why Us Image"
-                        class="w-full max-w-md object-cover rounded-lg">
-                </div>
 
-                <!-- Right Side (2-Column Features) -->
-                <div class="w-full md:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <!-- Quality Assurance -->
-                    <div id="quality" class="opacity-0 translate-y-20 transition-all duration-1000">
-                        <div class="px-4 py-6 transform transition-all duration-500 hover:scale-110 text-center">
-                            <div class="flex justify-center">
-                                <div class="w-24 h-24 rounded-full p-2 bg-green-500 flex items-center justify-center">
-                                    <img src="{{ asset('IMAGES/high-quality.png') }}"
-                                        class="w-full filter invert brightness-0">
-                                </div>
-                            </div>
-                            <h2 class="title-font font-regular text-2xl text-gray-900">Quality Assurance</h2>
-                        </div>
-                    </div>
 
-                    <!-- Reliable Distribution -->
-                    <div id="distribution" class="opacity-0 translate-y-20 transition-all duration-1000">
-                        <div class="px-4 py-6 transform transition-all duration-500 hover:scale-110 text-center">
-                            <div class="flex justify-center">
-                                <div class="w-24 h-24 rounded-full p-2 bg-green-500 flex items-center justify-center">
-                                    <img src="{{ asset('IMAGES/delivery-truck.png') }}"
-                                        class="w-full filter invert brightness-0">
-                                </div>
-                            </div>
-                            <h2 class="title-font font-regular text-2xl text-gray-900">Reliable Distribution</h2>
-                        </div>
-                    </div>
-
-                    <!-- Competitive Pricing -->
-                    <div id="pricing" class="opacity-0 translate-y-20 transition-all duration-1000">
-                        <div class="px-4 py-6 transform transition-all duration-500 hover:scale-110 text-center">
-                            <div class="flex justify-center">
-                                <div class="w-24 h-24 rounded-full p-2 bg-green-500 flex items-center justify-center">
-                                    <img src="{{ asset('IMAGES/cuba.png') }}"
-                                        class="w-full filter invert brightness-0">
-                                </div>
-                            </div>
-                            <h2 class="title-font font-regular text-2xl text-gray-900">Competitive Pricing</h2>
-                        </div>
-                    </div>
-
-                    <!-- Exceptional Support -->
-                    <div id="support" class="opacity-0 translate-y-20 transition-all duration-1000">
-                        <div class="px-4 py-6 transform transition-all duration-500 hover:scale-110 text-center">
-                            <div class="flex justify-center">
-                                <div class="w-24 h-24 rounded-full p-2 bg-green-500 flex items-center justify-center">
-                                    <img src="{{ asset('IMAGES/support.png') }}"
-                                        class="w-full filter invert brightness-0">
-                                </div>
-                            </div>
-                            <h2 class="title-font font-regular text-2xl text-gray-900">Exceptional Support</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <section id="whyus"
-        class="text-gray-700 body-font mx-auto mt-10 p-10 bg-[url('/public/IMAGES/bg3.png')] bg-center bg-cover">
+        class="text-gray-700 body-font mx-auto mt-10 py-10 bg-[url('/public/IMAGES/bg3.png')] bg-center bg-cover">
         <div id="quality"
             class=" flex justify-center text-3xl font-bold text-gray-800 text-center opacity-0 translate-y-20 transition-all duration-1000">
             Featured Products
         </div>
 
-    <div class="container px-10 py-12 mx-auto" x-data="{ scrollLeft: 0 }">
-        <div class="relative overflow-hidden">
-            <!-- Scrollable Wrapper -->
-            <div class="flex space-x-4 overflow-x-auto scrollbar-hide scroll-smooth" id="slider">
-                @forelse ($products as $product)
-                    <div class="min-w-[200px] p-4">
-                        <div class="px-4 py-4 transform transition-all duration-500 hover:scale-110 bg-white rounded-lg shadow-md">
-                            <div class="flex justify-center">
-                                <div class="w-32 h-28 p-2 flex items-center justify-center">
-                                    <img src="{{ asset('storage/' . $product->image) }}" class="w-full rounded-full">
+        <div class="container px-4 py-12 mx-auto" x-data="{ scrollLeft: 0 }">
+            <div class="relative overflow-hidden">
+                <!-- Scrollable Wrapper -->
+                <div class="flex space-x-4 overflow-x-auto scrollbar-hide scroll-smooth" id="slider">
+                    @forelse ($products as $product)
+                        <div class="min-w-[200px] p-4">
+                            <div
+                                class="px-4 py-4 transform transition-all duration-500 hover:scale-110 h-48 bg-white rounded-lg shadow-md">
+                                <div class="flex justify-center">
+                                    <div class="w-32 h-28 p-2 flex items-center justify-center">
+                                        <img src="{{ asset('storage/' . $product->image) }}"
+                                            class="w-full rounded-full">
+                                    </div>
                                 </div>
+                                <h2 class="text-center font-normal text-lg sm:text-xs md:text-lg text-gray-700">{{ $product->name }}</h2>
                             </div>
-                            <h2 class="text-center font-normal text-lg text-gray-700">{{$product->name}}</h2>
                         </div>
-                    </div>
-                @empty
-                    <p class="text-gray-500 text-lg">No products found.</p>
-                @endforelse
-            </div>
+                    @empty
+                        <p class="text-gray-500 text-lg">No products found.</p>
+                    @endforelse
+                </div>
 
-            <!-- Navigation Buttons -->
-            <button @click="document.getElementById('slider').scrollLeft -= 200"
-                class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-600 text-white p-2 rounded-full">
-                ❮
-            </button>
-            <button @click="document.getElementById('slider').scrollLeft += 200"
-                class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-600 text-white p-2 rounded-full">
-                ❯
-            </button>
+                <!-- Navigation Buttons -->
+                <button @click="document.getElementById('slider').scrollLeft -= 200"
+                    class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-600 text-white p-2 rounded-full">
+                    ❮
+                </button>
+                <button @click="document.getElementById('slider').scrollLeft += 200"
+                    class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-600 text-white p-2 rounded-full">
+                    ❯
+                </button>
+            </div>
         </div>
-    </div>
     </section>
     <section>
         <div id="quality"

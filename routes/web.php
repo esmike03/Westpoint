@@ -32,3 +32,17 @@ Route::get('/addproducts', function () {
 Route::get('/moresettings', function () {
     return view('moresettings');
 })->name('moresettings');
+
+Route::get('/adminlogin', function () {
+    return view('adminlogin');
+})->name('adminlogin');
+
+Route::get('/logout', function () {
+    return view('logout');
+})->name('logout');
+
+Route::get('/userprofile', function () {
+    return view('userprofile');
+})->name('userprofile');
+
+Route::delete('/modifyproduct/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
