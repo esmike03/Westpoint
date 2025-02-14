@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" x-data="{ showModal: false, selectedProduct: {} }">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link rel="icon" type="image/png" href="{{ asset('IMAGES/logowestpoint.png') }}">
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
@@ -111,12 +112,13 @@
         </form>
     </div>
 
-    <section id="Projects" class="container mx-auto px-4 sm:px-6 lg:px-8 mt-6 mb-5">
+    <section id="Projects" class="container mx-auto px-4 sm:px-6 lg:px-8 mt-6 mb-5" x-data="{ showModal: false, selectedProduct: {} }">
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
             @forelse ($products as $product)
                 <div
                     class="bg-white border border-gray-200 rounded-lg shadow-md transition-transform transform hover:scale-105">
-                    <a href="#" class="block w-full">
+                    <a href="#" class="block w-full"
+                        @click.prevent="selectedProduct = {{ json_encode($product) }}; showModal = true;">
                         <img class="w-full h-24 object-contain lg:h-36 rounded-t-lg"
                             src="{{ asset('storage/' . $product->image) }}" alt="product image" />
                     </a>
@@ -157,9 +159,61 @@
                 <p class="text-gray-500 text-lg col-span-full text-center">No products found.</p>
             @endforelse
         </div>
+
+        <!-- Product Modal -->
+        <div x-show="showModal"
+            class="fixed inset-0 flex items-center justify-center bg-black backdrop-blur-sm bg-opacity-50 p-4"
+            x-transition>
+            <div class="bg-white rounded-lg shadow-lg w-full max-w-xl p-8 relative flex gap-6"
+                @click.away="showModal = false">
+                <div class="absolute flex gap-2">
+                    <p x-text="selectedProduct.brand "
+                        class="text-center  text-green-500 m-auto border rounded-md px-1 border-green-500"></p>
+                    <p x-text="selectedProduct.category "
+                        class="text-center  text-gray-500 m-auto border rounded-md px-1 border-gray-500"></p>
+                </div>
+
+                <!-- Close Button (Top Right) -->
+                <button @click="showModal = false"
+                    class="absolute top-6 right-8 text-gray-500 hover:text-gray-700 text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+                <!-- Product Image (Left Side) -->
+                <img :src="'/storage/' + selectedProduct.image" alt="Product Image"
+                    class="w-40 h-40 sm:w-48 sm:h-48 object-cover rounded-md">
+
+                <!-- Product Details (Right Side) -->
+                <div class="flex flex-col flex-1">
+
+                    <h2 class="text-lg sm:text-xl font-semibold text-gray-900" x-text="selectedProduct.name"></h2>
+
+                    <p class="text-gray-700 text-sm mt-2 text-justify" x-text="selectedProduct.details"></p>
+
+                    <!-- Price & Add to Cart Button -->
+                    <div class="mt-4 flex items-center justify-between">
+                        <p class="text-lg font-bold text-gray-900">₱<span x-text="selectedProduct.price"></span></p>
+                        <button
+                            class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 flex items-center gap-2">
+                            <i class="fa fa-cart-shopping"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
     </section>
 
 
+    <script>
+        function showProductModal(product) {
+            Alpine.store('selectedProduct', product);
+            Alpine.store('showModal', true);
+        }
+    </script>
 </body>
 
 </html>

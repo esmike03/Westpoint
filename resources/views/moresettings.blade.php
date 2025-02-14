@@ -160,7 +160,7 @@
 
                 <div class="flex items-start justify-between p-5 border-b rounded-t">
                     <h3 class="text-xl font-semibold">
-                        Add Category
+                        Add Members
                     </h3>
                     @if (session('error'))
                         <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
