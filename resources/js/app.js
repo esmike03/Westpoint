@@ -58,5 +58,21 @@ observer2.observe(element);
   // Start observing each element
   elements.forEach(element => observer3.observe(element));
 
+  document.getElementById('logout-btn').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent default action
 
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You will be logged out.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, Logout!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('logout-form').submit(); // Submit the logout form
+        }
+    });
+});
 

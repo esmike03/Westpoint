@@ -64,7 +64,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/">
+                        <a href="/login">
                             <button class="text-black hover:text-green-400"><i
                                     class="fas fa-arrow-right-to-bracket"></i>
                                 Login</button>

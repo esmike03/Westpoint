@@ -72,6 +72,10 @@ class ProductController extends Controller
     public function modifyproducts(Request $request)
     {
 
+        if (!auth()->guard('admin')->check()) {
+            // Redirect to the login page if not authenticated
+            return redirect('/admin/login')->with('message', 'Unauthorized access detected!');
+        }
         $query = Product::query();
 
         // Get unique categories and brands for the filter dropdowns

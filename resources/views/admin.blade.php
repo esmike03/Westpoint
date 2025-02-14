@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <title>Admin - Westpoint Pharma Inc.</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
 </head>
@@ -40,21 +41,29 @@
                     </a>
                 </li>
                 <li>
-                    <button id="settingsToggle" class="w-full text-left block py-2 px-4 rounded hover:bg-green-100 text-gray-700 flex justify-between items-center">
+                    <button id="settingsToggle"
+                        class="w-full text-left block py-2 px-4 rounded hover:bg-green-100 text-gray-700 flex justify-between items-center">
                         <span><i class="fas fa-cogs mr-2"></i>Settings</span>
                         <i class="fas fa-chevron-down transition-transform duration-300"></i>
                     </button>
                     <ul id="settingsSublist" class="ml-6 mt-1 hidden space-y-2">
-                        <li><a href="/addproducts" class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Add Products</a></li>
-                        <li><a href="/modifyproducts" class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Modify Products</a></li>
-                        <li><a href="/moresettings" class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">More Settings</a></li>
+                        <li><a href="/addproducts" class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Add
+                                Products</a></li>
+                        <li><a href="/modifyproducts"
+                                class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Modify Products</a>
+                        </li>
+                        <li><a href="/moresettings"
+                                class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">More Settings</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-red-100 text-red-600">
+                    <a href="#" id="logout-btn" class="block py-2 px-4 rounded hover:bg-red-100 text-red-600">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
                     </a>
                 </li>
+                <form id="logout-form" action="/auth/admin-logout" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </ul>
 
         </nav>
@@ -129,6 +138,24 @@
     </main>
 
     <script>
+        document.getElementById('logout-btn').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default action
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You will be logged out.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes, Logout!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('logout-form').submit(); // Submit the logout form
+                }
+            });
+        });
+
         // Sidebar Toggle for Mobile
         document.getElementById('sidebarToggle')?.addEventListener('click', function() {
             document.querySelector('aside').classList.toggle('-translate-x-full');
@@ -137,13 +164,13 @@
         document.getElementById('mobileMenuToggle')?.addEventListener('click', function() {
             document.querySelector('aside').classList.toggle('-translate-x-full');
         });
-        document.getElementById('settingsToggle').addEventListener('click', function () {
-        let sublist = document.getElementById('settingsSublist');
-        let icon = this.querySelector('i:last-child');
+        document.getElementById('settingsToggle').addEventListener('click', function() {
+            let sublist = document.getElementById('settingsSublist');
+            let icon = this.querySelector('i:last-child');
 
-        sublist.classList.toggle('hidden');
-        icon.classList.toggle('rotate-180');
-    });
+            sublist.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        });
     </script>
 
 </body>

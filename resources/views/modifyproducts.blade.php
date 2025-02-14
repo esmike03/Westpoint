@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
@@ -54,10 +55,13 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-red-100 text-red-600">
+                    <a href="#" id="logout-btn" class="block py-2 px-4 rounded hover:bg-red-100 text-red-600">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
                     </a>
                 </li>
+                <form id="logout-form" action="/auth/admin-logout" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </ul>
 
         </nav>
@@ -210,6 +214,23 @@
         <!-- Support Me 🙏🥰 -->
     </main>
     <script>
+        document.getElementById('logout-btn').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default action
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You will be logged out.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes, Logout!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('logout-form').submit(); // Submit the logout form
+                }
+            });
+        });
         // Sidebar Toggle for Mobile
         document.getElementById('sidebarToggle')?.addEventListener('click', function() {
             document.querySelector('aside').classList.toggle('-translate-x-full');

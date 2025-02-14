@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="icon" type="image/png" href="{{ asset('IMAGES/logowestpoint.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
@@ -59,16 +59,21 @@
                     <ul id="settingsSublist" class="ml-6 mt-1 hidden space-y-2">
                         <li><a href="/addproducts" class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Add
                                 Products</a></li>
-                        <li><a href="/modifyproducts" class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Modify
+                        <li><a href="/modifyproducts"
+                                class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Modify
                                 Products</a></li>
-                                <li><a href="/moresettings" class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">More Settings</a></li>
+                        <li><a href="/moresettings"
+                                class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">More Settings</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-red-100 text-red-600">
+                    <a href="#" id="logout-btn" class="block py-2 px-4 rounded hover:bg-red-100 text-red-600">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
                     </a>
                 </li>
+                <form id="logout-form" action="/auth/admin-logout" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </ul>
 
         </nav>
@@ -111,7 +116,7 @@
                         </div>
                     @endif
 
-                    <div >
+                    <div>
                         <!-- Button to open modal -->
                         <button @click="openModal = true"
                             class="text-white bg-green-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200
@@ -120,13 +125,15 @@
                         </button>
 
                         <!-- Modal -->
-                        <div x-show="openModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                        <div x-show="openModal"
+                            class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
                             <div class="bg-white p-6 rounded-lg shadow-lg w-96">
                                 <!-- Modal Header -->
                                 <h2 class="text-lg font-semibold text-gray-900 mb-4">Batch Upload Products</h2>
 
                                 <!-- File Upload Form -->
-                                <form action="{{ route('products.import') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('products.import') }}" method="POST"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     <input type="file" name="file" required class="border p-2 w-full rounded-md"
                                         accept=".xls, .xlsx">
@@ -190,7 +197,8 @@
                                     placeholder="Category" required>
                             </div>
                             <div class="col-span-6 sm:col-span-2">
-                                <label for="brand" class="text-sm font-medium text-gray-900 block mb-2">Brand</label>
+                                <label for="brand"
+                                    class="text-sm font-medium text-gray-900 block mb-2">Brand</label>
                                 <input type="text" name="brand" id="brand"
                                     class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                                     placeholder="Brand" required>
@@ -198,7 +206,8 @@
 
                             <!-- Second Row -->
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="price" class="text-sm font-medium text-gray-900 block mb-2">Price</label>
+                                <label for="price"
+                                    class="text-sm font-medium text-gray-900 block mb-2">Price</label>
                                 <input type="number" name="price" id="price"
                                     class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                                     placeholder="Price" required>
@@ -239,6 +248,24 @@
         <!-- Changed background color to green -->
     </main>
     <script>
+        document.getElementById('logout-btn').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default action
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You will be logged out.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes, Logout!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('logout-form').submit(); // Submit the logout form
+                }
+            });
+        });
+
         // Sidebar Toggle for Mobile
         document.getElementById('sidebarToggle')?.addEventListener('click', function() {
             document.querySelector('aside').classList.toggle('-translate-x-full');

@@ -84,7 +84,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/">
+                        <a href="/login">
                             <button class="text-black hover:text-green-400"><i
                                     class="fas fa-arrow-right-to-bracket"></i>
                                 Login</button>
@@ -180,7 +180,7 @@
                                             class="w-full rounded-full">
                                     </div>
                                 </div>
-                                <h2 class="text-center font-normal text-lg sm:text-xs md:text-lg text-gray-700">{{ $product->name }}</h2>
+                                <h2 class="text-center font-bold text-lg sm:text-xs md:text-lg text-gray-700">{{ $product->name }}</h2>
                             </div>
                         </div>
                     @empty

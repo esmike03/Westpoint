@@ -4,9 +4,16 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Auth;
 
 
-Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/auth/admin-logout', function () {
+    Auth::guard('admin')->logout();
+    return redirect('/admin/login'); // Redirect to login after logout
+})->name('admin.logout');
+
+Route::get('/login', [AuthController::class, 'showLogin']);
+Route::post('/admin/auth', [AuthController::class, 'adminauth']);
 
 Route::get('/', function () {
 
@@ -26,14 +33,26 @@ Route::get('/business', function () {
 })->name('business');
 
 Route::get('/addproducts', function () {
+    if (!auth()->guard('admin')->check()) {
+        // Redirect to the login page if not authenticated
+        return redirect('/admin/login')->with('message', 'Unauthorized access detected!');
+    }
     return view('addproducts');
 })->name('addproducts');
 
 Route::get('/moresettings', function () {
+    if (!auth()->guard('admin')->check()) {
+        // Redirect to the login page if not authenticated
+        return redirect('/admin/login')->with('message', 'Unauthorized access detected!');
+    }
     return view('moresettings');
 })->name('moresettings');
 
-Route::get('/adminlogin', function () {
+Route::get('/admin/login', function () {
+    if (auth()->guard('admin')->check()) {
+        // Redirect to the login page if not authenticated
+        return redirect('/admin')->with('message', 'Already Login!');
+    }
     return view('adminlogin');
 })->name('adminlogin');
 
