@@ -169,12 +169,7 @@
             x-transition>
             <div class="bg-white rounded-lg shadow-lg w-full max-w-xl p-8 relative flex gap-6"
                 @click.away="showModal = false">
-                <div class="absolute flex gap-2">
-                    <p x-text="selectedProduct.brand "
-                        class="text-center  text-green-500 m-auto border rounded-md px-1 border-green-500"></p>
-                    <p x-text="selectedProduct.category "
-                        class="text-center  text-gray-500 m-auto border rounded-md px-1 border-gray-500"></p>
-                </div>
+
 
                 <!-- Close Button (Top Right) -->
                 <button @click="showModal = false"
@@ -187,14 +182,19 @@
                     class="w-40 h-40 sm:w-48 sm:h-48 object-cover rounded-md">
 
                 <!-- Product Details (Right Side) -->
-                <div class="flex flex-col flex-1">
+                <div class="flex flex-col flex-1 ">
 
-                    <h2 class="text-lg sm:text-xl font-semibold text-gray-900" x-text="selectedProduct.name"></h2>
-
-                    <p class="text-gray-700 text-sm mt-2 text-justify" x-text="selectedProduct.details"></p>
+                    <h2 class="text-lg sm:text-lg font-semibold text-gray-900" x-text="selectedProduct.name"></h2>
+                    <div class="justify-start flex w-fit gap-2 text-xs">
+                        <p x-text="selectedProduct.brand "
+                            class="  text-green-500 m-auto border rounded-sm px-1 border-green-500"></p>
+                        <p x-text="selectedProduct.category "
+                            class="  text-gray-500 m-auto border rounded-sm px-1 border-gray-500"></p>
+                    </div>
+                    <p class="text-gray-700 text-xs mt-2 text-justify" x-text="selectedProduct.details"></p>
 
                     <!-- Price & Add to Cart Button -->
-                    <div class="mt-4 flex items-center justify-between">
+                    <div class=" flex items-end justify-between h-full content-end">
                         <p class="text-lg font-bold text-gray-900">₱<span x-text="selectedProduct.price"></span> <span
                                 class="text-gray-500 text-sm font-normal" x-text="selectedProduct.unit"></span></p>
                         <button
