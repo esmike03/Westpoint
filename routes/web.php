@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Unit;
+use App\Models\Adone;
 use App\Models\Brand;
 use App\Models\Member;
 use App\Models\Product;
@@ -21,9 +22,9 @@ Route::get('/login', [AuthController::class, 'showLogin']);
 Route::post('/admin/auth', [AuthController::class, 'adminauth']);
 
 Route::get('/', function () {
-
+    $adone = Adone::all();
     $products = Product::all();
-    return view('index', compact('products'));
+    return view('index', compact('products', 'adone'));
 });
 
 Route::get('/admin', [AuthController::class, 'admin'])->name('admin');
@@ -89,3 +90,5 @@ Route::post('/unit/store', [SettingsController::class, 'unitstore'])->name('unit
 Route::delete('/unit/{id}', [SettingsController::class, 'unitdestroy'])->name('unit.destroy');
 Route::post('/member/store', [SettingsController::class, 'memberstore'])->name('member.store');
 Route::delete('/member/{id}', [SettingsController::class, 'memberdestroy'])->name('member.destroy');
+Route::post('/post/store', [SettingsController::class, 'poststore'])->name('post.store');
+Route::delete('/post/{id}', [SettingsController::class, 'postdestroy'])->name('post.destroy');

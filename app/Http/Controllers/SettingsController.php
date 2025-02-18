@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Unit;
+use App\Models\Adone;
 use App\Models\Brand;
 use App\Models\Member;
 use App\Models\Categories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Str;
 
 class SettingsController extends Controller
 {
@@ -114,6 +118,51 @@ class SettingsController extends Controller
         $member = Member::findOrFail($id);
         $member->delete();
 
-        return redirect()->back()->with('success', 'Category deleted successfully!');
+        return redirect()->back()->with('success', 'Member deleted successfully!');
+    }
+
+
+    public function poststore(Request $request)
+{
+    $request->validate([
+        'desc' => 'required|string|max:255',
+        'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
+
+    if ($request->hasFile('image')) {
+        $upload = $request->file('image');
+        $image = Image::read($upload)->resize(1920, 1080); // Resize the image to desired dimensions
+
+        // Generate a unique filename
+        $filename = Str::random(40) . '.' . $upload->getClientOriginalExtension();
+
+        // Define the storage path for the image
+        $path = 'post/' . $filename;
+
+        // Store the image in the storage directory (using the default disk)
+        Storage::disk('public')->put($path, (string) $image->encode());
+
+        // Store the path in the database
+        $imagePath = '' . $path; // Make sure it’s relative to the 'public' disk path
+    } else {
+        $imagePath = null; // Or a default image path if you have one
+    }
+
+    Adone::create([
+        'desc' => $request->desc,
+        'image' => $imagePath, // Store the image path
+    ]);
+
+    return redirect()->back()->with('post', 'Posted successfully!');
+}
+
+
+
+    public function postdestroy($id)
+    {
+        $adone = Adone::findOrFail($id);
+        $adone->delete();
+
+        return redirect()->back()->with('posterror', 'Post deleted successfully!');
     }
 }

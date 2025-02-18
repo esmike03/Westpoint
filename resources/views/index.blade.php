@@ -137,13 +137,16 @@
 
     </section>
     <section id="quality"
-        class="px-6 sm:px-12 md:px-20 lg:px-28 py-12 sm:py-32 md:py-36 opacity-0 translate-y-20 transition-all duration-1000">
-        <div class="relative w-full h-fit sm:h-fit md:h-fit overflow-hidden rounded-lg shadow-lg">
-            <div class="relative w-full h-full overflow-hidden">
+        class="px-6 sm:px-12  md:px-20 lg:px-28 py-12 sm:py-32 md:py-36 opacity-0 translate-y-20 transition-all duration-1000">
+        <div class="relative w-full h-fit sm:h-fit md:h-fit overflow-hidden rounded-lg shadow-lg ">
+
+
+            <div class="relative w-full h-full overflow-hidden ">
                 <div class="flex transition-transform duration-500 ease-in-out w-full h-full" id="slider">
-                    <img src="{{ asset('IMAGES/testpost.png') }}" class="w-full h-full object-contain flex-shrink-0">
-                    <img src="{{ asset('IMAGES/testpost.png') }}" class="w-full h-full object-cover flex-shrink-0">
-                    <img src="{{ asset('IMAGES/testpost.png') }}" class="w-full h-full object-cover flex-shrink-0">
+                    @foreach ($adone as $adones)
+                        <img src="{{ asset('storage/' . $adones->image) }}"
+                            class="w-full h-full object-contain flex-shrink-0">
+                    @endforeach
                 </div>
             </div>
 
@@ -180,8 +183,12 @@
                                             class="w-full rounded-full">
                                     </div>
                                 </div>
-                                <h2 class="text-center font-normal text-sm  sm:text-xs md:text-sm text-gray-700 uppercase leading-tight">{{ $product->name }}</h2>
-                                <h2 class="text-center font-bold text-sm  sm:text-xs md:text-sm text-green-500 uppercase leading-tight">₱{{ $product->price }}</h2>
+                                <h2
+                                    class="text-center font-normal text-sm  sm:text-xs md:text-sm text-gray-700 uppercase leading-tight">
+                                    {{ $product->name }}</h2>
+                                <h2
+                                    class="text-center font-bold text-sm  sm:text-xs md:text-sm text-green-500 uppercase leading-tight">
+                                    ₱{{ $product->price }}</h2>
                             </div>
                         </div>
                     @empty
@@ -223,7 +230,29 @@
         </div>
     </section>
 
+    <section>
+        <div class="grid grid-cols-1 sm:grid-cols-2 mx-auto">
+            <div class="h-full w-full justify-center px-8 mt-14 ml-14">
+                <h1 class="text-3xl italic font-bold ">Facebook</h1>
+                <p class="text-lg text-gray-700 mb-4 italic">Checkout out Facebook page.</p>
+            </div>
+            <div class="p-8 h-full w-full justify-center text-center mx-auto">
 
+                <div id="fb-root"></div>
+                <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0">
+                </script>
+                <div class="w-full justify-center mx-auto content-center">
+                    <div class="fb-page m-10" data-href="https://www.facebook.com/westpointpi" data-tabs="timeline"
+                        data-width="1000" data-height="600" data-small-header="false"
+                        data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </section>
 
     <footer class="bg-gradient-to-r from-green-700 via-green-600 to-green-500">
 
