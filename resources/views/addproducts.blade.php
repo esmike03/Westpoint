@@ -7,6 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- jQuery & Select2 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
     <link rel="icon" type="image/png" href="{{ asset('IMAGES/logowestpoint.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
@@ -189,19 +195,60 @@
                                     class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                                     placeholder="Product" required>
                             </div>
-                            <div class="col-span-6 sm:col-span-2">
-                                <label for="category"
-                                    class="text-sm font-medium text-gray-900 block mb-2">Category</label>
-                                <input type="text" name="category" id="category"
-                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                                    placeholder="Category" required>
+
+                            <div class="col-span-2 sm:col-span-2 ">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label for="category" class="text-sm font-medium text-gray-900 block mb-2">
+                                            Category
+                                            <a class="text-xs text-blue-500 underline" href="/moresettings">add
+                                                category</a>
+                                        </label>
+
+                                        <select name="category" id="category"
+                                            class="select2-dropdown shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600  w-36 p-2.5"
+                                            required>
+                                            <option value="" disabled selected>Select a Category</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->category_name }}">
+                                                    {{ $category->category_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="brand" class="text-sm font-medium text-gray-900 block mb-2">
+                                            Brand
+                                            <a class="text-xs text-blue-500 underline" href="/moresettings">add
+                                                brand</a>
+                                        </label>
+
+                                        <select name="brand" id="brand"
+                                            class="select2-dropdown1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-36 p-2.5"
+                                            required>
+                                            <option value="" disabled selected>Select a Brand</option>
+                                            @foreach ($brand as $brands)
+                                                <option value="{{ $brands->brand_name }}">{{ $brands->brand_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                </div>
                             </div>
-                            <div class="col-span-6 sm:col-span-2">
-                                <label for="brand"
-                                    class="text-sm font-medium text-gray-900 block mb-2">Brand</label>
-                                <input type="text" name="brand" id="brand"
-                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                                    placeholder="Brand" required>
+                            <div class="col-span-2 sm:col-span-2">
+                                <label for="category" class="text-sm font-medium text-gray-900 block mb-2">
+                                    Unit
+                                    <a class="text-xs text-blue-500 underline" href="/moresettings">add unit</a>
+                                </label>
+                                <!--Comment for now-->
+                                <select name="unit" id="unit"
+                                    class="select2-dropdown2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-36 p-2.5"
+                                    required>
+                                    <option value="" disabled selected>Select a Unit</option>
+                                    @foreach ($units as $unit)
+                                        <option value="{{ $unit->unit_type }}">{{ $unit->unit_type }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <!-- Second Row -->
@@ -248,6 +295,27 @@
         <!-- Changed background color to green -->
     </main>
     <script>
+        $(document).ready(function() {
+            $('.select2-dropdown').select2({
+                placeholder: "Select a Category",
+                allowClear: true
+            });
+        });
+
+        $(document).ready(function() {
+            $('.select2-dropdown1').select2({
+                placeholder: "Select a brand",
+                allowClear: true
+            });
+        });
+
+        $(document).ready(function() {
+            $('.select2-dropdown2').select2({
+                placeholder: "Select Unit Type",
+                allowClear: true
+            });
+        });
+
         document.getElementById('logout-btn').addEventListener('click', function(event) {
             event.preventDefault(); // Prevent default action
 

@@ -78,8 +78,8 @@
         <div class="container mt-10 mx-auto py-16 px-4 sm:px-6 lg:px-8 ">
             <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
                 <div class="max-w-lg">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-8">About us</h2>
-                    <p class="mt-2 text-gray-600 text-lg text-justify">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-8 italic bg-gradient-to-l from-transparent to-green-400 px-2">About us</h2>
+                    <p class="mt-2 text-gray-600 text-lg text-justify italic">
                         Westpoint Pharma is a trusted pharmaceutical distributor committed to delivering high-quality
                         medicines and healthcare products to pharmacies, hospitals, and medical institutions. With a
                         strong focus on reliability, affordability, and excellence, we ensure that essential medications
@@ -97,19 +97,19 @@
         </div>
     </section>
 
-    <section class="py-12 ">
+    <section class="py-12 italic">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
 
                 <!-- Mission Column -->
                 <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Mission</h3>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4 bg-gradient-to-l from-transparent to-green-400 px-1">Mission</h3>
                     <p class="text-gray-600 text-justify">To become the Philippines Pharmaceutical Distribution Company of Choice by providing communities with a constant supply of top-quality medicines at reasonable prices and by  serving them with our compassionate, professional, and talented employees.</p>
                 </div>
 
                 <!-- Vision Column -->
                 <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Vision</h3>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4 bg-gradient-to-l from-transparent to-green-400 px-1">Vision</h3>
                     <p class="text-gray-600 text-justify">To lead the industry in pharmaceutical distribution by delivering exceptional medical products and supplies, a steadfast focus on customers' needs and top-notch customer service for the wellbeing of all.</p>
                 </div>
 
@@ -118,7 +118,7 @@
 
             </div>
             <div class="bg-white mt-6 p-6 rounded-lg shadow-lg ">
-                <h3 class="text-2xl font-semibold text-gray-800 mb-4">Core Values</h3>
+                <h3 class="text-2xl font-semibold text-gray-800 mb-4 bg-gradient-to-l from-transparent to-green-400 px-1">Core Values</h3>
                 <p class="text-gray-600 text-justify mb-2">In everything we do, we are grounded by the following rules:</p>
                 <p class="text-gray-800 text-justify mb-2"><span class="font-bold">Integrity</span> - doing the right thing right regardless of the situation; being honest even if no one is watching.</p>
                 <p class="text-gray-800 text-justify mb-2"><span class="font-bold">Entreprenerial Spirit</span> - we seek and pursue opportunities that is best for the company or having the sense of ownership by optimizing and finding cost-efficient use of company resource and always thingking about the company's long-term welfare.</p>
@@ -151,7 +151,7 @@
         </div> --}}
 
         <div class="w-full  mx-auto p-6 " x-data="{ scrollAmount: 300 }">
-            <h2 class="text-3xl font-bold text-center mb-6">Meet Our Team</h2>
+            <h2 class="text-3xl font-bold text-center mb-6 italic">Wespoint Team</h2>
             <div class="relative">
                 <!-- Scroll Buttons -->
                 <button @click="$refs.team.scrollBy({ left: -scrollAmount, behavior: 'smooth' })" class="absolute left-0 top-1/2 -translate-y-1/2  text-gray-800 p-2 rounded-full shadow-lg"><i class="fa fa-circle-left"></i></button>

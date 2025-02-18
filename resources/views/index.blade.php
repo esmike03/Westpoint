@@ -162,7 +162,7 @@
     <section id="whyus"
         class="text-gray-700 body-font mx-auto mt-10 py-10 bg-[url('/public/IMAGES/bg3.png')] bg-center bg-cover">
         <div id="quality"
-            class=" flex justify-center text-3xl font-bold text-gray-800 text-center opacity-0 translate-y-20 transition-all duration-1000">
+            class=" flex justify-center italic text-3xl font-bold text-gray-800 text-center opacity-0 translate-y-20 transition-all duration-1000">
             Featured Products
         </div>
 
@@ -180,7 +180,8 @@
                                             class="w-full rounded-full">
                                     </div>
                                 </div>
-                                <h2 class="text-center font-bold text-lg sm:text-xs md:text-lg text-gray-700">{{ $product->name }}</h2>
+                                <h2 class="text-center font-normal text-sm  sm:text-xs md:text-sm text-gray-700 uppercase leading-tight">{{ $product->name }}</h2>
+                                <h2 class="text-center font-bold text-sm  sm:text-xs md:text-sm text-green-500 uppercase leading-tight">₱{{ $product->price }}</h2>
                             </div>
                         </div>
                     @empty
