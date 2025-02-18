@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,6 +17,17 @@ class AuthController extends Controller
             return redirect('/admin/login')->with('message', 'Please log in to access this page.');
         }
         return view('admin');
+    }
+
+    public function content()
+    {
+        if (!auth()->guard('admin')->check()) {
+            // Redirect to the login page if not authenticated
+            return redirect('/admin/login')->with('message', 'Please log in to access this page.');
+        }
+
+        $members = Member::latest()->paginate(2);
+        return view('content', compact('members'));
     }
 
     public function showLogin()

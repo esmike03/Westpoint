@@ -2,6 +2,7 @@
 
 use App\Models\Unit;
 use App\Models\Brand;
+use App\Models\Member;
 use App\Models\Product;
 use App\Models\Categories;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,7 @@ Route::get('/', function () {
 });
 
 Route::get('/admin', [AuthController::class, 'admin'])->name('admin');
+Route::get('/manage/content', [AuthController::class, 'content'])->name('content');
 Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
 Route::get('/products', [ProductController::class, 'products'])->name('products');
 Route::get('/modifyproducts', [ProductController::class, 'modifyproducts'])->name('modifyproducts');
@@ -33,7 +35,8 @@ Route::post('/products/import', [ProductController::class, 'import'])->name('pro
 
 
 Route::get('/business', function () {
-    return view('business');
+    $members = Member::all();
+    return view('business', compact('members'));
 })->name('business');
 
 Route::get('/addproducts', function () {
@@ -84,3 +87,5 @@ Route::post('/category/store', [SettingsController::class, 'categorystore'])->na
 Route::delete('/category/{id}', [SettingsController::class, 'categorydestroy'])->name('category.destroy');
 Route::post('/unit/store', [SettingsController::class, 'unitstore'])->name('unit.store');
 Route::delete('/unit/{id}', [SettingsController::class, 'unitdestroy'])->name('unit.destroy');
+Route::post('/member/store', [SettingsController::class, 'memberstore'])->name('member.store');
+Route::delete('/member/{id}', [SettingsController::class, 'memberdestroy'])->name('member.destroy');

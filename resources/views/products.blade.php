@@ -120,7 +120,9 @@
                     <a href="#" class="block w-full"
                         @click.prevent="selectedProduct = {{ json_encode($product) }}; showModal = true;">
                         <img class="w-full h-24 object-contain lg:h-36 rounded-t-lg"
-                            src="{{ asset('storage/' . $product->image) }}" alt="product image" />
+                            src="{{ $product->image ? asset('storage/' . $product->image) : asset('IMAGES/logowestpoint.png') }}"
+                            alt="product image" />
+
                     </a>
                     <div class="p-4">
                         <div class="flex justify-between">
@@ -147,7 +149,8 @@
                         </div>
 
                         <div class="flex items-center justify-between">
-                            <span class="text-sm lg:text-lg font-bold text-gray-900">₱{{ $product->price }} <span class="text-500 text-sm font-normal">{{$product->unit}}</span></span>
+                            <span class="text-sm lg:text-lg font-bold text-gray-900">₱{{ $product->price }} <span
+                                    class="text-500 text-sm font-normal">{{ $product->unit }}</span></span>
                             <a href="#"
                                 class="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-md text-sm px-4 py-2 text-center">
                                 <i class="fa fa-cart-shopping"></i>
@@ -192,7 +195,8 @@
 
                     <!-- Price & Add to Cart Button -->
                     <div class="mt-4 flex items-center justify-between">
-                        <p class="text-lg font-bold text-gray-900">₱<span x-text="selectedProduct.price"></span> <span class="text-gray-500 text-sm font-normal" x-text="selectedProduct.unit"></span></p>
+                        <p class="text-lg font-bold text-gray-900">₱<span x-text="selectedProduct.price"></span> <span
+                                class="text-gray-500 text-sm font-normal" x-text="selectedProduct.unit"></span></p>
                         <button
                             class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 flex items-center gap-2">
                             <i class="fa fa-cart-shopping"></i>

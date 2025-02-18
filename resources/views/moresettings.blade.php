@@ -46,8 +46,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
-                        <i class="fas fa-user mr-2"></i>Profile
+                    <a href="/manage/content" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
+                        <i class="fas fa-newspaper mr-2"></i>Manage Content
                     </a>
                 </li>
                 <li>
@@ -309,21 +309,7 @@
                 </div>
             </div>
 
-            <div class="bg-white border border-4 rounded-lg shadow relative m-10">
-                <div class="flex items-start justify-between p-5 border-b rounded-t">
-                    <h3 class="text-xl font-semibold">
-                        Add Members
-                    </h3>
-                    @if (session('error'))
-                        <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-                    <!--form here-->
-                </div>
-                <div class="p-6 space-y-6">
-                </div>
-            </div>
+
         </section>
 
         <!-- Changed background color to green -->

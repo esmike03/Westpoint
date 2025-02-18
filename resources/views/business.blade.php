@@ -150,25 +150,34 @@
             </div>
         </div> --}}
 
-        <div class="w-full  mx-auto p-6 " x-data="{ scrollAmount: 300 }">
-            <h2 class="text-3xl font-bold text-center mb-6 italic">Wespoint Team</h2>
+        <div class="w-full mx-auto p-6" x-data="{ members: {{ $members->toJson() }}, scrollAmount: 300 }">
+
+            <h2 class="text-3xl font-bold text-center mb-6 italic">Westpoint Team</h2>
             <div class="relative">
                 <!-- Scroll Buttons -->
-                <button @click="$refs.team.scrollBy({ left: -scrollAmount, behavior: 'smooth' })" class="absolute left-0 top-1/2 -translate-y-1/2  text-gray-800 p-2 rounded-full shadow-lg"><i class="fa fa-circle-left"></i></button>
-                <button @click="$refs.team.scrollBy({ left: scrollAmount, behavior: 'smooth' })" class="absolute right-0 top-1/2 -translate-y-1/2  text-gray-800 p-2 rounded-full shadow-lg"><i class="fa fa-circle-right"></i></button>
+                <button @click="$refs.team.scrollBy({ left: -scrollAmount, behavior: 'smooth' })"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 text-gray-800 p-2 rounded-full shadow-lg">
+                    <i class="fa fa-circle-left"></i>
+                </button>
+                <button @click="$refs.team.scrollBy({ left: scrollAmount, behavior: 'smooth' })"
+                    class="absolute right-0 top-1/2 -translate-y-1/2 text-gray-800 p-2 rounded-full shadow-lg">
+                    <i class="fa fa-circle-right"></i>
+                </button>
 
                 <!-- Scrollable Team Section -->
                 <div class="flex space-x-4 overflow-x-auto scroll-smooth no-scrollbar" x-ref="team">
-                    <template x-for="i in 5" :key="i">
+                    <template x-for="member in members" :key="member.id">
                         <div class="flex-shrink-0 w-64 p-4 rounded-lg text-center">
-                            <img :src="'https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg' " alt="Team Member" class="w-32 h-32 mx-auto rounded-full mb-4">
-                            <h3 class="text-xl font-semibold">Member <span x-text="i"></span></h3>
-                            <p class="text-gray-500">Position</p>
+                            <img :src="member.image ? '/storage/' + member.image : 'https://via.placeholder.com/150'"
+                                 alt="Team Member" class="w-32 h-32 mx-auto rounded-full mb-4">
+                            <h3 class="text-xl font-semibold" x-text="member.name"></h3>
+                            <p class="text-gray-500" x-text="member.position"></p>
                         </div>
                     </template>
                 </div>
             </div>
         </div>
+
     </section>
 
 

@@ -19,6 +19,7 @@ class ProductsImport implements ToModel, WithHeadingRow
             'name'      => $row['product_name'], // Match column names in Excel
             'category'  => $row['category'],
             'brand'     => $row['brand'],
+            'unit'     => $row['unit'],
             'price'     => $row['price'],
             'details'   => $row['details'],
             'image'   => $row['image'],

@@ -36,7 +36,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/manage/content" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
+                    <a href="#" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
                         <i class="fas fa-newspaper mr-2"></i>Manage Content
                     </a>
                 </li>
@@ -89,48 +89,86 @@
         </header>
 
         <section class="pt-24">
-            <h1 class="text-2xl font-semibold">Dashboard</h1>
+            <h1 class="text-2xl font-semibold">Manage Content</h1>
 
-            <!-- Dashboard Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-                <div
-                    class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">
-                    <div class="text-green-500 text-3xl my-auto mx-4">
-                        <h1 class="text-4xl">8</h1>
-                    </div>
-                    <div>
-                        <h3 class="text-lg text-gray-600">Content Title</h3>
-                        <p class="text-gray-800 text-sm font-semibold">Description</p>
-                    </div>
+            <div class="bg-white border border-4 rounded-lg shadow relative m-10">
+                <div class="flex items-start justify-between p-5 border-b rounded-t">
+                    <h3 class="text-xl font-semibold">
+                        Add Member
+                    </h3>
                 </div>
-                <div
-                    class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">
-                    <div class="text-green-500 text-3xl my-auto mx-4">
-                        <h1 class="text-4xl">8</h1>
+                @if (session('error'))
+                    <div class="p-4 m-1 text-sm text-red-700 bg-red-100 rounded-lg">
+                        {{ session('error') }}
                     </div>
-                    <div>
-                        <h3 class="text-lg text-gray-600">Content Title</h3>
-                        <p class="text-gray-800 text-sm font-semibold">Description</p>
+                @endif
+                @if (session('success'))
+                    <div class="p-4 m-1 text-sm text-green-700 bg-green-100 rounded-lg">
+                        {{ session('success') }}
                     </div>
+                @endif
+                <div class="p-6 space-y-6 ">
+                    <form action="{{ route('member.store') }}" method="POST" class="grid grid-cols-2 gap-4" enctype="multipart/form-data">
+                        @csrf
+                        <div class=" ">
+                            <label for="member_name" class="block text-sm font-medium text-gray-700">Member Name</label>
+                            <input type="text" id="member_name" name="member_name" required
+                                class=" p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div class=" ">
+                            <label for="position" class="block text-sm font-medium text-gray-700">Position</label>
+                            <input type="text" id="position" name="position" required
+                                class=" p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div class=" ">
+                            <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+                            <input type="file" id="image" name="image" required
+                                class=" p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div class="w-full h-full justify-center items-center object-center flex mt-2.5">
+                            <button type="submit"
+                                class="px-4 py-2 w-full bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                                Add Member
+                            </button>
+                        </div>
+
+                    </form>
                 </div>
-                <div
-                    class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">
-                    <div class="text-green-500 text-3xl my-auto mx-4">
-                        <h1 class="text-4xl">8</h1>
-                    </div>
-                    <div>
-                        <h3 class="text-lg text-gray-600">Content Title</h3>
-                        <p class="text-gray-800 text-sm font-semibold">Description</p>
-                    </div>
-                </div>
-                <div
-                    class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">
-                    <div class="text-green-500 text-3xl my-auto mx-4">
-                        <h1 class="text-4xl">8</h1>
-                    </div>
-                    <div>
-                        <h3 class="text-lg text-gray-600">Content Title</h3>
-                        <p class="text-gray-800 text-sm font-semibold">Description</p>
+                <div class="px-6 py-2">
+                    <h3 class="text-lg font-semibold">Member List</h3>
+                    <table class="w-full text-xs border-collapse border border-gray-300 mt-2">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="border border-gray-300 px-4 py-2 ">Image</th>
+                                <th class="border border-gray-300 px-4 py-2">Name</th>
+                                <th class="border border-gray-300 px-4 py-2">Position</th>
+                                <th class="border border-gray-300 px-4 py-2">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-xs">
+                            @foreach ($members as $key => $member)
+                                <tr>
+                                    <td class="border border-gray-300 px-4 py-2"><img class="h-10 mx-auto"
+                                        src="{{ isset($member->image) && !empty($member->image) ? asset('storage/' . $member->image) : asset('IMAGES/logowestpoint.png') }}"
+                                        alt="Product Image" /></td>
+                                    <td class="border border-gray-300 px-4 py-2">{{ $member->name }}</td>
+                                    <td class="border border-gray-300 px-4 py-2">{{ $member->position }}</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">
+                                        <form action="{{ route('member.destroy', $member->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this member?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+
+                    </table>
+                    <div class="mt-4 text-xs">
+                        {{ $members->links() }} <!-- Pagination links -->
                     </div>
                 </div>
             </div>

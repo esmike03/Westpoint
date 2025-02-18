@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Unit;
 use App\Models\Brand;
+use App\Models\Member;
 use App\Models\Categories;
 use Illuminate\Http\Request;
 
@@ -79,5 +80,40 @@ class SettingsController extends Controller
         $unit->delete();
 
         return redirect()->back()->with('success', 'Unit deleted successfully!');
+    }
+
+    public function memberstore(Request $request)
+    {
+        // Validate input
+        $request->validate([
+            'member_name' => 'required|string|max:255|unique:members,name',
+            'position' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        // Handle file upload
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('members', 'public'); // Save to storage/app/public/members
+        } else {
+            $imagePath = null; // Optional: Set a default image if needed
+        }
+
+        // Store in database
+        Member::create([
+            'name' => $request->member_name,
+            'position' => $request->position,
+            'image' => $imagePath,
+        ]);
+
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Member added successfully!');
+    }
+
+    public function memberdestroy($id)
+    {
+        $member = Member::findOrFail($id);
+        $member->delete();
+
+        return redirect()->back()->with('success', 'Category deleted successfully!');
     }
 }

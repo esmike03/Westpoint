@@ -34,8 +34,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
-                        <i class="fas fa-user mr-2"></i>Profile
+                    <a href="/manage/content" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
+                        <i class="fas fa-newspaper mr-2"></i>Manage Content
                     </a>
                 </li>
                 <li>
