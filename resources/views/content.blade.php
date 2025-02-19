@@ -54,6 +54,9 @@
                         </li>
                         <li><a href="/moresettings"
                                 class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">More Settings</a></li>
+                        <li><a href="/admin/changepassword"
+                                class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Change Password</a>
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -236,7 +239,8 @@
                                 @foreach ($adone as $key => $adones)
                                     <tr>
                                         <td class="border border-gray-300 px-4 py-2">
-                                            <a href="{{ isset($adones->image) && !empty($adones->image) ? asset('storage/' . $adones->image) : asset('IMAGES/logowestpoint.png') }}">
+                                            <a
+                                                href="{{ isset($adones->image) && !empty($adones->image) ? asset('storage/' . $adones->image) : asset('IMAGES/logowestpoint.png') }}">
                                                 <img class="h-10 mx-auto"
                                                     src="{{ isset($adones->image) && !empty($adones->image) ? asset('storage/' . $adones->image) : asset('IMAGES/logowestpoint.png') }}"
                                                     alt="Product Image" />

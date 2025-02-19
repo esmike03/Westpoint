@@ -64,6 +64,9 @@
                                 Products</a></li>
                         <li><a href="/moresettings"
                                 class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">More Settings</a></li>
+                        <li><a href="/admin/changepassword"
+                                class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Change Password</a>
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -124,7 +127,8 @@
                     <form action="{{ route('category.store') }}" method="POST" class="grid grid-cols-2 gap-4">
                         @csrf
                         <div class=" ">
-                            <label for="category_name" class="block text-sm font-medium text-gray-700">Category Name</label>
+                            <label for="category_name" class="block text-sm font-medium text-gray-700">Category
+                                Name</label>
                             <input type="text" id="category_name" name="category_name" required
                                 class=" p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
@@ -153,10 +157,12 @@
 
                                     <td class="border border-gray-300 px-4 py-2">{{ $categorys->category_name }}</td>
                                     <td class="border border-gray-300 px-4 py-2 text-center">
-                                        <form action="{{ route('category.destroy', $categorys->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                        <form action="{{ route('category.destroy', $categorys->id) }}" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to delete this category?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                                            <button type="submit"
+                                                class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
@@ -222,10 +228,12 @@
 
                                     <td class="border border-gray-300 px-4 py-2">{{ $brand->brand_name }}</td>
                                     <td class="border border-gray-300 px-4 py-2 text-center">
-                                        <form action="{{ route('brand.destroy', $brand->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this brand?');">
+                                        <form action="{{ route('brand.destroy', $brand->id) }}" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to delete this brand?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                                            <button type="submit"
+                                                class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
@@ -290,10 +298,12 @@
 
                                     <td class="border border-gray-300 px-4 py-2">{{ $unit->unit_type }}</td>
                                     <td class="border border-gray-300 px-4 py-2 text-center">
-                                        <form action="{{ route('unit.destroy', $unit->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this unit?');">
+                                        <form action="{{ route('unit.destroy', $unit->id) }}" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to delete this unit?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                                            <button type="submit"
+                                                class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>

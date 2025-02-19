@@ -106,3 +106,7 @@ Route::post('/logout', function (Request $request) {
 //User Register
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/auth/register', [AuthController::class, 'register'])->name('register.store');
+
+//Admin change password
+Route::get('/admin/changepassword', [SettingsController::class, 'showChangePasswordForm'])->name('admin.change-password');
+Route::post('/admin/change-password', [AuthController::class, 'adminupdatePassword'])->name('admin.update-password');

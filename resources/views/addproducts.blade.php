@@ -70,6 +70,8 @@
                                 Products</a></li>
                         <li><a href="/moresettings"
                                 class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">More Settings</a></li>
+                        <li><a href="/admin/changepassword"
+                                class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Change Password</a></li>
                     </ul>
                 </li>
                 <li>
@@ -124,7 +126,8 @@
 
                     <div>
                         <!-- Button to open modal -->
-                        <a href="{{ asset('file/products.xlsx') }}" download class="text-green-600 text-sm hover:underline">
+                        <a href="{{ asset('file/products.xlsx') }}" download
+                            class="text-green-600 text-sm hover:underline">
                             <i class="fa fa-download"></i> Excel Format
                         </a>
 

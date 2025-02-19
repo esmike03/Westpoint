@@ -45,11 +45,11 @@ class AuthController extends Controller
     public function adminauth(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'name' => 'required',
             'password' => 'required'
         ]);
 
-        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+        if (Auth::guard('admin')->attempt(['name' => $request->name, 'password' => $request->password], $request->remember)) {
             return view('admin'); // Redirect to admin dashboard
         }
 
@@ -110,5 +110,28 @@ class AuthController extends Controller
 
         // Redirect to home/dashboard
         return route('/');
+    }
+
+
+    public function adminupdatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+        ]);
+
+        $admin = Auth::guard('admin')->user();
+
+        // Check if the current password matches
+        if (!Hash::check($request->current_password, $admin->password)) {
+            return back()->withErrors(['current_password' => 'Incorrect current password']);
+        }
+
+        // Update password
+        $admin->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+
+        return back()->with('success', 'Password successfully changed');
     }
 }

@@ -92,50 +92,47 @@
         </header>
 
         <section class="pt-24">
-            <h1 class="text-2xl font-semibold">Dashboard</h1>
+            <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow">
+                <h2 class="text-xl font-semibold mb-4">Change Password</h2>
 
-            <!-- Dashboard Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-                <div
-                    class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">
-                    <div class="text-green-500 text-3xl my-auto mx-4">
-                        <h1 class="text-4xl">8</h1>
+                @if (session('success'))
+                    <div class="text-green-600 p-2 bg-green-100 rounded">{{ session('success') }}</div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="text-red-600 p-2 bg-red-100 rounded">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
-                    <div>
-                        <h3 class="text-lg text-gray-600">Content Title</h3>
-                        <p class="text-gray-800 text-sm font-semibold">Description</p>
+                @endif
+
+                <form action="{{ route('admin.update-password') }}" method="POST">
+                    @csrf
+                    <div class="mb-4">
+                        <label class="block font-medium" for="current_password">Current Password</label>
+                        <input type="password" name="current_password" required
+                            class="border w-full p-2 rounded">
                     </div>
-                </div>
-                <div
-                    class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">
-                    <div class="text-green-500 text-3xl my-auto mx-4">
-                        <h1 class="text-4xl">8</h1>
+
+                    <div class="mb-4">
+                        <label class="block font-medium" for="new_password">New Password</label>
+                        <input type="password" name="new_password" required minlength="6"
+                            class="border w-full p-2 rounded">
                     </div>
-                    <div>
-                        <h3 class="text-lg text-gray-600">Content Title</h3>
-                        <p class="text-gray-800 text-sm font-semibold">Description</p>
+
+                    <div class="mb-4">
+                        <label class="block font-medium" for="new_password_confirmation">Confirm New Password</label>
+                        <input type="password" name="new_password_confirmation" required
+                            class="border w-full p-2 rounded">
                     </div>
-                </div>
-                <div
-                    class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">
-                    <div class="text-green-500 text-3xl my-auto mx-4">
-                        <h1 class="text-4xl">8</h1>
-                    </div>
-                    <div>
-                        <h3 class="text-lg text-gray-600">Content Title</h3>
-                        <p class="text-gray-800 text-sm font-semibold">Description</p>
-                    </div>
-                </div>
-                <div
-                    class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">
-                    <div class="text-green-500 text-3xl my-auto mx-4">
-                        <h1 class="text-4xl">8</h1>
-                    </div>
-                    <div>
-                        <h3 class="text-lg text-gray-600">Content Title</h3>
-                        <p class="text-gray-800 text-sm font-semibold">Description</p>
-                    </div>
-                </div>
+
+                    <button type="submit" class="bg-green-500 text-white p-2 rounded hover:bg-green-700">
+                        Update Password
+                    </button>
+                </form>
             </div>
         </section>
     </main>

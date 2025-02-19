@@ -52,6 +52,9 @@
                                 Products</a></li>
                         <li><a href="/moresettings"
                                 class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">More Settings</a></li>
+                        <li><a href="/admin/changepassword"
+                                class="block py-2 px-4 rounded hover:bg-green-200 text-gray-700">Change Password</a>
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -139,74 +142,73 @@
             </div>
         @endif
         <!-- ✅ Grid Section - Starts Here 👇 -->
-            <div
-                class="w-full p-4 text-xs">
+        <div class="w-full p-4 text-xs">
 
-                <table class="w-full border-collapse border border-gray-300">
-                    <thead class="">
-                        <tr class="bg-gray-100">
-                            <th class="border border-gray-300 px-4 py-2">Image</th>
-                            <th class="border border-gray-300 px-4 py-2">Category</th>
-                            <th class="border border-gray-300 px-4 py-2">Name</th>
-                            <th class="border border-gray-300 px-4 py-2">Brand</th>
-                            <th class="border border-gray-300 px-4 py-2">Details</th>
-                            <th class="border border-gray-300 px-4 py-2">Price</th>
-                            <th class="border border-gray-300 px-4 py-2">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($products as $product)
-                            <tr class="border border-gray-300">
-                                <td class="border border-gray-300 px-4 py-2 ">
-                                    <img class="h-10 mx-auto"
-                                        src="{{ isset($product->image) && !empty($product->image) ? asset('storage/' . $product->image) : asset('IMAGES/logowestpoint.png') }}"
-                                        alt="Product Image" />
-                                </td>
-                                <td class="border border-gray-300 px-4 py-2 ">{{ $product->category }}</td>
-                                <td class="border border-gray-300 px-4 py-2 ">{{ $product->name }}</td>
-                                <td class="border border-gray-300 px-4 py-2 r">{{ $product->brand }}</td>
-                                <td class="border border-gray-300 px-4 py-2 text-justify text-xs">
-                                    <div x-data="{ expanded: false }">
-                                        <p :class="expanded ? '' : 'line-clamp-2'">{{ $product->details }}</p>
-                                        <button @click="expanded = !expanded"
-                                            class="text-blue-600 text-xs font-medium hover:underline">
-                                            <span x-show="!expanded">Read More</span>
-                                            <span x-show="expanded">Show Less</span>
+            <table class="w-full border-collapse border border-gray-300">
+                <thead class="">
+                    <tr class="bg-gray-100">
+                        <th class="border border-gray-300 px-4 py-2">Image</th>
+                        <th class="border border-gray-300 px-4 py-2">Category</th>
+                        <th class="border border-gray-300 px-4 py-2">Name</th>
+                        <th class="border border-gray-300 px-4 py-2">Brand</th>
+                        <th class="border border-gray-300 px-4 py-2">Details</th>
+                        <th class="border border-gray-300 px-4 py-2">Price</th>
+                        <th class="border border-gray-300 px-4 py-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($products as $product)
+                        <tr class="border border-gray-300">
+                            <td class="border border-gray-300 px-4 py-2 ">
+                                <img class="h-10 mx-auto"
+                                    src="{{ isset($product->image) && !empty($product->image) ? asset('storage/' . $product->image) : asset('IMAGES/logowestpoint.png') }}"
+                                    alt="Product Image" />
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2 ">{{ $product->category }}</td>
+                            <td class="border border-gray-300 px-4 py-2 ">{{ $product->name }}</td>
+                            <td class="border border-gray-300 px-4 py-2 r">{{ $product->brand }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-justify text-xs">
+                                <div x-data="{ expanded: false }">
+                                    <p :class="expanded ? '' : 'line-clamp-2'">{{ $product->details }}</p>
+                                    <button @click="expanded = !expanded"
+                                        class="text-blue-600 text-xs font-medium hover:underline">
+                                        <span x-show="!expanded">Read More</span>
+                                        <span x-show="expanded">Show Less</span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2 text-center font-bold">
+                                ₱{{ $product->price }}</td>
+                            <td class="gap-6 px-4 py-2 text-center flex">
+                                <div class="my-auto pt-2 flex justify-center content-center items-center">
+                                    <form method="POST" action="{{ route('products.destroy', $product->id) }}"
+                                        class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            @click.prevent="if(confirm('Are you sure?')) { fetch('{{ route('products.destroy', $product->id) }}', { method: 'DELETE', headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } }); }"
+                                            class="text-red-500 text-sm rounded-md hover:bg-red-800">
+                                            <i class="fa fa-trash text-red-500 p-1"> </i>
                                         </button>
-                                    </div>
-                                </td>
-                                <td class="border border-gray-300 px-4 py-2 text-center font-bold">
-                                    ₱{{ $product->price }}</td>
-                                <td class="gap-6 px-4 py-2 text-center flex">
-                                    <div class="my-auto pt-2 flex justify-center content-center items-center">
-                                        <form method="POST" action="{{ route('products.destroy', $product->id) }}"
-                                            class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                @click.prevent="if(confirm('Are you sure?')) { fetch('{{ route('products.destroy', $product->id) }}', { method: 'DELETE', headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } }); }"
-                                                class="text-red-500 text-sm rounded-md hover:bg-red-800">
-                                                <i class="fa fa-trash text-red-500 p-1"> </i>
-                                            </button>
-                                        </form>
-                                        <a href="#"
-                                            class="text-blue-500 text-xs  hover:bg-blue-800 font-medium rounded-lg p-1">
-                                            <i class="fa fa-pen"></i>
-                                        </a>
-                                    </div>
+                                    </form>
+                                    <a href="#"
+                                        class="text-blue-500 text-xs  hover:bg-blue-800 font-medium rounded-lg p-1">
+                                        <i class="fa fa-pen"></i>
+                                    </a>
+                                </div>
 
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="7" class="text-gray-500 text-lg text-center py-4">No products found.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="text-gray-500 text-lg text-center py-4">No products found.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
 
-            </div>
+        </div>
     </main>
     <script>
         document.getElementById('logout-btn').addEventListener('click', function(event) {

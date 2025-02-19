@@ -68,7 +68,7 @@
                         @auth
                             <div x-data="{ open: false }" class="relative flex  my-auto gap-3 items-center">
                                 <!-- Profile Image -->
-                                <img src="{{ asset('IMAGES/profile.jpg') }}"
+                                <img @click="open = !open" src="{{ asset('IMAGES/profile.jpg') }}"
                                     class="h-10 w-10 rounded-full border-green-500 border" />
 
                                 <!-- User Name (Click to Toggle Logout Button) -->
@@ -80,6 +80,9 @@
                                 <!-- Logout Button (Hidden by Default, Shows When Name is Clicked) -->
                                 <div x-show="open" @click.away="open = false"
                                     class="absolute top-full mt-2 ml-10 bg-white border rounded-lg shadow-lg p-2 w-32">
+                                    <button class="text-black hover:text-green-500 w-full text-left px-2 py-1">
+                                        <i class="fas fa-user"></i> Profile
+                                    </button>
                                     <form action="{{ route('userlogout') }}" method="POST">
                                         @csrf
                                         <button type="submit"
@@ -87,9 +90,6 @@
                                             <i class="fas fa-sign-out-alt"></i> Logout
                                         </button>
                                     </form>
-                                    <button class="text-black hover:text-green-500 w-full text-left px-2 py-1">
-                                        <i class="fas fa-user"></i> Profile
-                                    </button>
                                 </div>
                             </div>
                         @else

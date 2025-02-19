@@ -7,10 +7,11 @@ use App\Models\Adone;
 use App\Models\Brand;
 use App\Models\Member;
 use App\Models\Categories;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
-use Illuminate\Support\Str;
 
 class SettingsController extends Controller
 {
@@ -164,5 +165,14 @@ class SettingsController extends Controller
         $adone->delete();
 
         return redirect()->back()->with('posterror', 'Post deleted successfully!');
+    }
+
+    public function showChangePasswordForm(){
+        if (!auth()->guard('admin')->check()) {
+            // Redirect to the login page if not authenticated
+            return redirect('/admin/login')->with('message', 'Unauthorized access detected!');
+        }
+
+        return view('adminchange');
     }
 }
