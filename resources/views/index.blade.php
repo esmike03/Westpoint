@@ -85,16 +85,15 @@
                     </li>
                     <li>
                         @auth
-                            <div x-data="{ open: false }"
-                                class="relative flex  my-auto gap-3 items-center">
+                            <div x-data="{ open: false }" class="relative flex  my-auto gap-3 items-center">
                                 <!-- Profile Image -->
-                                <img src="{{ asset('IMAGES/testpost.png') }}"
+                                <img src="{{ asset('IMAGES/profile.jpg') }}"
                                     class="h-10 w-10 rounded-full border-green-500 border" />
 
                                 <!-- User Name (Click to Toggle Logout Button) -->
                                 <span @click="open = !open"
                                     class="text-black font-medium cursor-pointer hover:text-green-400">
-                                    {{ Auth::user()->name }}
+                                    {{ Auth::user()->firstname }}
                                 </span>
 
                                 <!-- Logout Button (Hidden by Default, Shows When Name is Clicked) -->
@@ -107,6 +106,9 @@
                                             <i class="fas fa-sign-out-alt"></i> Logout
                                         </button>
                                     </form>
+                                    <button class="text-black hover:text-green-500 w-full text-left px-2 py-1">
+                                        <i class="fas fa-user"></i> Profile
+                                    </button>
                                 </div>
                             </div>
                         @else
@@ -147,9 +149,9 @@
                             clip-rule="evenodd"></path>
                     </svg>
                 </a>
-                <a href="#"
-                    class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-green-500 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                    Speak to Sales
+                <a href="/products"
+                    class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-green-500 border border-green-300 rounded-lg hover:bg-green-300 focus:ring-4 focus:ring-green-100 ">
+                    Products
                 </a>
             </div>
             <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">

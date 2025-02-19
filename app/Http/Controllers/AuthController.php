@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Adone;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -55,26 +57,58 @@ class AuthController extends Controller
     }
 
     //user login
-        // Handle login
-        public function login(Request $request)
-        {
-            // Validate user input
-            $credentials = $request->validate([
-                'email' => 'required|email',
-                'password' => 'required',
-            ]);
+    // Handle login
+    public function login(Request $request)
+    {
+        // Validate user input
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-            // Attempt login
-            if (Auth::attempt($credentials, $request->remember)) {
-                $request->session()->regenerate();
+        // Attempt login
+        if (Auth::attempt($credentials, $request->remember)) {
+            $request->session()->regenerate();
 
-                // Redirect to dashboard (or any intended page)
-                return redirect()->intended('/products');
-            }
-
-            // Return error message if login fails
-            return back()->withErrors([
-                'email' => 'Invalid email or password.',
-            ])->onlyInput('email');
+            // Redirect to dashboard (or any intended page)
+            return redirect()->intended('/products');
         }
+
+        // Return error message if login fails
+        return back()->withErrors([
+            'email' => 'Invalid email or password.',
+        ])->onlyInput('email');
+    }
+
+    public function showRegisterForm()
+    {
+        return view('register');
+    }
+
+    public function register(Request $request)
+    {
+        // Validate input
+        $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|digits:11',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        // Create new user
+        $user = User::create([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Log in user
+        Auth::login($user);
+
+        // Redirect to home/dashboard
+        return route('/');
+    }
 }

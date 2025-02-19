@@ -102,3 +102,7 @@ Route::post('/logout', function (Request $request) {
     $request->session()->invalidate();
     return redirect('/');
 })->name('userlogout');
+
+//User Register
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/auth/register', [AuthController::class, 'register'])->name('register.store');

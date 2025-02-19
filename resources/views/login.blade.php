@@ -47,7 +47,7 @@
                     <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl text-gray-900">
                         LOG IN
                     </h1>
-                    <form class="space-y-4 md:space-y-6" action="{{ route('login') }}" method="POST">
+                    <form class="space-y-4 md:space-y-6 " action="{{ route('login') }}" method="POST">
                         @csrf
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Email</label>
@@ -78,9 +78,9 @@
                             class="w-full text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                             Sign in
                         </button>
-                        {{-- <p class="text-sm text-gray-600 text-center">
+                        <p class="text-sm text-gray-600 text-center">
                             Don't have an account? <a href="{{ route('register') }}" class="text-green-600 hover:underline">Register</a>
-                        </p> --}}
+                        </p>
                     </form>
 
                 </div>
