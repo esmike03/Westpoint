@@ -122,8 +122,9 @@
                         <img class="w-full h-24 object-contain lg:h-36 rounded-t-lg"
                             src="{{ $product->image ? asset('storage/' . $product->image) : asset('IMAGES/logowestpoint.png') }}"
                             alt="product image" />
-
                     </a>
+                    <p class="absolute top-0 mt-2 ml-3 p-1 rounded-sm text-xs text-gray-50 bg-green-400 shadow-md">
+                        Stocks: {{ $product->stocks }}</p>
                     <div class="p-4">
                         <div class="flex justify-between">
                             <a href="#">
@@ -151,7 +152,7 @@
                         <div class="flex items-center justify-between">
                             <span class="text-sm lg:text-lg font-bold text-gray-900">₱{{ $product->price }} <span
                                     class="text-500 text-sm font-normal">{{ $product->unit }}</span></span>
-                            <a href="#"
+                            <a @click.prevent="selectedProduct = {{ json_encode($product) }}; showModal = true;"
                                 class="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-md text-sm px-4 py-2 text-center">
                                 <i class="fa fa-cart-shopping"></i>
                             </a>
@@ -176,33 +177,46 @@
                     class="absolute top-6 right-8 text-gray-500 hover:text-gray-700 text-xl">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
-
-                <!-- Product Image (Left Side) -->
-                <img :src="'/storage/' + selectedProduct.image" alt="Product Image"
-                    class="w-40 h-40 sm:w-48 sm:h-48 object-cover rounded-md">
-
-                <!-- Product Details (Right Side) -->
-                <div class="flex flex-col flex-1 ">
-
-                    <h2 class="text-lg sm:text-lg font-semibold text-gray-900" x-text="selectedProduct.name"></h2>
-                    <div class="justify-start flex w-fit gap-2 text-xs">
-                        <p x-text="selectedProduct.brand "
-                            class="  text-green-500 m-auto border rounded-sm px-1 border-green-500"></p>
-                        <p x-text="selectedProduct.category "
-                            class="  text-gray-500 m-auto border rounded-sm px-1 border-gray-500"></p>
+                <div class="grid sm:grid-cols-1 lg:grid-cols-2">
+                    <div class="w-full justify-center content-center items-center flex">
+                        <img :src="'/storage/' + selectedProduct.image" alt="Product Image"
+                            class="w-40 h-40 sm:w-48 sm:h-48 sm:mb-4 object-cover rounded-md">
                     </div>
-                    <p class="text-gray-700 text-xs mt-2 text-justify" x-text="selectedProduct.details"></p>
+                    <!-- Product Image (Left Side) -->
+                    <p class="absolute mt-2 ml-1 p-1 rounded-sm text-xs text-gray-50 bg-green-400 shadow-md"
+                    x-text="'Stocks: '+ selectedProduct.stocks"></p>
+                    <!-- Product Details (Right Side) -->
+                    <div class="flex flex-col flex-1 ">
 
-                    <!-- Price & Add to Cart Button -->
-                    <div class=" flex items-end justify-between h-full content-end">
-                        <p class="text-lg font-bold text-gray-900">₱<span x-text="selectedProduct.price"></span> <span
-                                class="text-gray-500 text-sm font-normal" x-text="selectedProduct.unit"></span></p>
-                        <button
-                            class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 flex items-center gap-2">
-                            <i class="fa fa-cart-shopping"></i>
-                        </button>
+                        <h2 class="text-lg sm:text-lg font-semibold text-gray-900" x-text="selectedProduct.name"></h2>
+                        <div class="justify-start flex w-fit gap-2 text-xs">
+                            <p x-text="selectedProduct.brand "
+                                class="  text-green-500 m-auto border rounded-sm px-1 border-green-500"></p>
+                            <p x-text="selectedProduct.category "
+                                class="  text-gray-500 m-auto border rounded-sm px-1 border-gray-500"></p>
+                        </div>
+                        <p class="text-gray-700 text-xs mt-2 mb-6 text-justify" x-text="selectedProduct.details" ></p>
+
+                        <!-- Price & Add to Cart Button -->
+                        <div class=" flex items-end justify-between h-full content-end">
+                            <p class="text-lg font-bold text-gray-900">₱<span x-text="selectedProduct.price"></span>
+                                <span class="text-gray-500 text-sm font-normal" x-text="selectedProduct.unit"></span>
+                            </p>
+                            <div class="flex gap-2">
+                                <input type="number" name="count" id="count"
+                                    class="shadow-sm bg-gray-50 border w-16 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 p-2.5"
+                                    placeholder="" value="1" min="1" x-bind:max="selectedProduct.stocks"
+                                    required>
+                                <button
+                                    class="bg-green-500 text-white text-xs px-3 py-1 rounded-md hover:bg-green-600 flex items-center gap-2">
+                                    <i class="fa fa-cart-shopping"></i>
+                                </button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
+
 
             </div>
         </div>

@@ -21,6 +21,7 @@ class ProductsImport implements ToModel, WithHeadingRow
             'brand'     => $row['brand'],
             'unit'     => $row['unit'],
             'price'     => $row['price'],
+            'stocks'     => $row['stocks'],
             'details'   => $row['details'],
             'image'   => $row['image'],
         ]);

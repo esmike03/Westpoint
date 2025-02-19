@@ -252,14 +252,21 @@
                             </div>
 
                             <!-- Second Row -->
-                            <div class="col-span-6 sm:col-span-3">
+                            <div class="col-span-6 sm:col-span-2">
                                 <label for="price"
                                     class="text-sm font-medium text-gray-900 block mb-2">Price</label>
                                 <input type="number" name="price" id="price"
                                     class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                                     placeholder="Price" required>
                             </div>
-                            <div class="col-span-6 sm:col-span-3">
+                            <div class="col-span-6 sm:col-span-2">
+                                <label for="stocks"
+                                    class="text-sm font-medium text-gray-900 block mb-2">Stocks</label>
+                                <input type="number" name="stocks" id="stocks"
+                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                                    placeholder="Stocks" value="1" min="1" required>
+                            </div>
+                            <div class="col-span-6 sm:col-span-2">
                                 <label for="image" class="text-sm font-medium text-gray-900 block mb-2">Image <span
                                         class="text-red-500">*jpg/png</span></label>
                                 <input type="file" name="image" id="image" accept="image/*"

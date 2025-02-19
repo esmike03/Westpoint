@@ -19,6 +19,7 @@ class ProductController extends Controller
             'brand' => 'required|string|max:255',
             'unit' => 'required|string|max:255',
             'price' => 'required|numeric',
+            'stocks' => 'required|numeric',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'details' => 'nullable|string',
         ]);
@@ -35,6 +36,7 @@ class ProductController extends Controller
             'brand' => $request->brand,
             'unit' => $request->unit,
             'price' => $request->price,
+            'stocks' => $request->stocks,
             'image' => $imagePath,
             'details' => $request->details,
         ]);

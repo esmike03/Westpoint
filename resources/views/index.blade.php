@@ -232,18 +232,18 @@
 
     <section>
         <div class="grid grid-cols-1 sm:grid-cols-2 mx-auto">
-            <div class="h-full w-full justify-center px-8 mt-14 ml-14">
+            <div class="h-full justify-center px-8 mt-14 ml-14">
                 <h1 class="text-3xl italic font-bold ">Facebook</h1>
-                <p class="text-lg text-gray-700 mb-4 italic">Checkout out Facebook page.</p>
+                <p class="text-lg text-gray-700 mb-4 italic">Checkout our Facebook page.</p>
             </div>
             <div class="p-8 h-full w-full justify-center text-center mx-auto">
 
                 <div id="fb-root"></div>
                 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0">
                 </script>
-                <div class="w-full justify-center mx-auto content-center">
-                    <div class="fb-page m-10" data-href="https://www.facebook.com/westpointpi" data-tabs="timeline"
-                        data-width="1000" data-height="600" data-small-header="false"
+                <div class=" justify-center mx-auto content-center">
+                    <div class="fb-page ml-14" data-href="https://www.facebook.com/westpointpi" data-tabs="timeline"
+                        data-width="500" data-height="600" data-small-header="false"
                         data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
                     </div>
                 </div>
