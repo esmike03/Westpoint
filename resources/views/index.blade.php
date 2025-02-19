@@ -55,7 +55,7 @@
 
 
             <nav aria-label="Header Navigation" class="peer-checked:block hidden pl-2 py-6 sm:block sm:py-0">
-                <ul class="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
+                <ul class="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8  md:items-center">
 
                     <li>
                         <a href="/">
@@ -84,13 +84,39 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/login">
-                            <button class="text-black hover:text-green-400"><i
-                                    class="fas fa-arrow-right-to-bracket"></i>
-                                Login</button>
-                        </a>
-                    </li>
+                        @auth
+                            <div x-data="{ open: false }"
+                                class="relative flex  my-auto gap-3 items-center">
+                                <!-- Profile Image -->
+                                <img src="{{ asset('IMAGES/testpost.png') }}"
+                                    class="h-10 w-10 rounded-full border-green-500 border" />
 
+                                <!-- User Name (Click to Toggle Logout Button) -->
+                                <span @click="open = !open"
+                                    class="text-black font-medium cursor-pointer hover:text-green-400">
+                                    {{ Auth::user()->name }}
+                                </span>
+
+                                <!-- Logout Button (Hidden by Default, Shows When Name is Clicked) -->
+                                <div x-show="open" @click.away="open = false"
+                                    class="absolute top-full mt-2 ml-10 bg-white border rounded-lg shadow-lg p-2 w-32">
+                                    <form action="{{ route('userlogout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit"
+                                            class="text-black hover:text-red-500 w-full text-left px-2 py-1">
+                                            <i class="fas fa-sign-out-alt"></i> Logout
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        @else
+                            <a href="{{ route('login') }}">
+                                <button class="text-black hover:text-green-400">
+                                    <i class="fas fa-arrow-right-to-bracket"></i> Login
+                                </button>
+                            </a>
+                        @endauth
+                    </li>
                 </ul>
             </nav>
         </div>

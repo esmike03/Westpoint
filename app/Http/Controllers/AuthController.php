@@ -34,7 +34,9 @@ class AuthController extends Controller
 
     public function showLogin()
     {
-
+        if (Auth::check()) {
+            return redirect('/'); // Redirect to dashboard or any other page
+        }
         return view('login');
     }
 
@@ -51,4 +53,28 @@ class AuthController extends Controller
 
         return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
     }
+
+    //user login
+        // Handle login
+        public function login(Request $request)
+        {
+            // Validate user input
+            $credentials = $request->validate([
+                'email' => 'required|email',
+                'password' => 'required',
+            ]);
+
+            // Attempt login
+            if (Auth::attempt($credentials, $request->remember)) {
+                $request->session()->regenerate();
+
+                // Redirect to dashboard (or any intended page)
+                return redirect()->intended('/products');
+            }
+
+            // Return error message if login fails
+            return back()->withErrors([
+                'email' => 'Invalid email or password.',
+            ])->onlyInput('email');
+        }
 }

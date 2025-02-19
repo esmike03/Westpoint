@@ -47,36 +47,42 @@
                     <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl text-gray-900">
                         LOG IN
                     </h1>
-                    <form class="space-y-4 md:space-y-6" action="" method="POST">
+                    <form class="space-y-4 md:space-y-6" action="{{ route('login') }}" method="POST">
                         @csrf
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Email</label>
-                            <input type="email" name="email" id="email" placeholder="example@mail.com"
+                            <input type="email" name="email" id="email" placeholder="Email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                required />
+                                value="{{ old('email') }}" required />
+                            @error('email')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label for="password" class="block mb-2 text-sm font-medium text-gray-700">Password</label>
                             <input type="password" name="password" id="password" placeholder="••••••••"
-                                value="{{ old('password')}}"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                 required>
+                            @error('password')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="flex justify-between items-center">
                             <div class="flex items-center">
                                 <input type="checkbox" name="remember" id="remember" class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500">
                                 <label for="remember" class="ml-2 text-sm text-gray-700">Remember me</label>
                             </div>
-                            <a href="" class="text-sm text-green-600 hover:underline">Forgot Password?</a>
+                            {{-- <a href="{{ route('password.request') }}" class="text-sm text-green-600 hover:underline">Forgot Password?</a> --}}
                         </div>
                         <button type="submit"
                             class="w-full text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                             Sign in
                         </button>
-                        <p class="text-sm text-gray-600 text-center">
-                            Don't have an account? <a href="" class="text-green-600 hover:underline">Register</a>
-                        </p>
+                        {{-- <p class="text-sm text-gray-600 text-center">
+                            Don't have an account? <a href="{{ route('register') }}" class="text-green-600 hover:underline">Register</a>
+                        </p> --}}
                     </form>
+
                 </div>
             </div>
         </div>

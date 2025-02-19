@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Member;
 use App\Models\Product;
 use App\Models\Categories;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -92,3 +93,12 @@ Route::post('/member/store', [SettingsController::class, 'memberstore'])->name('
 Route::delete('/member/{id}', [SettingsController::class, 'memberdestroy'])->name('member.destroy');
 Route::post('/post/store', [SettingsController::class, 'poststore'])->name('post.store');
 Route::delete('/post/{id}', [SettingsController::class, 'postdestroy'])->name('post.destroy');
+
+//User Login
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+//User logout
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    return redirect('/');
+})->name('userlogout');
