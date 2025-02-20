@@ -47,6 +47,11 @@
                     <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl text-gray-900">
                         LOG IN
                     </h1>
+                    @if (session('message'))
+                        <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                            {{ session('message') }}
+                        </div>
+                    @endif
                     <form class="space-y-4 md:space-y-6 " action="{{ route('login') }}" method="POST">
                         @csrf
                         <div>
@@ -69,7 +74,8 @@
                         </div>
                         <div class="flex justify-between items-center">
                             <div class="flex items-center">
-                                <input type="checkbox" name="remember" id="remember" class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500">
+                                <input type="checkbox" name="remember" id="remember"
+                                    class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500">
                                 <label for="remember" class="ml-2 text-sm text-gray-700">Remember me</label>
                             </div>
                             {{-- <a href="{{ route('password.request') }}" class="text-sm text-green-600 hover:underline">Forgot Password?</a> --}}
@@ -79,7 +85,8 @@
                             Sign in
                         </button>
                         <p class="text-sm text-gray-600 text-center">
-                            Don't have an account? <a href="{{ route('register') }}" class="text-green-600 hover:underline">Register</a>
+                            Don't have an account? <a href="{{ route('register') }}"
+                                class="text-green-600 hover:underline">Register</a>
                         </p>
                     </form>
 

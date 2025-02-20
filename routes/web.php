@@ -34,6 +34,7 @@ Route::get('/admin', [AuthController::class, 'admin'])->name('admin');
 Route::get('/manage/content', [AuthController::class, 'content'])->name('content');
 Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
 Route::get('/products', [ProductController::class, 'products'])->name('products');
+Route::get('/cart', [ProductController::class, 'showCarts'])->name('cart.display');
 Route::get('/modifyproducts', [ProductController::class, 'modifyproducts'])->name('modifyproducts');
 Route::post('/products/import', [ProductController::class, 'import'])->name('products.import');
 

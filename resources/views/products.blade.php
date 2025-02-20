@@ -60,7 +60,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/">
+                        <a href="/cart">
                             <button class="text-black hover:text-green-400"><i class="fas fa-cart-shopping"></i>
                                 Cart</button>
                         </a>

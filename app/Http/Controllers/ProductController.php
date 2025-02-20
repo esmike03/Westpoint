@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Imports\ProductsImport;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
 
@@ -71,6 +73,22 @@ class ProductController extends Controller
         $products = $query->get();
 
         return view('products', compact('products', 'categories', 'brands'));
+    }
+
+    public function showCarts(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect('/login')->with('message', 'Please Login to view carts!');
+        }
+
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Fetch only cart items belonging to the logged-in user
+        $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
+
+
+        return view('cart', compact('cartItems'));
     }
 
     public function modifyproducts(Request $request)
