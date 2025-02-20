@@ -86,6 +86,9 @@
                                 <div x-show="open" @click.away="open = false"
                                     class="absolute top-full mt-2 ml-10 bg-white border rounded-lg shadow-lg p-2 w-32">
                                     <button class="text-black hover:text-green-500 w-full text-left px-2 py-1">
+                                        <i class="fas fa-layer-group"></i> Orders
+                                    </button>
+                                    <button class="text-black hover:text-green-500 w-full text-left px-2 py-1">
                                         <i class="fas fa-user"></i> Profile
                                     </button>
                                     <form action="{{ route('userlogout') }}" method="POST">

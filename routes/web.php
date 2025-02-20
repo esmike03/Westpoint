@@ -119,3 +119,5 @@ Route::delete('/gallery/{id}', [SettingsController::class, 'gallerydestroy'])->n
 
 //User add to cart
 Route::post('/cart/store', [CartController::class, 'store'])->name('cart.store');
+//update cart item quantity
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');

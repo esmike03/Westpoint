@@ -60,7 +60,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/">
+                        <a href="/cart">
                             <button class="text-black hover:text-green-400"><i class="fas fa-cart-shopping"></i>
                                 <span class="border-b-2 border-green-500">Cart</span></button>
                         </a>
@@ -85,6 +85,9 @@
                                 <!-- Logout Button (Hidden by Default, Shows When Name is Clicked) -->
                                 <div x-show="open" @click.away="open = false"
                                     class="absolute top-full mt-2 ml-10 bg-white border rounded-lg shadow-lg p-2 w-32">
+                                    <button class="text-black hover:text-green-500 w-full text-left px-2 py-1">
+                                        <i class="fas fa-layer-group"></i> Orders
+                                    </button>
                                     <button class="text-black hover:text-green-500 w-full text-left px-2 py-1">
                                         <i class="fas fa-user"></i> Profile
                                     </button>
@@ -163,8 +166,10 @@
 
                                     <label for="counter-input" class="sr-only">Choose quantity:</label>
                                     <div class="flex items-center justify-between md:order-3 md:justify-end">
-                                        <div class="flex items-center">
+                                        <div class="flex items-center" x-data="{ quantity: {{ $item->quantity }} }">
+                                            <!-- Decrease Button -->
                                             <button type="button"
+                                                @click="updateQuantity({{ $item->id }}, quantity - 1)"
                                                 class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100">
                                                 <svg class="h-2.5 w-2.5 text-gray-900" aria-hidden="true"
                                                     xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -173,10 +178,15 @@
                                                         stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
                                                 </svg>
                                             </button>
-                                            <input type="text" value="{{ $item->quantity }}"
+
+                                            <!-- Quantity Input -->
+                                            <input type="text" x-model="quantity"
                                                 class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0"
                                                 readonly />
+
+                                            <!-- Increase Button -->
                                             <button type="button"
+                                                @click="updateQuantity({{ $item->id }}, quantity + 1)"
                                                 class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100">
                                                 <svg class="h-2.5 w-2.5 text-gray-900" aria-hidden="true"
                                                     xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -194,7 +204,9 @@
 
                                     <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
                                         <a href="#" class="text-base font-medium text-gray-900 hover:underline">
-                                            {{ $item->product->name }} | <span class="text-gray-500 text-sm font-medium">{{ $item->product->price}} php</span>
+                                            {{ $item->product->name }} | <span
+                                                class="text-gray-500 text-sm font-medium">{{ $item->product->price }}
+                                                php</span>
                                         </a>
 
                                         <div class="flex items-center gap-4">
@@ -259,7 +271,9 @@
 
                             <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
                                 <dt class="text-base font-bold text-gray-900">Total</dt>
-                                <dd class="text-base font-bold text-gray-900">$8,191.00</dd>
+                                <dd class="text-base font-bold text-gray-900">
+                                    ₱{{ number_format($cartItems->sum(fn($item) => $item->product->price * $item->quantity), 2) }}
+                                </dd>
                             </dl>
                         </div>
 
@@ -290,6 +304,31 @@
 
 
     <script>
+        function updateQuantity(cartId, newQuantity) {
+            if (newQuantity < 1) return; // Prevents negative or zero quantities
+
+            fetch("{{ route('cart.update') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        cart_id: cartId,
+                        quantity: newQuantity
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload(); // Reload the page to reflect updates
+                    } else {
+                        alert("Failed to update quantity.");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+        }
+
         function showProductModal(product) {
             Alpine.store('selectedProduct', product);
             Alpine.store('showModal', true);

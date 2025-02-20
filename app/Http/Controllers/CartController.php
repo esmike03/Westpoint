@@ -28,4 +28,23 @@ class CartController extends Controller
 
         return response()->json(['message' => 'Added to cart successfully!']);
     }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'cart_id' => 'required|exists:carts,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $cart = Cart::where('id', $request->cart_id)->where('user_id', auth()->id())->first();
+
+        if (!$cart) {
+            return response()->json(['success' => false, 'message' => 'Cart item not found']);
+        }
+
+        $cart->quantity = $request->quantity;
+        $cart->save();
+
+        return response()->json(['success' => true, 'message' => 'Quantity updated']);
+    }
 }
