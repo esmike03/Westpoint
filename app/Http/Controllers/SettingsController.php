@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Unit;
 use App\Models\Adone;
+use App\Models\Adtwo;
 use App\Models\Brand;
 use App\Models\Member;
 use App\Models\Categories;
@@ -124,38 +125,38 @@ class SettingsController extends Controller
 
 
     public function poststore(Request $request)
-{
-    $request->validate([
-        'desc' => 'required|string|max:255',
-        'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-    ]);
+    {
+        $request->validate([
+            'desc' => 'nullable|string|max:255',
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
 
-    if ($request->hasFile('image')) {
-        $upload = $request->file('image');
-        $image = Image::read($upload)->resize(1920, 1080); // Resize the image to desired dimensions
+        if ($request->hasFile('image')) {
+            $upload = $request->file('image');
+            $image = Image::read($upload)->resize(1920, 1080); // Resize the image to desired dimensions
 
-        // Generate a unique filename
-        $filename = Str::random(40) . '.' . $upload->getClientOriginalExtension();
+            // Generate a unique filename
+            $filename = Str::random(40) . '.' . $upload->getClientOriginalExtension();
 
-        // Define the storage path for the image
-        $path = 'post/' . $filename;
+            // Define the storage path for the image
+            $path = 'post/' . $filename;
 
-        // Store the image in the storage directory (using the default disk)
-        Storage::disk('public')->put($path, (string) $image->encode());
+            // Store the image in the storage directory (using the default disk)
+            Storage::disk('public')->put($path, (string) $image->encode());
 
-        // Store the path in the database
-        $imagePath = '' . $path; // Make sure it’s relative to the 'public' disk path
-    } else {
-        $imagePath = null; // Or a default image path if you have one
+            // Store the path in the database
+            $imagePath = '' . $path; // Make sure it’s relative to the 'public' disk path
+        } else {
+            $imagePath = null; // Or a default image path if you have one
+        }
+
+        Adone::create([
+            'desc' => $request->desc,
+            'image' => $imagePath, // Store the image path
+        ]);
+
+        return redirect()->back()->with('post', 'Posted successfully!');
     }
-
-    Adone::create([
-        'desc' => $request->desc,
-        'image' => $imagePath, // Store the image path
-    ]);
-
-    return redirect()->back()->with('post', 'Posted successfully!');
-}
 
 
 
@@ -167,12 +168,55 @@ class SettingsController extends Controller
         return redirect()->back()->with('posterror', 'Post deleted successfully!');
     }
 
-    public function showChangePasswordForm(){
+    public function showChangePasswordForm()
+    {
         if (!auth()->guard('admin')->check()) {
             // Redirect to the login page if not authenticated
             return redirect('/admin/login')->with('message', 'Unauthorized access detected!');
         }
 
         return view('adminchange');
+    }
+
+    public function gallerystore(Request $request)
+    {
+        $request->validate([
+            'desc' => 'string|max:255|nullable',
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $upload = $request->file('image');
+            $image = Image::read($upload)->resize(1920, 1080); // Resize the image to desired dimensions
+
+            // Generate a unique filename
+            $filename = Str::random(40) . '.' . $upload->getClientOriginalExtension();
+
+            // Define the storage path for the image
+            $path = 'post/' . $filename;
+
+            // Store the image in the storage directory (using the default disk)
+            Storage::disk('public')->put($path, (string) $image->encode());
+
+            // Store the path in the database
+            $imagePath = '' . $path; // Make sure it’s relative to the 'public' disk path
+        } else {
+            $imagePath = null; // Or a default image path if you have one
+        }
+
+        Adtwo::create([
+            'desc' => $request->desc,
+            'image' => $imagePath, // Store the image path
+        ]);
+
+        return redirect()->back()->with('gallery', 'Posted successfully!');
+    }
+
+    public function gallerydestroy($id)
+    {
+        $adtwo = Adtwo::findOrFail($id);
+        $adtwo->delete();
+
+        return redirect()->back()->with('galleryerror', 'Gallery deleted successfully!');
     }
 }

@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="icon" type="image/png" href="{{ asset('IMAGES/logowestpoint.png') }}">
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
@@ -53,7 +54,7 @@
 
                     </li>
                     <li>
-                        <a href="/business">
+                        <a href="/aboutus">
                             <button class="text-black hover:text-green-400"><i class="fas fa-question-circle"></i>
                                 About us</button>
                         </a>
@@ -66,16 +67,20 @@
                     </li>
                     <li>
                         @auth
-                            <div x-data="{ open: false }" class="relative flex  my-auto gap-3 items-center">
-                                <!-- Profile Image -->
-                                <img @click="open = !open" src="{{ asset('IMAGES/profile.jpg') }}"
-                                    class="h-10 w-10 rounded-full border-green-500 border" />
+                            <div x-data="{ open: false }" class="relative flex  my-auto gap-2 items-center">
+                                <div
+                                    class="relative flex  my-auto gap-2 items-center bg-green-500 p-1 rounded-full hover:scale-105">
+                                    <img @click="open = !open" src="{{ asset('IMAGES/profile.jpg') }}"
+                                        class="h-8 w-8 rounded-full border-green-500 border" />
 
-                                <!-- User Name (Click to Toggle Logout Button) -->
-                                <span @click="open = !open"
-                                    class="text-black font-medium cursor-pointer hover:text-green-400">
-                                    {{ Auth::user()->firstname }}
-                                </span>
+                                    <!-- User Name (Click to Toggle Logout Button) -->
+                                    <span @click="open = !open"
+                                        class="text-white font-normal text-sm cursor-pointer hover:text-green-200 pr-2">
+                                        {{ Auth::user()->firstname }}
+                                    </span>
+                                </div>
+                                <!-- Profile Image -->
+
 
                                 <!-- Logout Button (Hidden by Default, Shows When Name is Clicked) -->
                                 <div x-show="open" @click.away="open = false"
@@ -193,7 +198,30 @@
         </div>
 
         <!-- Product Modal -->
-        <div x-show="showModal"
+        <div x-show="showModal" x-data="{
+            addToCart(product, quantity) {
+                axios.post('{{ route('cart.store') }}', {
+                        product_id: product.id,
+                        quantity: quantity
+                    })
+                    .then(response => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Added to Cart!',
+                            text: response.data.message,
+                            timer: 2000, // Auto-close after 2 seconds
+                            showConfirmButton: false
+                        });
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error.response?.data?.message || 'Something went wrong!',
+                        });
+                    });
+            }
+        }"
             class="fixed inset-0 flex items-center justify-center bg-black backdrop-blur-sm bg-opacity-50 p-4"
             x-transition>
             <div class="bg-white rounded-lg shadow-lg w-full max-w-xl p-8 relative flex gap-6"
@@ -212,7 +240,7 @@
                     </div>
                     <!-- Product Image (Left Side) -->
                     <p class="absolute mt-2 ml-1 p-1 rounded-sm text-xs text-gray-50 bg-green-400 shadow-md"
-                    x-text="'Stocks: '+ selectedProduct.stocks"></p>
+                        x-text="'Stocks: '+ selectedProduct.stocks"></p>
                     <!-- Product Details (Right Side) -->
                     <div class="flex flex-col flex-1 ">
 
@@ -223,7 +251,7 @@
                             <p x-text="selectedProduct.category "
                                 class="  text-gray-500 m-auto border rounded-sm px-1 border-gray-500"></p>
                         </div>
-                        <p class="text-gray-700 text-xs mt-2 mb-6 text-justify" x-text="selectedProduct.details" ></p>
+                        <p class="text-gray-700 text-xs mt-2 mb-6 text-justify" x-text="selectedProduct.details"></p>
 
                         <!-- Price & Add to Cart Button -->
                         <div class=" flex items-end justify-between h-full content-end">
@@ -231,14 +259,29 @@
                                 <span class="text-gray-500 text-sm font-normal" x-text="selectedProduct.unit"></span>
                             </p>
                             <div class="flex gap-2">
-                                <input type="number" name="count" id="count"
-                                    class="shadow-sm bg-gray-50 border w-16 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 p-2.5"
-                                    placeholder="" value="1" min="1" x-bind:max="selectedProduct.stocks"
-                                    required>
-                                <button
-                                    class="bg-green-500 text-white text-xs px-3 py-1 rounded-md hover:bg-green-600 flex items-center gap-2">
-                                    <i class="fa fa-cart-shopping"></i>
-                                </button>
+                                @auth
+                                    <input type="number" name="count" id="count" x-ref="count"
+                                        class="shadow-sm bg-gray-50 border w-16 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 p-2.5"
+                                        placeholder="" value="1" min="1" x-bind:max="selectedProduct.stocks"
+                                        required>
+                                @else
+                                    <input type="number" name="count" id="count" x-ref="count" disabled
+                                        class="shadow-sm bg-gray-300 border w-16 border-gray-300 text-gray-400 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 p-2.5"
+                                        placeholder="" value="1" min="1" x-bind:max="selectedProduct.stocks"
+                                        required>
+                                @endauth
+
+                                @auth
+                                    <button @click="addToCart(selectedProduct, parseInt($refs.count?.value || 1))"
+                                        class="bg-green-500 text-white text-xs px-3 py-1 rounded-md hover:bg-green-600 flex items-center gap-2">
+                                        <i class="fa fa-cart-shopping"></i>
+                                    </button>
+                                @else
+                                    <button onclick="window.location.href='{{ route('user.login') }}'"
+                                        class="bg-green-500 text-white text-xs px-3 py-1 rounded-md hover:bg-green-600 flex items-center gap-2">
+                                        <i class="fa fa-cart-shopping"></i>
+                                    </button>
+                                @endauth
                             </div>
 
                         </div>

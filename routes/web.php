@@ -2,6 +2,7 @@
 
 use App\Models\Unit;
 use App\Models\Adone;
+use App\Models\Adtwo;
 use App\Models\Brand;
 use App\Models\Member;
 use App\Models\Product;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingsController;
 
@@ -19,7 +21,7 @@ Route::post('/auth/admin-logout', function () {
     return redirect('/admin/login'); // Redirect to login after logout
 })->name('admin.logout');
 
-Route::get('/login', [AuthController::class, 'showLogin']);
+Route::get('/login', [AuthController::class, 'showLogin'])->name('user.login');
 Route::post('/admin/auth', [AuthController::class, 'adminauth']);
 
 Route::get('/', function () {
@@ -36,10 +38,12 @@ Route::get('/modifyproducts', [ProductController::class, 'modifyproducts'])->nam
 Route::post('/products/import', [ProductController::class, 'import'])->name('products.import');
 
 
-Route::get('/business', function () {
+Route::get('/aboutus', function () {
+    $adone = Adone::all();
+    $adtwo = Adtwo::all();
     $members = Member::all();
-    return view('business', compact('members'));
-})->name('business');
+    return view('business', compact('members', 'adone', 'adtwo'));
+})->name('aboutus');
 
 Route::get('/addproducts', function () {
     if (!auth()->guard('admin')->check()) {
@@ -93,7 +97,7 @@ Route::post('/member/store', [SettingsController::class, 'memberstore'])->name('
 Route::delete('/member/{id}', [SettingsController::class, 'memberdestroy'])->name('member.destroy');
 Route::post('/post/store', [SettingsController::class, 'poststore'])->name('post.store');
 Route::delete('/post/{id}', [SettingsController::class, 'postdestroy'])->name('post.destroy');
-
+Route::post('/gallery/store', [SettingsController::class, 'gallerystore'])->name('post2.store');
 //User Login
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 //User logout
@@ -110,3 +114,7 @@ Route::post('/auth/register', [AuthController::class, 'register'])->name('regist
 //Admin change password
 Route::get('/admin/changepassword', [SettingsController::class, 'showChangePasswordForm'])->name('admin.change-password');
 Route::post('/admin/change-password', [AuthController::class, 'adminupdatePassword'])->name('admin.update-password');
+Route::delete('/gallery/{id}', [SettingsController::class, 'gallerydestroy'])->name('gallery.destroy');
+
+//User add to cart
+Route::post('/cart/store', [CartController::class, 'store'])->name('cart.store');

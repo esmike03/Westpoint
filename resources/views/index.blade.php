@@ -72,7 +72,7 @@
 
                     </li>
                     <li>
-                        <a href="/business">
+                        <a href="/aboutus">
                             <button class="text-black hover:text-green-400"><i class="fas fa-question-circle"></i>
                                 About us</button>
                         </a>
@@ -86,15 +86,16 @@
                     <li>
                         @auth
                             <div x-data="{ open: false }" class="relative flex  my-auto gap-3 items-center">
-                                <!-- Profile Image -->
-                                <img @click="open = !open" src="{{ asset('IMAGES/profile.jpg') }}"
-                                    class="h-10 w-10 rounded-full border-green-500 border" />
+                                <div class="relative flex  my-auto gap-2 items-center bg-green-500 p-1 rounded-full hover:scale-105">
+                                    <img @click="open = !open" src="{{ asset('IMAGES/profile.jpg') }}"
+                                        class="h-8 w-8 rounded-full border-green-500 border" />
 
-                                <!-- User Name (Click to Toggle Logout Button) -->
-                                <span @click="open = !open"
-                                    class="text-black font-medium cursor-pointer hover:text-green-400">
-                                    {{ Auth::user()->firstname }}
-                                </span>
+                                    <!-- User Name (Click to Toggle Logout Button) -->
+                                    <span @click="open = !open"
+                                        class="text-white font-normal text-sm cursor-pointer hover:text-green-200 pr-2">
+                                        {{ Auth::user()->firstname }}
+                                    </span>
+                                </div>
 
                                 <!-- Logout Button (Hidden by Default, Shows When Name is Clicked) -->
                                 <div x-show="open" @click.away="open = false"
@@ -165,7 +166,11 @@
 
     </section>
     <section id="quality"
-        class="px-6 sm:px-12  md:px-20 lg:px-28 py-12 sm:py-32 md:py-36 opacity-0 translate-y-20 transition-all duration-1000">
+        class="px-6 sm:px-12  md:px-20 lg:px-28 py-12 sm:py-12 md:py-12 opacity-0 translate-y-20 transition-all duration-1000">
+        <div id="quality"
+        class=" flex justify-center italic text-3xl font-bold mb-8 text-gray-800 text-center opacity-0 translate-y-20 transition-all duration-1000">
+        Wespoint Pharma Inc.
+    </div>
         <div class="relative w-full h-fit sm:h-fit md:h-fit overflow-hidden rounded-lg shadow-lg ">
 
 
@@ -203,7 +208,7 @@
                 <div class="flex space-x-4 overflow-x-auto scrollbar-hide scroll-smooth" id="slider">
                     @forelse ($products as $product)
                         <div class="min-w-[200px] p-4">
-                            <div
+                            <div onclick="window.location.href='{{ route('products') }}'"
                                 class="px-4 py-4 transform transition-all duration-500 hover:scale-110 h-48 bg-white rounded-lg shadow-md">
                                 <div class="flex justify-center">
                                     <div class="w-32 h-28 p-2 flex items-center justify-center">
@@ -238,16 +243,16 @@
     </section>
     <section>
         <div id="quality"
-            class="opacity-0 translate-y-20 transition-all mt-14 duration-1000 mb-12 w-full mx-auto max-w-7xl p-4 bg-white rounded-md">
+            class="opacity-0 translate-y-20 transition-all mt-14 duration-1000 mb-4 w-full mx-auto max-w-7xl p-6 bg-white rounded-md">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
                 <!-- Left Column (Image) -->
                 <div class="overflow-hidden rounded-lg">
-                    <img id="slideshow" class="w-full h-96 fade show" alt="Slideshow Image">
+                    <img id="slideshow" class="w-full sm:h-96 h-72 fade show" alt="Slideshow Image">
                 </div>
                 <!-- Right Column (Description) -->
                 <div class="flex flex-col justify-center">
                     <h2 class="text-3xl font-bold text-gray-800 mb-4">Placeholder</h2>
-                    <p class="text-lg text-gray-700 mb-4">
+                    <p class="text-lg text-gray-700 mb-4 text-justify">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed
                         cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis
                         ipsum. Praesent mauris.

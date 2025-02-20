@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Adone;
+use App\Models\Adtwo;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,8 @@ class AuthController extends Controller
 
         $members = Member::latest()->paginate(2);
         $adone = Adone::latest()->paginate(2);
-        return view('content', compact('members', 'adone'));
+        $adtwo = Adtwo::latest()->paginate(2);
+        return view('content', compact('members', 'adone', 'adtwo'));
     }
 
     public function showLogin()

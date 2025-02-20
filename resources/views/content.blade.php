@@ -210,7 +210,7 @@
                             <div class=" ">
                                 <label for="desc"
                                     class="block text-sm font-medium text-gray-700">Description</label>
-                                <input type="text" id="desc" name="desc" required
+                                <input type="text" id="desc" name="desc"
                                     class=" p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             </div>
                             <div>
@@ -265,7 +265,96 @@
 
                         </table>
                         <div class="mt-4 text-xs">
-                            {{ $members->links() }} <!-- Pagination links -->
+                            {{ $adone->links() }} <!-- Pagination links -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-4 rounded-lg shadow relative m-10">
+                    <div class="flex items-start justify-between p-5 border-b rounded-t">
+                        <h3 class="text-xl font-semibold">
+                            Gallery
+                        </h3>
+                    </div>
+                    @if (session('galleryerror'))
+                        <div class="p-4 m-1 text-sm text-red-700 bg-red-100 rounded-lg">
+                            {{ session('galleryerror') }}
+                        </div>
+                    @endif
+                    @if (session('gallery'))
+                        <div class="p-4 m-1 text-sm text-green-700 bg-green-100 rounded-lg">
+                            {{ session('gallery') }}
+                        </div>
+                    @endif
+                    <div class="p-6 space-y-6 ">
+                        <form action="{{ route('post2.store') }}" method="POST" class="grid grid-cols-2 gap-4"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class=" ">
+                                <label for="image" class="block text-sm font-medium text-gray-700">Image <span
+                                        class="text-blue-500">*1920x1080</span></label>
+                                <input type="file" id="image" name="image" required
+                                    class=" p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div class=" ">
+                                <label for="desc" class="block text-sm font-medium text-gray-700">Description</label>
+                                <input type="text" id="desc" name="desc"
+                                    class=" p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+
+                            </div>
+                            <div class="w-full h-full justify-center items-center object-center flex mt-2.5">
+                                <button type="submit"
+                                    class="px-4 py-2 w-full bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                                    Add
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="px-6 py-2">
+                        <h3 class="text-lg font-semibold">Gallery List</h3>
+                        <table class="w-full text-xs border-collapse border border-gray-300 mt-2">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="border border-gray-300 px-4 py-2 ">Image</th>
+                                    <th class="border border-gray-300 px-4 py-2">Description</th>
+                                    <th class="border border-gray-300 px-4 py-2">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-xs">
+                                @foreach ($adtwo as $key => $adtwos)
+                                    <tr>
+                                        <td class="border border-gray-300 px-4 py-2">
+                                            <a
+                                                href="{{ isset($adtwos->image) && !empty($adtwos->image) ? asset('storage/' . $adtwos->image) : asset('IMAGES/logowestpoint.png') }}">
+                                                <img class="h-10 mx-auto"
+                                                    src="{{ isset($adtwos->image) && !empty($adtwos->image) ? asset('storage/' . $adtwos->image) : asset('IMAGES/logowestpoint.png') }}"
+                                                    alt="Product Image" />
+                                            </a>
+
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-2">{{ $adtwos->desc }}</td>
+                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                            <form action="{{ route('gallery.destroy', $adtwos->id) }}" method="POST"
+                                                onsubmit="return confirm('Are you sure you want to delete this member?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+
+                        </table>
+                        <div class="mt-4 text-xs">
+                            {{ $adtwo->links() }} <!-- Pagination links -->
                         </div>
                     </div>
                 </div>
