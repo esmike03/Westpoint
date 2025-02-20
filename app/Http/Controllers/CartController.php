@@ -47,4 +47,23 @@ class CartController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Quantity updated']);
     }
+
+    public function remove(Request $request)
+    {
+        $request->validate([
+            'cart_id' => 'required|exists:carts,id',
+        ]);
+
+        $cart = Cart::where('id', $request->cart_id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if (!$cart) {
+            return response()->json(['success' => false, 'message' => 'Item not found']);
+        }
+
+        $cart->delete();
+
+        return response()->json(['success' => true, 'message' => 'Item removed from cart']);
+    }
 }

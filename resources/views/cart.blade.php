@@ -210,7 +210,7 @@
                                         </a>
 
                                         <div class="flex items-center gap-4">
-                                            <form action="" method="POST">
+                                            <form @submit.prevent="removeItem({{ $item->id }})">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
@@ -304,6 +304,48 @@
 
 
     <script>
+        function removeItem(cartId) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to recover this item!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes, remove it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch("{{ route('cart.remove') }}", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({
+                                cart_id: cartId
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "The item has been removed from your cart.",
+                                    icon: "success",
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                }).then(() => {
+                                    location.reload(); // Refresh the page
+                                });
+                            } else {
+                                Swal.fire("Error", "Failed to remove item.", "error");
+                            }
+                        })
+                        .catch(error => console.error("Error:", error));
+                }
+            });
+        }
+
         function updateQuantity(cartId, newQuantity) {
             if (newQuantity < 1) return; // Prevents negative or zero quantities
 
