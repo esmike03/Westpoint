@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProductController;
@@ -142,3 +143,5 @@ Route::post('/cart/submit', [OrderController::class, 'submitOrder'])->name('cart
 Route::get('/admin/orders', [OrderController::class, 'adminOrder'])->name('admin.orders');
 
 Route::get('/my-orders', [OrderController::class, 'userOrders'])->name('user.orders')->middleware('auth');
+Route::post('/update-phone', [UserController::class, 'updatePhone'])->name('update.phone');
+Route::post('/update-address', [UserController::class, 'updateAddress'])->name('update.address');

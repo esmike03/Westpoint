@@ -221,7 +221,10 @@
                             title: 'Added to Cart!',
                             text: response.data.message,
                             timer: 2000, // Auto-close after 2 seconds
-                            showConfirmButton: false
+                            showConfirmButton: false,
+
+                        }).then(() => {
+                            showModal = false;
                         });
                     })
                     .catch(error => {
@@ -284,8 +287,8 @@
 
                                 @auth
                                     <button @click="addToCart(selectedProduct, parseInt($refs.count?.value || 1))"
-                                        class="bg-green-500 text-white text-xs px-3 py-1 rounded-md hover:bg-green-600 flex items-center gap-2">
-                                        <i class="fa fa-cart-shopping"></i> Add to Cart
+                                        class="bg-green-500 text-white text-xs px-3 py-1 rounded-md hover:bg-green-600 flex items-center gap-2" >
+                                        <i class="fa fa-cart-shopping" ></i> Add to Cart
                                     </button>
                                 @else
                                     <button onclick="window.location.href='{{ route('user.login') }}'"

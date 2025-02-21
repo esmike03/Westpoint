@@ -96,50 +96,53 @@
             </div>
         </header>
 
-        <section class="pt-24">
+        <section class="pt-24 text-xs">
             <div class="max-w-7xl mx-auto">
-                <h2 class="text-2xl font-semibold text-gray-900 mb-4">Order List</h2>
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Order List</h2>
 
-                <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-                    <table class="min-w-full border border-gray-200">
-                        <thead class="bg-gray-100">
-                            <tr>
-                                <th class="px-4 py-2 border">Customer</th>
-                                <th class="px-4 py-2 border">Product</th>
-                                <th class="px-4 py-2 border">Quantity</th>
-                                <th class="px-4 py-2 border">Status</th>
-                                <th class="px-4 py-2 border">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($orders as $user_id => $userOrders)
-                                <tr class="bg-gray-200">
-                                    <td class="px-4 py-2 font-bold" colspan="6">{{ $userOrders->first()->user->firstname }} {{$userOrders->first()->user->lastname}}</td>
-                                </tr>
-                                @foreach ($userOrders as $order)
-                                <tr class="border">
-                                    <td class="px-4 py-2"></td> {{-- Empty for better alignment --}}
-                                    <td class="px-4 py-2">{{ $order->product->name }}</td>
-                                    <td class="px-4 py-2">{{ $order->quantity }}</td>
-                                    <td class="px-4 py-2">
-                                        <span class="px-2 py-1 rounded text-white
-                                            {{ $order->status == 'pending' ? 'bg-yellow-500' : 'bg-green-500' }}">
-                                            {{ ucfirst($order->status) }}
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-2 text-center">
-                                        <button onclick="updateStatus({{ $order->id }})"
-                                            class="px-3 py-1 bg-blue-500 text-white rounded">
-                                            Mark as Completed
-                                        </button>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            @endforeach
-                        </tbody>
-                    </table>
+                <div x-data="{ search: '', statusFilter: '', openCustomer: null }" class="bg-white shadow-lg rounded-lg p-4">
+                    <!-- Search & Filter Controls -->
+                    <div class="flex justify-between items-center mb-4">
+                        <input type="text" x-model="search" placeholder="Search by customer or product..." class="border p-2 rounded-lg w-1/3 focus:ring focus:ring-green-300">
+                        <select x-model="statusFilter" class="border p-2 rounded-lg">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-4">
+                        @foreach ($orders as $user_id => $userOrders)
+                            <div class="border rounded-lg overflow-hidden">
+                                <button @click="openCustomer === {{ $user_id }} ? openCustomer = null : openCustomer = {{ $user_id }}" class="w-full bg-gray-200 px-4 py-2 text-left font-semibold flex justify-between items-center">
+                                    <span>{{ $userOrders->first()->user->firstname }} {{ $userOrders->first()->user->lastname }}</span>
+                                    <span x-show="openCustomer === {{ $user_id }}">&#9650;</span>
+                                    <span x-show="openCustomer !== {{ $user_id }}">&#9660;</span>
+                                </button>
+                                <div x-show="openCustomer === {{ $user_id }}" x-collapse class="p-4 space-y-4">
+                                    @foreach ($userOrders as $order)
+                                        <div class=" shadow rounded-lg flex justify-between bg-white p-1 px-2" x-show="
+                                            ('{{ strtolower($order->user->firstname . ' ' . $order->user->lastname) }}'.includes(search.toLowerCase()) ||
+                                            '{{ strtolower($order->product->name) }}'.includes(search.toLowerCase())) &&
+                                            (statusFilter === '' || statusFilter === '{{ strtolower($order->status) }}')">
+                                            <h3 class="font-semibold text-gray-900">{{ $order->product->name }}</h3>
+                                            <p class="text-gray-700">Quantity: {{ $order->quantity }}</p>
+                                            <p class="text-gray-700">Status: <span class="px-2 rounded-lg text-white text-sm font-semibold {{ $order->status == 'pending' ? 'bg-yellow-500' : 'bg-green-500' }}">
+                                                {{ ucfirst($order->status) }}
+                                            </span></p>
+                                            <button onclick="updateStatus({{ $order->id }})" class=" px-4  bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition duration-200">
+                                                Mark as Completed
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
+
+
         </section>
     </main>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Adone;
 use App\Models\Adtwo;
+use App\Models\Order;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,13 @@ class AuthController extends Controller
             // Redirect to the login page if not authenticated
             return redirect('/admin/login')->with('message', 'Please log in to access this page.');
         }
-        return view('admin');
+
+        $users = User::all();
+
+        // Count distinct customers who placed orders
+        $customerCount = Order::distinct('user_id')->count('user_id');
+        $userCount = User::count();
+        return view('admin', compact('customerCount', 'userCount'));
     }
 
     public function content()
@@ -52,7 +59,9 @@ class AuthController extends Controller
         ]);
 
         if (Auth::guard('admin')->attempt(['name' => $request->name, 'password' => $request->password], $request->remember)) {
-            return view('admin'); // Redirect to admin dashboard
+            $customerCount = Order::distinct('user_id')->count('user_id');
+            $userCount = User::count();
+            return view('admin', compact('customerCount', 'userCount')); // Redirect to admin dashboard
         }
 
         return back()->withErrors(['email' => 'Invalid credentials'])->withInput();

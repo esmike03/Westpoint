@@ -49,7 +49,7 @@
                     <li>
                         <a href="/products">
                             <button class="text-black hover:text-green-400"><i class="fas fa-prescription-bottle"></i>
-                                <span class="border-b-2 border-green-500">Products</span></button>
+                                <span class="">Products</span></button>
                         </a>
 
                     </li>
@@ -117,43 +117,57 @@
     <!-- Filter Form -->
 
     <section id="Projects" class="mt-28 container mx-auto px-4 sm:px-6 lg:px-8 mb-5" x-data="{ showModal: false, selectedProduct: {} }">
-        <div class="max-w-7xl mx-auto mt-10">
-            <h2 class="text-2xl font-semibold text-gray-900 mb-4">My Orders</h2>
+        <div class="max-w-4xl mx-auto mt-10 px-4">
+            <h2 class="text-3xl font-semibold text-gray-900 mb-6">My Orders</h2>
 
-            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-                <table class="min-w-full border border-gray-200">
-                    <thead class="bg-gray-100">
-                        <tr class="text-left">
-                            <th class="px-4 py-2 border">Product</th>
-                            <th class="px-4 py-2 border">Quantity</th>
-                            <th class="px-4 py-2 border">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($orders as $order_id => $orderItems)
+            @if ($orders->isEmpty())
+                <p class="text-center text-gray-500 text-lg">You have no orders yet.</p>
+            @else
+                <div class="bg-white shadow-md rounded-xl p-3">
+                    <ul class="divide-y ">
+                        @foreach ($orders as $order_id => $orderItems)
+                            <div class="rounded-lg border-b border-gray-200 p-2 md:p-8">
+                                <ul class=" divide-y ">
+                                    @foreach ($orderItems as $order)
+                                        <li class="flex items-center justify-between py-2 bg-green-500 text-white p-2 rounded-lg mb-2 shadow-lg">
+                                            <div class="flex items-center">
+                                                <img src="{{ asset('storage/' . $order->product->image) }}" alt="{{ $order->product->name }}" class="w-10 h-10 object-cover rounded-md">
+                                                <span class="text-sm ml-4">{{ $order->product->name }}</span>
+                                            </div>
+                                            <div class="flex items-center space-x-4">
+                                                <span class=" font-medium text-sm">x{{ $order->quantity }}</span>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                                <div class="flex flex-wrap items-center gap-y-4  pb-4 md:pb-5">
+                                    <dl class="w-1/2 sm:w-48">
+                                        <dt class="text-base font-medium text-gray-500">Date:</dt>
+                                        <dd class="mt-1.5 text-base font-semibold text-gray-900">{{ $orderItems[0]->created_at->format('d.m.Y') }}</dd>
+                                    </dl>
+                                    <dl class="w-1/2 sm:w-1/4 md:flex-1 lg:w-auto">
+                                        <dt class="text-base font-medium text-gray-500">Total Items:</dt>
+                                        <dd class="mt-1.5 text-base font-semibold text-gray-900">{{ count($orderItems) }}</dd>
+                                    </dl>
+                                    <dl class="w-1/2 sm:w-1/4 md:flex-1 lg:w-auto">
+                                        <dt class="text-base font-medium text-gray-500">Status:</dt>
+                                        <dd class="mt-1.5 inline-flex items-center px-2.5 py-0.5 rounded bg-yellow-100 text-yellow-800 text-xs font-medium">
+                                            <svg class="me-1 h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"></path>
+                                            </svg>
+                                            {{ ucfirst($orderItems[0]->status) }}
+                                        </dd>
+                                    </dl>
+                                </div>
 
-                            @foreach ($orderItems as $order)
-                                <tr class="border">
-                                    <td class="px-4 py-2">{{ $order->product->name }}</td>
-                                    <td class="px-4 py-2">{{ $order->quantity }}</td>
-                                    <td class="px-4 py-2">
-                                        <span
-                                            class="px-2 py-1 rounded text-white
-                                        {{ $order->status == 'pending' ? 'bg-yellow-500' : 'bg-green-500' }}">
-                                            {{ ucfirst($order->status) }}
-                                        </span>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @empty
-                            <tr>
-                                <td colspan="4" class="text-center py-4 text-gray-500">You have no orders yet.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+                            </div>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </div>
+
+
 
     </section>
 

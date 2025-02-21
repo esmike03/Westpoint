@@ -98,54 +98,66 @@
 
         <section class="pt-24">
 
-            <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md" x-data="{ search: '' }">
-                <h1 class="text-2xl font-bold mb-4">User List</h1>
+            <div class="max-w-5xl mx-auto bg-white p-6 rounded-xl shadow-lg" x-data="{ search: '' }">
+                <h1 class="text-3xl font-semibold text-gray-900 mb-6">User List</h1>
 
-                {{-- Search Input --}}
-                <input type="text" x-model="search" placeholder="Search by name or email..."
-                       class="w-full p-2 border border-gray-300 rounded mb-4">
+                <!-- Search Bar -->
+                <div class="relative mb-6 flex items-center">
+                    <input type="text" x-model="search" placeholder="Search by name or email..."
+                        class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                    <svg class="absolute left-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 3a7.5 7.5 0 006.15 12.15z"/>
+                    </svg>
+                    <button @click="search = ''" class="absolute right-3 text-gray-500 hover:text-red-500 transition" x-show="search !== ''">
+                        ✕
+                    </button>
+                </div>
 
-                {{-- User Table --}}
-                <table class="w-full border-collapse border border-gray-300">
-                    <thead>
-                        <tr class="bg-gray-200">
-                            <th class="border border-gray-300 px-4 py-2">ID</th>
-                            <th class="border border-gray-300 px-4 py-2">Name</th>
-                            <th class="border border-gray-300 px-4 py-2">Phone</th>
-                            <th class="border border-gray-300 px-4 py-2">Email</th>
-                            <th class="border border-gray-300 px-4 py-2">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($users as $user)
-                            <tr class="bg-white border border-gray-300"
-                                x-show="search === '' ||
-                                        '{{ strtolower($user->firstname) }}'.includes(search.toLowerCase()) ||
-                                        '{{ strtolower($user->email) }}'.includes(search.toLowerCase()) ||
-                                        '{{ strtolower($user->lastname) }}'.includes(search.toLowerCase())">
-                                <td class="px-4 py-2">{{ $user->id }}</td>
-                                <td class="px-4 py-2">{{ $user->firstname }} {{ $user->lastname}}</td>
-                                <td class="px-4 py-2">{{ $user->phone }}</td>
-                                <td class="px-4 py-2">{{ $user->email }}</td>
-                                <td class="px-4 py-2">
-                                    {{-- <a href="{{ route('users.edit', $user->id) }}" class="text-blue-500">Edit</a>
-                                    |
-                                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-500">Delete</button>
-                                    </form> --}}
-                                </td>
+                <!-- User Table -->
+                <div class="overflow-x-auto rounded-lg shadow-sm">
+                    <table class="w-full border-collapse border border-gray-200 rounded-lg overflow-hidden">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 text-left">
+                                <th class="border border-gray-300 px-4 py-3">ID</th>
+                                <th class="border border-gray-300 px-4 py-3">Name</th>
+                                <th class="border border-gray-300 px-4 py-3">Phone</th>
+                                <th class="border border-gray-300 px-4 py-3">Email</th>
+                                <th class="border border-gray-300 px-4 py-3">Actions</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach($users as $user)
+                                <tr class="border border-gray-200 odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition"
+                                    x-show="search === '' ||
+                                            '{{ strtolower($user->firstname) }}'.includes(search.toLowerCase()) ||
+                                            '{{ strtolower($user->lastname) }}'.includes(search.toLowerCase()) ||
+                                            '{{ strtolower($user->email) }}'.includes(search.toLowerCase())">
+                                    <td class="px-4 py-3 font-medium text-gray-900">{{ $user->id }}</td>
+                                    <td class="px-4 py-3 font-medium">{{ $user->firstname }} {{ $user->lastname }}</td>
+                                    <td class="px-4 py-3 text-gray-700">{{ $user->phone }}</td>
+                                    <td class="px-4 py-3 text-gray-700">{{ $user->email }}</td>
+                                    <td class="px-4 py-3 flex space-x-2">
+                                        {{-- <a href="{{ route('users.edit', $user->id) }}" class="text-blue-600 hover:text-blue-800 transition">Edit</a>
+                                        <span class="text-gray-400">|</span>
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-500 hover:text-red-700 transition">Delete</button>
+                                        </form> --}}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
-                {{-- Empty Message --}}
+                <!-- Empty Message -->
                 @if($users->isEmpty())
-                    <p class="text-gray-500 mt-4">No users found.</p>
+                    <p class="text-gray-500 mt-6 text-center">No users found.</p>
                 @endif
             </div>
+
+
         </section>
     </main>
 

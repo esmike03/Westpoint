@@ -106,20 +106,29 @@
                     <div class="text-green-500 text-3xl my-auto mx-4">
                         <i class="fa fa-shopping-cart"></i>
                     </div>
-                    <div>
-                        <h3 class="text-lg text-gray-600">Orders</h3>
-                        <p class="text-gray-800 text-sm font-semibold">Description</p>
-                    </div>
+                    <a href="/admin/orders">
+                        <div>
+                            <h3 class="text-lg text-gray-800 font-semibold">{{ $customerCount }}</h3>
+                            <p class="text-gray-600 text-sm ">Orders</p>
+                        </div>
+                    </a>
+
                 </div>
                 <div
                     class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">
+                    <a href="/admin/users">
+
+                    </a>
                     <div class="text-green-500 text-3xl my-auto mx-4">
                         <i class="fa fa-users"></i>
                     </div>
-                    <div>
-                        <h3 class="text-lg text-gray-600">Users</h3>
-                        <p class="text-gray-800 text-sm font-semibold">Description</p>
-                    </div>
+                    <a href="/admin/users">
+                        <div>
+                            <h3 class="text-lg text-gray-800 font-semibold">{{ $userCount }}</h3>
+                            <p class="text-gray-600 text-sm ">Users</p>
+                        </div>
+                    </a>
+
                 </div>
                 <div
                     class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">
