@@ -31,8 +31,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/admin" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
+                    <a href="/admin/orders" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
                         <i class="fas fa-shopping-cart mr-2"></i>Orders
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/users" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
+                        <i class="fas fa-user mr-2"></i>Users
                     </a>
                 </li>
                 <li>
@@ -99,20 +104,20 @@
                 <div
                     class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">
                     <div class="text-green-500 text-3xl my-auto mx-4">
-                        <h1 class="text-4xl">8</h1>
+                        <i class="fa fa-shopping-cart"></i>
                     </div>
                     <div>
-                        <h3 class="text-lg text-gray-600">Content Title</h3>
+                        <h3 class="text-lg text-gray-600">Orders</h3>
                         <p class="text-gray-800 text-sm font-semibold">Description</p>
                     </div>
                 </div>
                 <div
                     class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">
                     <div class="text-green-500 text-3xl my-auto mx-4">
-                        <h1 class="text-4xl">8</h1>
+                        <i class="fa fa-users"></i>
                     </div>
                     <div>
-                        <h3 class="text-lg text-gray-600">Content Title</h3>
+                        <h3 class="text-lg text-gray-600">Users</h3>
                         <p class="text-gray-800 text-sm font-semibold">Description</p>
                     </div>
                 </div>

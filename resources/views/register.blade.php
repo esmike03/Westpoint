@@ -45,16 +45,16 @@
             <div class="w-full rounded-lg md:mt-0 sm:max-w-md xl:p-0 bg-white shadow-lg">
                 <h2 class="text-2xl font-bold  mb-4 pl-6 pt-6">REGISTER</h2>
                 @if ($errors->any())
-                        <div class="bg-red-100 mx-6 text-xs border border-red-400 text-red-700 px-4 py-3 rounded relative"
-                            role="alert">
-                            <strong class="font-bold">Whoops!</strong> Something went wrong.
-                            <ul class="mt-2 list-disc list-inside">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    <div class="bg-red-100 mx-6 text-xs border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                        role="alert">
+                        <strong class="font-bold">Whoops!</strong> Something went wrong.
+                        <ul class="mt-2 list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <form class="" action="{{ route('register.store') }}" method="POST" class="space-y-4">
                     @csrf
                     <div class="grid md:grid-cols-2 gap-3 p-6 pt-2 pb-2">
@@ -75,8 +75,11 @@
                         </div>
                         <div>
                             <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
-                            <input type="number" name="phone" id="phone" min="1" maxlength="11"
-                                class="w-full border rounded-lg p-2" required>
+                            <input type="text" name="phone" id="phone" pattern="\d{11}" maxlength="11"
+                                class="w-full border rounded-lg p-2" required
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11)"
+                                placeholder="09XXXXXXXXX">
+
                         </div>
                         <div>
                             <label for="password" class="block text-sm font-medium text-gray-700">Password</label>

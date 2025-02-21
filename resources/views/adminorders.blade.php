@@ -97,52 +97,89 @@
         </header>
 
         <section class="pt-24">
-            <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow">
-                <h2 class="text-xl font-semibold mb-4">Change Password</h2>
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-2xl font-semibold text-gray-900 mb-4">Order List</h2>
 
-                @if (session('success'))
-                    <div class="text-green-600 p-2 bg-green-100 rounded">{{ session('success') }}</div>
-                @endif
-
-                @if ($errors->any())
-                    <div class="text-red-600 p-2 bg-red-100 rounded">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+                <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+                    <table class="min-w-full border border-gray-200">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-2 border">Customer</th>
+                                <th class="px-4 py-2 border">Product</th>
+                                <th class="px-4 py-2 border">Quantity</th>
+                                <th class="px-4 py-2 border">Status</th>
+                                <th class="px-4 py-2 border">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orders as $user_id => $userOrders)
+                                <tr class="bg-gray-200">
+                                    <td class="px-4 py-2 font-bold" colspan="6">{{ $userOrders->first()->user->firstname }} {{$userOrders->first()->user->lastname}}</td>
+                                </tr>
+                                @foreach ($userOrders as $order)
+                                <tr class="border">
+                                    <td class="px-4 py-2"></td> {{-- Empty for better alignment --}}
+                                    <td class="px-4 py-2">{{ $order->product->name }}</td>
+                                    <td class="px-4 py-2">{{ $order->quantity }}</td>
+                                    <td class="px-4 py-2">
+                                        <span class="px-2 py-1 rounded text-white
+                                            {{ $order->status == 'pending' ? 'bg-yellow-500' : 'bg-green-500' }}">
+                                            {{ ucfirst($order->status) }}
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-2 text-center">
+                                        <button onclick="updateStatus({{ $order->id }})"
+                                            class="px-3 py-1 bg-blue-500 text-white rounded">
+                                            Mark as Completed
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endforeach
                             @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                <form action="{{ route('admin.update-password') }}" method="POST">
-                    @csrf
-                    <div class="mb-4">
-                        <label class="block font-medium" for="current_password">Current Password</label>
-                        <input type="password" name="current_password" required
-                            class="border w-full p-2 rounded">
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block font-medium" for="new_password">New Password</label>
-                        <input type="password" name="new_password" required minlength="6"
-                            class="border w-full p-2 rounded">
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block font-medium" for="new_password_confirmation">Confirm New Password</label>
-                        <input type="password" name="new_password_confirmation" required
-                            class="border w-full p-2 rounded">
-                    </div>
-
-                    <button type="submit" class="bg-green-500 text-white p-2 rounded hover:bg-green-700">
-                        Update Password
-                    </button>
-                </form>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
     </main>
 
     <script>
+        function updateStatus(orderId) {
+            Swal.fire({
+                title: "Mark as Completed?",
+                text: "Are you sure you want to mark this order as completed?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, mark it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/admin/orders/${orderId}/complete`, {
+                            method: "POST",
+                            headers: {
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({})
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire("Updated!", "Order marked as completed.", "success")
+                                    .then(() => window.location.reload());
+                            } else {
+                                Swal.fire("Error!", data.message, "error");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            Swal.fire("Oops!", "Something went wrong.", "error");
+                        });
+                }
+            });
+        }
+
         document.getElementById('logout-btn').addEventListener('click', function(event) {
             event.preventDefault(); // Prevent default action
 

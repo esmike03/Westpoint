@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Unit;
+use App\Models\User;
 use App\Models\Adone;
 use App\Models\Adtwo;
 use App\Models\Brand;
@@ -218,5 +219,11 @@ class SettingsController extends Controller
         $adtwo->delete();
 
         return redirect()->back()->with('galleryerror', 'Gallery deleted successfully!');
+    }
+
+    //show users lists
+    public function showusers(){
+        $users = User::all(); // Fetch all users from the database
+        return view('users', compact('users'));
     }
 }

@@ -111,7 +111,7 @@ class AuthController extends Controller
         Auth::login($user);
 
         // Redirect to home/dashboard
-        return route('/');
+        return view('index');
     }
 
 

@@ -97,47 +97,54 @@
         </header>
 
         <section class="pt-24">
-            <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow">
-                <h2 class="text-xl font-semibold mb-4">Change Password</h2>
 
-                @if (session('success'))
-                    <div class="text-green-600 p-2 bg-green-100 rounded">{{ session('success') }}</div>
+            <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md" x-data="{ search: '' }">
+                <h1 class="text-2xl font-bold mb-4">User List</h1>
+
+                {{-- Search Input --}}
+                <input type="text" x-model="search" placeholder="Search by name or email..."
+                       class="w-full p-2 border border-gray-300 rounded mb-4">
+
+                {{-- User Table --}}
+                <table class="w-full border-collapse border border-gray-300">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border border-gray-300 px-4 py-2">ID</th>
+                            <th class="border border-gray-300 px-4 py-2">Name</th>
+                            <th class="border border-gray-300 px-4 py-2">Phone</th>
+                            <th class="border border-gray-300 px-4 py-2">Email</th>
+                            <th class="border border-gray-300 px-4 py-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($users as $user)
+                            <tr class="bg-white border border-gray-300"
+                                x-show="search === '' ||
+                                        '{{ strtolower($user->firstname) }}'.includes(search.toLowerCase()) ||
+                                        '{{ strtolower($user->email) }}'.includes(search.toLowerCase()) ||
+                                        '{{ strtolower($user->lastname) }}'.includes(search.toLowerCase())">
+                                <td class="px-4 py-2">{{ $user->id }}</td>
+                                <td class="px-4 py-2">{{ $user->firstname }} {{ $user->lastname}}</td>
+                                <td class="px-4 py-2">{{ $user->phone }}</td>
+                                <td class="px-4 py-2">{{ $user->email }}</td>
+                                <td class="px-4 py-2">
+                                    {{-- <a href="{{ route('users.edit', $user->id) }}" class="text-blue-500">Edit</a>
+                                    |
+                                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-500">Delete</button>
+                                    </form> --}}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                {{-- Empty Message --}}
+                @if($users->isEmpty())
+                    <p class="text-gray-500 mt-4">No users found.</p>
                 @endif
-
-                @if ($errors->any())
-                    <div class="text-red-600 p-2 bg-red-100 rounded">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                <form action="{{ route('admin.update-password') }}" method="POST">
-                    @csrf
-                    <div class="mb-4">
-                        <label class="block font-medium" for="current_password">Current Password</label>
-                        <input type="password" name="current_password" required
-                            class="border w-full p-2 rounded">
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block font-medium" for="new_password">New Password</label>
-                        <input type="password" name="new_password" required minlength="6"
-                            class="border w-full p-2 rounded">
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block font-medium" for="new_password_confirmation">Confirm New Password</label>
-                        <input type="password" name="new_password_confirmation" required
-                            class="border w-full p-2 rounded">
-                    </div>
-
-                    <button type="submit" class="bg-green-500 text-white p-2 rounded hover:bg-green-700">
-                        Update Password
-                    </button>
-                </form>
             </div>
         </section>
     </main>

@@ -61,8 +61,15 @@
                     </li>
                     <li>
                         <a href="/cart">
-                            <button class="text-black hover:text-green-400"><i class="fas fa-cart-shopping"></i>
-                                Cart</button>
+                            <button class="relative text-black hover:text-green-400">
+                                <i class="fas fa-cart-shopping"></i> Cart
+                                @if ($cartCount > 0)
+                                    <span
+                                        class="absolute -top-1 -right-2 min-w-4 h-4 bg-red-500 text-xs text-white rounded-full flex items-center justify-center px-1">
+                                        {{ $cartCount }}
+                                    </span>
+                                @endif
+                            </button>
                         </a>
                     </li>
                     <li>
@@ -85,12 +92,12 @@
                                 <!-- Logout Button (Hidden by Default, Shows When Name is Clicked) -->
                                 <div x-show="open" @click.away="open = false"
                                     class="absolute top-full mt-2 ml-10 bg-white border rounded-lg shadow-lg p-2 w-32">
-                                    <button class="text-black hover:text-green-500 w-full text-left px-2 py-1">
+                                    <a href="/my-orders" class="text-black hover:text-green-500 w-full text-left px-2 py-1">
                                         <i class="fas fa-layer-group"></i> Orders
-                                    </button>
-                                    <button class="text-black hover:text-green-500 w-full text-left px-2 py-1">
+                                    </a>
+                                    <a href="/users/profile" class="text-black hover:text-green-500 w-full text-left px-2 py-1">
                                         <i class="fas fa-user"></i> Profile
-                                    </button>
+                                    </a>
                                     <form action="{{ route('userlogout') }}" method="POST">
                                         @csrf
                                         <button type="submit"
@@ -160,16 +167,16 @@
                             alt="product image" />
                     </a>
                     <p class="absolute top-0 mt-2 ml-3 p-1 rounded-sm text-xs text-gray-50 bg-green-400 shadow-md">
-                        Stocks: {{ $product->stocks }}</p>
-                    <div class="p-4">
+                        {{ $product->brand }}</p>
+                    <div class="p-4 ">
                         <div class="flex justify-between">
                             <a href="#">
-                                <h5 class="text-sm lg:text-md font-semibold text-gray-900">
+                                <h5 class="text-xs lg:text-xs font-semibold text-gray-900">
                                     <span class="text-xs text-gray-500">{{ $product->category }}</span><br>
                                     {{ $product->name }}
                                 </h5>
                             </a>
-                            <p class="text-xs text-green-500 mt-1">{{ $product->brand }}</p>
+
                         </div>
 
                         <div class="mt-2 mb-2">
@@ -186,11 +193,12 @@
                         </div>
 
                         <div class="flex items-center justify-between">
-                            <span class="text-sm lg:text-lg font-bold text-gray-900">₱{{ $product->price }} <span
-                                    class="text-500 text-sm font-normal">{{ $product->unit }}</span></span>
+                            {{-- <span class="text-sm lg:text-lg font-bold text-gray-900">₱{{ $product->price }} <span
+                                    class="text-500 text-sm font-normal">{{ $product->unit }}</span></span> --}}
+                            <div></div>
                             <a @click.prevent="selectedProduct = {{ json_encode($product) }}; showModal = true;"
-                                class="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-md text-sm px-4 py-2 text-center">
-                                <i class="fa fa-cart-shopping"></i>
+                                class="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-md text-xs px-4 py-2 text-center">
+                                <i class="fa fa-cart-shopping"></i> Add to Cart
                             </a>
                         </div>
                     </div>
@@ -242,8 +250,8 @@
                             class="w-40 h-40 sm:w-48 sm:h-48 sm:mb-4 object-cover rounded-md">
                     </div>
                     <!-- Product Image (Left Side) -->
-                    <p class="absolute mt-2 ml-1 p-1 rounded-sm text-xs text-gray-50 bg-green-400 shadow-md"
-                        x-text="'Stocks: '+ selectedProduct.stocks"></p>
+                    {{-- <p class="absolute mt-2 ml-1 p-1 rounded-sm text-xs text-gray-50 bg-green-400 shadow-md"
+                        x-text="selectedProduct.unit"></p> --}}
                     <!-- Product Details (Right Side) -->
                     <div class="flex flex-col flex-1 ">
 
@@ -258,8 +266,8 @@
 
                         <!-- Price & Add to Cart Button -->
                         <div class=" flex items-end justify-between h-full content-end">
-                            <p class="text-lg font-bold text-gray-900">₱<span x-text="selectedProduct.price"></span>
-                                <span class="text-gray-500 text-sm font-normal" x-text="selectedProduct.unit"></span>
+                            {{-- <p class="text-lg font-bold text-gray-900">₱<span x-text="selectedProduct.price"></span> --}}
+                                {{-- <span class="text-gray-500 text-sm font-normal" x-text="selectedProduct.unit"></span> --}}
                             </p>
                             <div class="flex gap-2">
                                 @auth
@@ -277,12 +285,12 @@
                                 @auth
                                     <button @click="addToCart(selectedProduct, parseInt($refs.count?.value || 1))"
                                         class="bg-green-500 text-white text-xs px-3 py-1 rounded-md hover:bg-green-600 flex items-center gap-2">
-                                        <i class="fa fa-cart-shopping"></i>
+                                        <i class="fa fa-cart-shopping"></i> Add to Cart
                                     </button>
                                 @else
                                     <button onclick="window.location.href='{{ route('user.login') }}'"
                                         class="bg-green-500 text-white text-xs px-3 py-1 rounded-md hover:bg-green-600 flex items-center gap-2">
-                                        <i class="fa fa-cart-shopping"></i>
+                                        <i class="fa fa-cart-shopping"></i> Add to Cart
                                     </button>
                                 @endauth
                             </div>

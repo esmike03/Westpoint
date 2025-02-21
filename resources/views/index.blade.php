@@ -79,14 +79,23 @@
                     </li>
                     <li>
                         <a href="/cart">
-                            <button class="text-black hover:text-green-400"><i class="fas fa-cart-shopping"></i>
-                                Cart</button>
+                            <button class="relative text-black hover:text-green-400">
+                                <i class="fas fa-cart-shopping"></i> Cart
+                                @if ($cartCount > 0)
+                                    <span
+                                        class="absolute -top-1 -right-2 min-w-4 h-4 bg-red-500 text-xs text-white rounded-full flex items-center justify-center px-1">
+                                        {{ $cartCount }}
+                                    </span>
+                                @endif
+                            </button>
+
                         </a>
                     </li>
                     <li>
                         @auth
                             <div x-data="{ open: false }" class="relative flex  my-auto gap-3 items-center">
-                                <div class="relative flex  my-auto gap-2 items-center bg-green-500 p-1 rounded-full hover:scale-105">
+                                <div
+                                    class="relative flex  my-auto gap-2 items-center bg-green-500 p-1 rounded-full hover:scale-105">
                                     <img @click="open = !open" src="{{ asset('IMAGES/profile.jpg') }}"
                                         class="h-8 w-8 rounded-full border-green-500 border" />
 
@@ -100,12 +109,13 @@
                                 <!-- Logout Button (Hidden by Default, Shows When Name is Clicked) -->
                                 <div x-show="open" @click.away="open = false"
                                     class="absolute top-full mt-2 ml-10 bg-white border rounded-lg shadow-lg p-2 w-32">
-                                    <button class="text-black hover:text-green-500 w-full text-left px-2 py-1">
+                                    <a href="/my-orders" class="text-black hover:text-green-500 w-full text-left px-2 py-1">
                                         <i class="fas fa-layer-group"></i> Orders
-                                    </button>
-                                    <button class="text-black hover:text-green-500 w-full text-left px-2 py-1">
+                                    </a>
+                                    <a href="/users/profile"
+                                        class="text-black hover:text-green-500 w-full text-left px-2 py-1">
                                         <i class="fas fa-user"></i> Profile
-                                    </button>
+                                    </a>
                                     <form action="{{ route('userlogout') }}" method="POST">
                                         @csrf
                                         <button type="submit"
@@ -171,9 +181,9 @@
     <section id="quality"
         class="px-6 sm:px-12  md:px-20 lg:px-28 py-12 sm:py-12 md:py-12 opacity-0 translate-y-20 transition-all duration-1000">
         <div id="quality"
-        class=" flex justify-center italic text-3xl font-bold mb-8 text-gray-800 text-center opacity-0 translate-y-20 transition-all duration-1000">
-        Wespoint Pharma Inc.
-    </div>
+            class=" flex justify-center italic text-3xl font-bold mb-8 text-gray-800 text-center opacity-0 translate-y-20 transition-all duration-1000">
+            Wespoint Pharma Inc.
+        </div>
         <div class="relative w-full h-fit sm:h-fit md:h-fit overflow-hidden rounded-lg shadow-lg ">
 
 
@@ -222,9 +232,9 @@
                                 <h2
                                     class="text-center font-normal text-sm  sm:text-xs md:text-sm text-gray-700 uppercase leading-tight">
                                     {{ $product->name }}</h2>
-                                <h2
+                                {{-- <h2
                                     class="text-center font-bold text-sm  sm:text-xs md:text-sm text-green-500 uppercase leading-tight">
-                                    ₱{{ $product->price }}</h2>
+                                    ₱{{ $product->price }}</h2> --}}
                             </div>
                         </div>
                     @empty

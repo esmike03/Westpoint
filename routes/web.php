@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Cart;
 use App\Models\Unit;
 use App\Models\Adone;
 use App\Models\Adtwo;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingsController;
 
@@ -27,7 +30,8 @@ Route::post('/admin/auth', [AuthController::class, 'adminauth']);
 Route::get('/', function () {
     $adone = Adone::all();
     $products = Product::all();
-    return view('index', compact('products', 'adone'));
+    $cartCount = Auth::check() ? Cart::where('user_id', Auth::id())->count() : 0;
+    return view('index', compact('products', 'adone', 'cartCount'));
 });
 
 Route::get('/admin', [AuthController::class, 'admin'])->name('admin');
@@ -123,3 +127,18 @@ Route::post('/cart/store', [CartController::class, 'store'])->name('cart.store')
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 //remove cart item
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+
+//show users list
+Route::get('/admin/users', [SettingsController::class, 'showUsers'])->name('users.index');
+
+//show user profile
+Route::get('/users/profile', [UsersController::class, 'showProfile'])->name('users.profile');
+
+//add to orders
+Route::post('/cart/submit', [OrderController::class, 'submitOrder'])->name('cart.submit');
+
+
+//show orders admin
+Route::get('/admin/orders', [OrderController::class, 'adminOrder'])->name('admin.orders');
+
+Route::get('/my-orders', [OrderController::class, 'userOrders'])->name('user.orders')->middleware('auth');

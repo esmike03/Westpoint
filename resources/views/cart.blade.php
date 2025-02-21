@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" href="{{ asset('IMAGES/logowestpoint.png') }}">
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
-    <title>Products</title>
+    <title>Cart</title>
 </head>
 
 <body>
@@ -61,8 +61,15 @@
                     </li>
                     <li>
                         <a href="/cart">
-                            <button class="text-black hover:text-green-400"><i class="fas fa-cart-shopping"></i>
-                                <span class="border-b-2 border-green-500">Cart</span></button>
+                            <button class="relative text-black hover:text-green-400">
+                                <i class="fas fa-cart-shopping"></i> Cart
+                                @if ($cartCount > 0)
+                                    <span
+                                        class="absolute -top-1 -right-2 min-w-4 h-4 bg-red-500 text-xs text-white rounded-full flex items-center justify-center px-1">
+                                        {{ $cartCount }}
+                                    </span>
+                                @endif
+                            </button>
                         </a>
                     </li>
                     <li>
@@ -85,12 +92,13 @@
                                 <!-- Logout Button (Hidden by Default, Shows When Name is Clicked) -->
                                 <div x-show="open" @click.away="open = false"
                                     class="absolute top-full mt-2 ml-10 bg-white border rounded-lg shadow-lg p-2 w-32">
-                                    <button class="text-black hover:text-green-500 w-full text-left px-2 py-1">
+                                    <a href="/my-orders" class="text-black hover:text-green-500 w-full text-left px-2 py-1">
                                         <i class="fas fa-layer-group"></i> Orders
-                                    </button>
-                                    <button class="text-black hover:text-green-500 w-full text-left px-2 py-1">
+                                    </a>
+                                    <a href="/users/profile"
+                                        class="text-black hover:text-green-500 w-full text-left px-2 py-1">
                                         <i class="fas fa-user"></i> Profile
-                                    </button>
+                                    </a>
                                     <form action="{{ route('userlogout') }}" method="POST">
                                         @csrf
                                         <button type="submit"
@@ -115,40 +123,8 @@
     </header>
     <!-- Filter Form -->
 
-    <section id="Projects" class="container mx-auto px-4 sm:px-6 lg:px-8 mt-6 mb-5" x-data="{ showModal: false, selectedProduct: {} }">
-        {{-- <div class="container mx-auto p-4 mt-24">
-            <h2 class="text-xl font-bold mb-4">Your Cart</h2>
-            <div class="bg-white shadow-md rounded-lg p-4">
-                @if ($cartItems->isEmpty())
-                    <p class="text-gray-600">Your cart is empty.</p>
-                @else
-                    <table class="w-full border-collapse border border-gray-300">
-                        <thead>
-                            <tr class="bg-gray-200">
-                                <th class="p-2 border">Image</th>
-                                <th class="p-2 border">Product</th>
-                                <th class="p-2 border">Price</th>
-                                <th class="p-2 border">Quantity</th>
-                                <th class="p-2 border">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($cartItems as $item)
-                                <tr class="border">
-                                    <td class="p-2 border">
-                                        <img src="{{ asset('storage/' . $item->product->image) }}" alt="Product Image" class="w-16 h-16 object-cover">
-                                    </td>
-                                    <td class="p-2 border">{{ $item->product->name }}</td>
-                                    <td class="p-2 border">₱{{ number_format($item->product->price, 2) }}</td>
-                                    <td class="p-2 border">{{ $item->quantity }}</td>
-                                    <td class="p-2 border">₱{{ number_format($item->product->price * $item->quantity, 2) }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                @endif
-            </div>
-        </div> --}}
+    <section id="Projects" class=" container mx-auto px-4 sm:px-6 lg:px-8 mt-6 mb-5" x-data="{ showModal: false, selectedProduct: {} }">
+
 
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0 mt-28">
             <h2 class="text-xl font-semibold text-gray-900  sm:text-2xl"><i class="fa fa-shopping-cart"></i> Cart</h2>
@@ -156,11 +132,12 @@
             <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
                 <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
                     <div class="space-y-6">
-                        @foreach ($cartItems as $item)
+                        @forelse ($cartItems as $item)
                             <div class="rounded-lg border border-gray-200 bg-white p-1 shadow-sm md:p-6">
-                                <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
+                                <div
+                                    class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0 ">
                                     <a href="#" class="shrink-0 md:order-1">
-                                        <img class="h-12 w-12 object-cover"
+                                        <img class="h-12 w-12 object-cover ml-10"
                                             src="{{ asset('storage/' . $item->product->image) }}" alt="Product Image" />
                                     </a>
 
@@ -196,17 +173,12 @@
                                                 </svg>
                                             </button>
                                         </div>
-                                        <div class="text-end md:order-4 md:w-32">
-                                            <p class="text-base font-bold text-gray-900">
-                                                ₱{{ number_format($item->product->price * $item->quantity, 2) }}</p>
-                                        </div>
+
                                     </div>
 
                                     <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
                                         <a href="#" class="text-base font-medium text-gray-900 hover:underline">
-                                            {{ $item->product->name }} | <span
-                                                class="text-gray-500 text-sm font-medium">{{ $item->product->price }}
-                                                php</span>
+                                            {{ $item->product->name }}
                                         </a>
 
                                         <div class="flex items-center gap-4">
@@ -229,7 +201,9 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <p class="text-center mt-10 text-gray-400">Your cart is emtpy.</p>
+                        @endforelse
 
 
 
@@ -244,56 +218,15 @@
                 <!--Aside-->
                 <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
                     <div class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
-                        <p class="text-xl font-semibold text-gray-900">Order summary</p>
+                        <p class="text-xl font-semibold text-gray-900">Order</p>
 
-                        <div class="space-y-4">
-                            <div class="space-y-2">
-                                <dl class="flex items-center justify-between gap-4">
-                                    <dt class="text-base font-normal text-gray-500">Original price</dt>
-                                    <dd class="text-base font-medium text-gray-900">$7,592.00</dd>
-                                </dl>
 
-                                <dl class="flex items-center justify-between gap-4">
-                                    <dt class="text-base font-normal text-gray-500">Savings</dt>
-                                    <dd class="text-base font-medium text-green-600">-$299.00</dd>
-                                </dl>
 
-                                <dl class="flex items-center justify-between gap-4">
-                                    <dt class="text-base font-normal text-gray-500">Store Pickup</dt>
-                                    <dd class="text-base font-medium text-gray-900">$99</dd>
-                                </dl>
-
-                                <dl class="flex items-center justify-between gap-4">
-                                    <dt class="text-base font-normal text-gray-500">Tax</dt>
-                                    <dd class="text-base font-medium text-gray-900">$799</dd>
-                                </dl>
-                            </div>
-
-                            <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
-                                <dt class="text-base font-bold text-gray-900">Total</dt>
-                                <dd class="text-base font-bold text-gray-900">
-                                    ₱{{ number_format($cartItems->sum(fn($item) => $item->product->price * $item->quantity), 2) }}
-                                </dd>
-                            </dl>
-                        </div>
-
-                        <a href="#"
+                        <a href="#" @click.prevent="submitOrder()"
                             class="flex w-full items-center justify-center rounded-lg bg-green-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-primary-300">
-                            Proceed to Checkout
+                            Submit
                         </a>
-                        {{--
-                        <div class="flex items-center justify-center gap-2">
-                            <span class="text-sm font-normal text-gray-500"> or </span>
-                            <a href="#" title=""
-                                class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline">
-                                Continue Shopping
-                                <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
-                                </svg>
-                            </a>
-                        </div> --}}
+
                     </div>
                 </div>
 
@@ -304,6 +237,49 @@
 
 
     <script>
+      function submitOrder() {
+    fetch("{{ route('cart.submit') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json()) // Ensure JSON parsing
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                title: "Order Placed!",
+                text: "Your order has been placed successfully.",
+                icon: "success",
+                confirmButtonColor: "#4CAF50",
+                confirmButtonText: "OK"
+            }).then(() => {
+                window.location.reload();
+            });
+        } else {
+            Swal.fire({
+                title: "Error!",
+                text: data.message,
+                icon: "error",
+                confirmButtonColor: "#d33"
+            });
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        Swal.fire({
+            title: "Oops!",
+            text: "Something went wrong. Please try again later.",
+            icon: "error",
+            confirmButtonColor: "#d33"
+        });
+    });
+}
+
+
+
         function removeItem(cartId) {
             Swal.fire({
                 title: "Are you sure?",

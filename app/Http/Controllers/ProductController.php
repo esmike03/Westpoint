@@ -20,9 +20,9 @@ class ProductController extends Controller
             'category' => 'required|string|max:255',
             'brand' => 'required|string|max:255',
             'unit' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'stocks' => 'required|numeric',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            // 'price' => 'required|numeric',
+            // 'stocks' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5000',
             'details' => 'nullable|string',
         ]);
 
@@ -37,8 +37,8 @@ class ProductController extends Controller
             'category' => $request->category,
             'brand' => $request->brand,
             'unit' => $request->unit,
-            'price' => $request->price,
-            'stocks' => $request->stocks,
+            // 'price' => $request->price,
+            // 'stocks' => $request->stocks,
             'image' => $imagePath,
             'details' => $request->details,
         ]);
@@ -72,7 +72,9 @@ class ProductController extends Controller
         // Get filtered products
         $products = $query->get();
 
-        return view('products', compact('products', 'categories', 'brands'));
+        $cartCount = Auth::check() ? Cart::where('user_id', Auth::id())->count() : 0;
+
+        return view('products', compact('products', 'categories', 'brands', 'cartCount'));
     }
 
     public function showCarts(Request $request)
@@ -81,6 +83,8 @@ class ProductController extends Controller
             return redirect('/login')->with('message', 'Please Login to view carts!');
         }
 
+        $cartCount = Auth::check() ? Cart::where('user_id', Auth::id())->count() : 0;
+
         // Get the authenticated user
         $user = Auth::user();
 
@@ -88,7 +92,7 @@ class ProductController extends Controller
         $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
 
 
-        return view('cart', compact('cartItems'));
+        return view('cart', compact('cartItems', 'cartCount'));
     }
 
     public function modifyproducts(Request $request)

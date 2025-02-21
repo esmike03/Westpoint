@@ -29,8 +29,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/admin" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
+                    <a href="/admin/orders" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
                         <i class="fas fa-shopping-cart mr-2"></i>Orders
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/users" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
+                        <i class="fas fa-user mr-2"></i>Users
                     </a>
                 </li>
                 <li>
@@ -152,7 +157,6 @@
                         <th class="border border-gray-300 px-4 py-2">Name</th>
                         <th class="border border-gray-300 px-4 py-2">Brand</th>
                         <th class="border border-gray-300 px-4 py-2">Details</th>
-                        <th class="border border-gray-300 px-4 py-2">Price</th>
                         <th class="border border-gray-300 px-4 py-2">Actions</th>
                     </tr>
                 </thead>
@@ -177,8 +181,7 @@
                                     </button>
                                 </div>
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-center font-bold">
-                                ₱{{ $product->price }}</td>
+
                             <td class="gap-6 px-4 py-2 text-center flex">
                                 <div class="my-auto pt-2 flex justify-center content-center items-center">
                                     <form method="POST" action="{{ route('products.destroy', $product->id) }}"

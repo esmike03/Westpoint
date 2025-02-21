@@ -47,8 +47,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/admin" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
+                    <a href="/admin/orders" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
                         <i class="fas fa-shopping-cart mr-2"></i>Orders
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/users" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
+                        <i class="fas fa-user mr-2"></i>Users
                     </a>
                 </li>
                 <li>
@@ -259,20 +264,20 @@
                             </div>
 
                             <!-- Second Row -->
-                            <div class="col-span-6 sm:col-span-2">
+                            {{-- <div class="col-span-6 sm:col-span-2">
                                 <label for="price"
                                     class="text-sm font-medium text-gray-900 block mb-2">Price</label>
                                 <input type="number" name="price" id="price"
                                     class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                                     placeholder="Price" min="1" required>
-                            </div>
-                            <div class="col-span-6 sm:col-span-2">
+                            </div> --}}
+                            {{-- <div class="col-span-6 sm:col-span-2">
                                 <label for="stocks"
                                     class="text-sm font-medium text-gray-900 block mb-2">Stocks</label>
                                 <input type="number" name="stocks" id="stocks"
                                     class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                                     placeholder="Stocks" value="1" min="1" required>
-                            </div>
+                            </div> --}}
                             <div class="col-span-6 sm:col-span-2">
                                 <label for="image" class="text-sm font-medium text-gray-900 block mb-2">Image <span
                                         class="text-red-500">*jpg/png</span></label>
