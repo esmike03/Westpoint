@@ -75,9 +75,10 @@
                             <div x-data="{ open: false }" class="relative flex  my-auto gap-2 items-center">
                                 <div
                                     class="relative flex  my-auto gap-2 items-center bg-green-500 p-1 rounded-full hover:scale-105">
-                                    <img @click="open = !open" src="{{ asset('IMAGES/profile.jpg') }}"
-                                        class="h-8 w-8 rounded-full border-green-500 border" />
 
+                                    <img @click="open = !open" class="h-8 w-8 rounded-full border-white border-1"
+                                        src="{{ Auth::user()->profile_picture ? asset('storage/' . Auth::user()->profile_picture) : 'https://media.istockphoto.com/id/2151669184/vector/vector-flat-illustration-in-grayscale-avatar-user-profile-person-icon-gender-neutral.jpg?s=612x612&w=0&k=20&c=UEa7oHoOL30ynvmJzSCIPrwwopJdfqzBs0q69ezQoM8=' }}"
+                                        alt="User avatar">
                                     <!-- User Name (Click to Toggle Logout Button) -->
                                     <span @click="open = !open"
                                         class="text-white font-normal text-sm cursor-pointer hover:text-green-200 pr-2">
@@ -127,15 +128,17 @@
             <div
                 class="grid grid-cols-2 gap-6 border-b border-t border-gray-200 py-4  md:py-8 lg:grid-cols-4 xl:gap-16">
                 <div>
-                    <svg class="mb-2 h-8 w-8 text-gray-400 dark:text-gray-500" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                        viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
-                    </svg>
-                    <h3 class="mb-2 text-gray-500 dark:text-gray-400">Orders made</h3>
-                    <span class="flex items-center text-2xl font-bold text-gray-900 ">24
-                        {{-- <span
+
+                    <a href="/my-orders">
+                        <svg class="mb-2 h-8 w-8 text-gray-400 dark:text-gray-500" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                        </svg>
+                        <h3 class="mb-2 text-gray-500 dark:text-gray-400">Orders</h3>
+                        <span class="flex items-center text-2xl font-bold text-gray-900 ">{{ $ordersCount }}
+                            {{-- <span
                             class="ms-2 inline-flex items-center rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300">
                             <svg class="-ms-1 me-1 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 24 24">
@@ -144,7 +147,9 @@
                             </svg>
                             10.3%
                         </span> --}}
-                    </span>
+                        </span>
+                    </a>
+
 
                 </div>
                 <div>
@@ -215,9 +220,38 @@
                 <div class="mb-4 grid gap-4 sm:grid-cols-2 sm:gap-8 lg:gap-16">
                     <div class="space-y-4">
                         <div class="flex space-x-4">
-                            <img class="h-16 w-16 rounded-lg"
-                                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png"
-                                alt="Helene avatar" />
+                            <div x-data="{ showModal: false }">
+                                <div class="flex items-center space-x-4">
+                                    <img class="h-16 w-16 rounded-lg"
+                                        src="{{ Auth::user()->profile_picture ? asset('storage/' . Auth::user()->profile_picture) : 'https://media.istockphoto.com/id/2151669184/vector/vector-flat-illustration-in-grayscale-avatar-user-profile-person-icon-gender-neutral.jpg?s=612x612&w=0&k=20&c=UEa7oHoOL30ynvmJzSCIPrwwopJdfqzBs0q69ezQoM8=' }}"
+                                        alt="User avatar">
+
+
+
+                                    <button @click="showModal = true"
+                                        class="px-2 py-1 text-xs text-white bg-blue-500 rounded-md absolute mt-14"><i
+                                            class="fa fa-pen"></i></button>
+                                </div>
+
+                                <!-- Modal -->
+                                <div x-show="showModal"
+                                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                                    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+                                        <h2 class="text-lg font-semibold mb-4">Edit Profile Picture</h2>
+
+                                        <input type="file" id="profilePictureInput" accept="image/*"
+                                            class="w-full p-2 border rounded-lg mb-2">
+
+                                        <div class="flex justify-end space-x-2">
+                                            <button @click="showModal = false"
+                                                class="px-4 py-2 bg-gray-300 rounded-lg">Cancel</button>
+                                            <button onclick="updateProfilePicture()"
+                                                class="px-4 py-2 bg-blue-600 text-white rounded-lg">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div>
 
                                 <h2
@@ -348,15 +382,82 @@
 
 
     <script>
+        function updateProfilePicture() {
+            let formData = new FormData();
+            let fileInput = document.getElementById("profilePictureInput");
+
+            if (fileInput.files.length === 0) {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Please select an image file.",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+                return;
+            }
+
+            formData.append("profile_picture", fileInput.files[0]);
+
+            $.ajax({
+                url: "{{ route('update.profile.picture') }}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    console.log("Response received:", response); // Debugging
+
+                    if (response.success) {
+                        // document.getElementById("profilePicture").src = response
+                        // .profile_picture; // ✅ Update Image
+
+                        Swal.fire({
+                            title: "Success!",
+                            text: response.message,
+                            icon: "success",
+                            confirmButtonText: "OK",
+
+                        }).then(() => {
+                            showModal = false;
+                            window.location.reload(); // ✅ Reloads the page
+                        });
+
+                        document.querySelector("[x-data]").__x.$data.showModal = false;
+                    } else {
+                        Swal.fire({
+                            title: "Error!",
+                            text: response.message || "Failed to update profile picture.",
+                            icon: "error",
+                            confirmButtonText: "OK"
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    console.error("Error:", xhr.responseText);
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Something went wrong!",
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
+                }
+            });
+        }
+
+
+
         function updateAddress() {
             let addressData = {
-                street: $("[x-model='newAddress.street']").val(),
-                house_number: $("[x-model='newAddress.house_number']").val(),
-                barangay: $("[x-model='newAddress.barangay']").val(),
-                city: $("[x-model='newAddress.city']").val(),
-                province: $("[x-model='newAddress.province']").val(),
-                postal_code: $("[x-model='newAddress.postal_code']").val(),
-                country: $("[x-model='newAddress.country']").val()
+                street: document.querySelector("[x-model='newAddress.street']").value,
+                house_number: document.querySelector("[x-model='newAddress.house_number']").value,
+                barangay: document.querySelector("[x-model='newAddress.barangay']").value,
+                city: document.querySelector("[x-model='newAddress.city']").value,
+                province: document.querySelector("[x-model='newAddress.province']").value,
+                postal_code: document.querySelector("[x-model='newAddress.postal_code']").value,
+                country: document.querySelector("[x-model='newAddress.country']").value
             };
 
             $.ajax({
@@ -366,12 +467,14 @@
                 headers: {
                     "X-CSRF-TOKEN": "{{ csrf_token() }}" // CSRF token for security
                 },
-                success: function(data) {
-                    if (data.success) {
-                        // Update the Alpine.js data
-                        let alpineData = $("[x-data]")[0].__x.$data;
-                        alpineData.address = data.address; // Update UI
-                        alpineData.showModal = false; // Close modal
+                success: function(data) { // ❌ Removed 'success1' → ✅ Changed to 'success'
+                    if (data.success) { // ✅ Check correct response key
+                        // Update the Alpine.js store or x-data
+                        let alpineData = document.querySelector("[x-data]")?.__x?.$data;
+                        if (alpineData) {
+                            alpineData.address = data.address; // Update UI
+                            alpineData.showModal = false; // Close modal
+                        }
 
                         // ✅ Show success SweetAlert
                         Swal.fire({
@@ -379,6 +482,9 @@
                             text: "Home address updated successfully.",
                             icon: "success",
                             confirmButtonText: "OK"
+                        }).then(() => {
+                            showModal = false;
+                            window.location.reload(); // ✅ Reloads the page
                         });
                     } else {
                         // ❌ Show error SweetAlert
@@ -403,6 +509,7 @@
                 }
             });
         }
+
 
 
 
@@ -436,6 +543,9 @@
                             icon: "success",
                             confirmButtonColor: "#3085d6",
                             confirmButtonText: "OK"
+                        }).then(() => {
+                            showModal = false;
+                            window.location.reload(); // ✅ Reloads the page
                         });
                     } else {
                         Swal.fire({

@@ -105,54 +105,99 @@
                 <div class="relative mb-6 flex items-center">
                     <input type="text" x-model="search" placeholder="Search by name or email..."
                         class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
-                    <svg class="absolute left-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 3a7.5 7.5 0 006.15 12.15z"/>
+                    <svg class="absolute left-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 3a7.5 7.5 0 006.15 12.15z" />
                     </svg>
-                    <button @click="search = ''" class="absolute right-3 text-gray-500 hover:text-red-500 transition" x-show="search !== ''">
+                    <button @click="search = ''" class="absolute right-3 text-gray-500 hover:text-red-500 transition"
+                        x-show="search !== ''">
                         ✕
                     </button>
                 </div>
 
                 <!-- User Table -->
-                <div class="overflow-x-auto rounded-lg shadow-sm">
-                    <table class="w-full border-collapse border border-gray-200 rounded-lg overflow-hidden">
+                <div x-data="{ showModal: false, selectedUser: {} }">
+                    <table class="w-full border-collapse">
                         <thead>
-                            <tr class="bg-gray-100 text-gray-700 text-left">
-                                <th class="border border-gray-300 px-4 py-3">ID</th>
-                                <th class="border border-gray-300 px-4 py-3">Name</th>
-                                <th class="border border-gray-300 px-4 py-3">Phone</th>
-                                <th class="border border-gray-300 px-4 py-3">Email</th>
-                                <th class="border border-gray-300 px-4 py-3">Actions</th>
+                            <tr class="bg-gray-200">
+                                <th class="px-4 py-2">ID</th>
+                                <th class="px-4 py-2">Name</th>
+                                <th class="px-4 py-2">Phone</th>
+                                <th class="px-4 py-2">Email</th>
+                                <th class="px-4 py-2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($users as $user)
+                            @foreach ($users as $user)
                                 <tr class="border border-gray-200 odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition"
                                     x-show="search === '' ||
-                                            '{{ strtolower($user->firstname) }}'.includes(search.toLowerCase()) ||
-                                            '{{ strtolower($user->lastname) }}'.includes(search.toLowerCase()) ||
-                                            '{{ strtolower($user->email) }}'.includes(search.toLowerCase())">
+                                        '{{ strtolower($user->firstname) }}'.includes(search.toLowerCase()) ||
+                                        '{{ strtolower($user->lastname) }}'.includes(search.toLowerCase()) ||
+                                        '{{ strtolower($user->email) }}'.includes(search.toLowerCase())">
                                     <td class="px-4 py-3 font-medium text-gray-900">{{ $user->id }}</td>
                                     <td class="px-4 py-3 font-medium">{{ $user->firstname }} {{ $user->lastname }}</td>
                                     <td class="px-4 py-3 text-gray-700">{{ $user->phone }}</td>
                                     <td class="px-4 py-3 text-gray-700">{{ $user->email }}</td>
                                     <td class="px-4 py-3 flex space-x-2">
-                                        {{-- <a href="{{ route('users.edit', $user->id) }}" class="text-blue-600 hover:text-blue-800 transition">Edit</a>
-                                        <span class="text-gray-400">|</span>
-                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-500 hover:text-red-700 transition">Delete</button>
-                                        </form> --}}
+                                        <button
+                                            @click="selectedUser = {
+                                            id: '{{ $user->id }}',
+                                            name: '{{ $user->firstname }} {{ $user->lastname }}',
+                                            phone: '{{ $user->phone }}',
+                                            email: '{{ $user->email }}',
+                                            profile_picture: '{{ asset('storage/' . $user->profile_picture) }}',
+                                            address: `{{ optional($user->address)->house_number ?? '' }}
+                                                      {{ optional($user->address)->street ?? '' }},
+                                                      {{ optional($user->address)->barangay ?? '' }},
+                                                      {{ optional($user->address)->city ?? '' }},
+                                                      {{ optional($user->address)->province ?? '' }},
+                                                      {{ optional($user->address)->postal_code ?? '' }},
+                                                      {{ optional($user->address)->country ?? '' }}`
+                                        }; showModal = true;">
+                                            <i class="fa fa-eye text-blue-500 cursor-pointer"></i>
+                                        </button>
+
+
+
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+
+                    <!-- ✅ Modal for User Details -->
+                    <div x-show="showModal"
+                        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+                            <div class="flex justify-center">
+                                <img :src="selectedUser.profile_picture ? selectedUser.profile_picture :
+                                    'https://media.istockphoto.com/id/2151669184/vector/vector-flat-illustration-in-grayscale-avatar-user-profile-person-icon-gender-neutral.jpg?s=612x612&w=0&k=20&c=UEa7oHoOL30ynvmJzSCIPrwwopJdfqzBs0q69ezQoM8='"
+                                    class="h-24 w-24 rounded-full border" alt="User Profile Picture">
+                            </div>
+
+
+
+                            <h2 class="text-xl font-semibold text-center mt-3" x-text="selectedUser.name"></h2>
+                            <p class="text-gray-600 text-center" x-text="selectedUser.email"></p>
+                            <p class="text-gray-600 text-center" x-text="selectedUser.phone"></p>
+                            <hr class="my-3">
+                            <p class="text-gray-800"><strong>Address:</strong></p>
+                            <p class="text-gray-600" x-text="selectedUser.address"></p>
+                            <div class="text-center mt-4">
+                                <button @click="showModal = false"
+                                    class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
+
                 <!-- Empty Message -->
-                @if($users->isEmpty())
+                @if ($users->isEmpty())
                     <p class="text-gray-500 mt-6 text-center">No users found.</p>
                 @endif
             </div>

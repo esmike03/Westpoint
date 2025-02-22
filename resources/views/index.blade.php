@@ -96,8 +96,9 @@
                             <div x-data="{ open: false }" class="relative flex  my-auto gap-3 items-center">
                                 <div
                                     class="relative flex  my-auto gap-2 items-center bg-green-500 p-1 rounded-full hover:scale-105">
-                                    <img @click="open = !open" src="{{ asset('IMAGES/profile.jpg') }}"
-                                        class="h-8 w-8 rounded-full border-green-500 border" />
+                                    <img @click="open = !open" class="h-8 w-8 rounded-full border-white border"
+                                        src="{{ Auth::user()->profile_picture ? asset('storage/' . Auth::user()->profile_picture) : 'https://media.istockphoto.com/id/2151669184/vector/vector-flat-illustration-in-grayscale-avatar-user-profile-person-icon-gender-neutral.jpg?s=612x612&w=0&k=20&c=UEa7oHoOL30ynvmJzSCIPrwwopJdfqzBs0q69ezQoM8=' }}"
+                                        alt="User avatar">
 
                                     <!-- User Name (Click to Toggle Logout Button) -->
                                     <span @click="open = !open"

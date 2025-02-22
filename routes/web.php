@@ -6,6 +6,7 @@ use App\Models\Adone;
 use App\Models\Adtwo;
 use App\Models\Brand;
 use App\Models\Member;
+use App\Models\Address;
 use App\Models\Product;
 use App\Models\Categories;
 use Illuminate\Http\Request;
@@ -145,3 +146,10 @@ Route::get('/admin/orders', [OrderController::class, 'adminOrder'])->name('admin
 Route::get('/my-orders', [OrderController::class, 'userOrders'])->name('user.orders')->middleware('auth');
 Route::post('/update-phone', [UserController::class, 'updatePhone'])->name('update.phone');
 Route::post('/update-address', [UserController::class, 'updateAddress'])->name('update.address');
+Route::post('/update-profile-picture', [UserController::class, 'updateProfilePicture'])->name('update.profile.picture');
+Route::get('/check-address', function () {
+    $user = Auth::user();
+    $hasAddress = \App\Models\Address::where('user_id', $user->id)->exists();
+
+    return response()->json(['hasAddress' => $hasAddress]);
+});

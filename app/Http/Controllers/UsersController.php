@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -11,6 +13,8 @@ class UsersController extends Controller
         if (!auth()->check()) {
             return redirect('/login')->with('message', 'Please Login to view carts!');
         }
-        return view('userprofile');
+
+        $ordersCount = Order::where('user_id', Auth::id())->count();
+        return view('userprofile', compact('ordersCount'));
     }
 }

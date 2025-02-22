@@ -77,8 +77,9 @@
                             <div x-data="{ open: false }" class="relative flex  my-auto gap-2 items-center">
                                 <div
                                     class="relative flex  my-auto gap-2 items-center bg-green-500 p-1 rounded-full hover:scale-105">
-                                    <img @click="open = !open" src="{{ asset('IMAGES/profile.jpg') }}"
-                                        class="h-8 w-8 rounded-full border-green-500 border" />
+                                    <img @click="open = !open" class="h-8 w-8 rounded-full border-white border"
+                                        src="{{ Auth::user()->profile_picture ? asset('storage/' . Auth::user()->profile_picture) : 'https://media.istockphoto.com/id/2151669184/vector/vector-flat-illustration-in-grayscale-avatar-user-profile-person-icon-gender-neutral.jpg?s=612x612&w=0&k=20&c=UEa7oHoOL30ynvmJzSCIPrwwopJdfqzBs0q69ezQoM8=' }}"
+                                        alt="User avatar">
 
                                     <!-- User Name (Click to Toggle Logout Button) -->
                                     <span @click="open = !open"
@@ -237,46 +238,79 @@
 
 
     <script>
-      function submitOrder() {
-    fetch("{{ route('cart.submit') }}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-        },
-        body: JSON.stringify({})
-    })
-    .then(response => response.json()) // Ensure JSON parsing
-    .then(data => {
-        if (data.success) {
-            Swal.fire({
-                title: "Order Placed!",
-                text: "Your order has been placed successfully.",
-                icon: "success",
-                confirmButtonColor: "#4CAF50",
-                confirmButtonText: "OK"
-            }).then(() => {
-                window.location.reload();
-            });
-        } else {
-            Swal.fire({
-                title: "Error!",
-                text: data.message,
-                icon: "error",
-                confirmButtonColor: "#d33"
-            });
+        function submitOrder() {
+            fetch("/check-address", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.hasAddress) {
+                        // ❌ No address, show alert and redirect to profile
+                        Swal.fire({
+                            title: "Address Required",
+                            text: "Please set your address before submitting your order.",
+                            icon: "warning",
+                            confirmButtonText: "Go to Profile"
+                        }).then(() => {
+                            window.location.href = "{{ route('users.profile') }}"; // Redirect to profile
+                        });
+                    } else {
+                        // ✅ Address exists, proceed with order submission
+                        fetch("{{ route('cart.submit') }}", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                                },
+                                body: JSON.stringify({})
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        title: "Order Placed!",
+                                        text: "Your order has been placed successfully.",
+                                        icon: "success",
+                                        confirmButtonColor: "#4CAF50",
+                                        confirmButtonText: "OK"
+                                    }).then(() => {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: "Error!",
+                                        text: data.message,
+                                        icon: "error",
+                                        confirmButtonColor: "#d33"
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error:", error);
+                                Swal.fire({
+                                    title: "Oops!",
+                                    text: "Something went wrong. Please try again later.",
+                                    icon: "error",
+                                    confirmButtonColor: "#d33"
+                                });
+                            });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error checking address:", error);
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Unable to check your address. Please try again.",
+                        icon: "error",
+                        confirmButtonColor: "#d33"
+                    });
+                });
         }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        Swal.fire({
-            title: "Oops!",
-            text: "Something went wrong. Please try again later.",
-            icon: "error",
-            confirmButtonColor: "#d33"
-        });
-    });
-}
+
 
 
 
