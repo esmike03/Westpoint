@@ -90,7 +90,7 @@
 
                                 <!-- Logout Button (Hidden by Default, Shows When Name is Clicked) -->
                                 <div x-show="open" @click.away="open = false"
-                                    class="absolute top-full mt-2 ml-10 bg-white border rounded-lg shadow-lg p-2 w-32">
+                                    class="absolute top-full mt-2 bg-white border rounded-lg shadow-lg p-2 w-32">
                                     <a href="/my-orders" class="text-black hover:text-green-500 w-full text-left px-2 py-1">
                                         <i class="fas fa-layer-group"></i> Orders
                                     </a>
@@ -319,19 +319,7 @@
                             </div>
                         </div>
 
-                        <dl>
-                            <dt class="font-semibold text-gray-900 ">Delivery Address</dt>
-                            <dd class="flex items-center gap-1 text-gray-500 ">
-                                <svg class="hidden h-5 w-5 shrink-0 text-gray-400  lg:inline" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                    viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
-                                </svg>
-                                9th St. PATH Station, New York, United States of America
-                            </dd>
-                        </dl>
+
                     </div>
                     <div class="space-y-4">
                         <div x-data="{ showModal: false, phone: '{{ Auth::user()->phone ?? '' }}', newPhone: '' }">

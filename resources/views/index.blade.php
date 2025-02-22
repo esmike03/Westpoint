@@ -109,7 +109,7 @@
 
                                 <!-- Logout Button (Hidden by Default, Shows When Name is Clicked) -->
                                 <div x-show="open" @click.away="open = false"
-                                    class="absolute top-full mt-2 ml-10 bg-white border rounded-lg shadow-lg p-2 w-32">
+                                    class="absolute top-full mt-2 bg-white border rounded-lg shadow-lg p-2 w-32">
                                     <a href="/my-orders" class="text-black hover:text-green-500 w-full text-left px-2 py-1">
                                         <i class="fas fa-layer-group"></i> Orders
                                     </a>

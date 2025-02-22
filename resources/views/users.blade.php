@@ -171,12 +171,12 @@
                         class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <div class="bg-white p-6 rounded-lg shadow-lg w-96">
                             <div class="flex justify-center">
-                                <img :src="selectedUser.profile_picture ? selectedUser.profile_picture :
-                                    'https://media.istockphoto.com/id/2151669184/vector/vector-flat-illustration-in-grayscale-avatar-user-profile-person-icon-gender-neutral.jpg?s=612x612&w=0&k=20&c=UEa7oHoOL30ynvmJzSCIPrwwopJdfqzBs0q69ezQoM8='"
-                                    class="h-24 w-24 rounded-full border" alt="User Profile Picture">
+                                <img :src="selectedUser.profile_picture && selectedUser.profile_picture !== 'null'
+                                            ? selectedUser.profile_picture
+                                            : 'https://media.istockphoto.com/id/2151669184/vector/vector-flat-illustration-in-grayscale-avatar-user-profile-person-icon-gender-neutral.jpg?s=612x612&w=0&k=20&c=UEa7oHoOL30ynvmJzSCIPrwwopJdfqzBs0q69ezQoM8='"
+                                     class="h-24 w-24 rounded-full border"
+                                     alt="User Profile Picture">
                             </div>
-
-
 
                             <h2 class="text-xl font-semibold text-center mt-3" x-text="selectedUser.name"></h2>
                             <p class="text-gray-600 text-center" x-text="selectedUser.email"></p>
