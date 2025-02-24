@@ -137,13 +137,19 @@
                 </div>
                 <div
                     class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">
+                    <a href="/admin/users">
+
+                    </a>
                     <div class="text-green-500 text-3xl my-auto mx-4">
-                        <h1 class="text-4xl">8</h1>
+                        <i class="fa fa-envelope"></i>
                     </div>
-                    <div>
-                        <h3 class="text-lg text-gray-600">Content Title</h3>
-                        <p class="text-gray-800 text-sm font-semibold">Description</p>
-                    </div>
+                    <a href="/admin/messages">
+                        <div>
+                            <h3 class="text-lg text-gray-800 font-semibold">{{ $messageCount }}</h3>
+                            <p class="text-gray-600 text-sm ">Messages</p>
+                        </div>
+                    </a>
+
                 </div>
                 <div
                     class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">

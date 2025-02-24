@@ -8,6 +8,7 @@ use App\Models\Adone;
 use App\Models\Adtwo;
 use App\Models\Order;
 use App\Models\Member;
+use App\Models\Message;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,8 @@ class AuthController extends Controller
         // Count distinct customers who placed orders
         $customerCount = Order::distinct('user_id')->count('user_id');
         $userCount = User::count();
-        return view('admin', compact('customerCount', 'userCount'));
+        $messageCount = Message::count();
+        return view('admin', compact('customerCount', 'userCount', 'messageCount'));
     }
 
     public function content()
@@ -63,7 +65,8 @@ class AuthController extends Controller
         if (Auth::guard('admin')->attempt(['name' => $request->name, 'password' => $request->password], $request->remember)) {
             $customerCount = Order::distinct('user_id')->count('user_id');
             $userCount = User::count();
-            return view('admin', compact('customerCount', 'userCount')); // Redirect to admin dashboard
+            $messageCount = Message::count();
+            return view('admin', compact('customerCount', 'userCount', 'messageCount')); // Redirect to admin dashboard
         }
 
         return back()->withErrors(['email' => 'Invalid credentials'])->withInput();

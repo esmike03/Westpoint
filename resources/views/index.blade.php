@@ -239,7 +239,7 @@
                             </div>
                         </div>
                     @empty
-                        <p class="text-gray-500 text-lg">No products found.</p>
+                        <p class="text-gray-500 text-lg text-center w-full">No products found.</p>
                     @endforelse
                 </div>
 

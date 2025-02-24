@@ -160,27 +160,7 @@
 
 
                 </div>
-                <div>
-                    <svg class="mb-2 h-8 w-8 text-gray-400 dark:text-gray-500" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                        viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-width="2"
-                            d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
-                    </svg>
-                    <h3 class="mb-2 text-gray-500 dark:text-gray-400">Reviews added</h3>
-                    <span class="flex items-center text-2xl font-bold text-gray-900 ">16
-                        {{-- <span
-                            class="ms-2 inline-flex items-center rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300">
-                            <svg class="-ms-1 me-1 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="M12 6v13m0-13 4 4m-4-4-4 4"></path>
-                            </svg>
-                            8.6%
-                        </span> --}}
-                    </span>
 
-                </div>
 
 
             </div>
