@@ -39,6 +39,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/admin/messages" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
+                        <i class="fas fa-envelope mr-2"></i>Messages
+                    </a>
+                </li>
+                <li>
                     <a href="/manage/content" class="block py-2 px-4 rounded hover:bg-green-100 text-gray-700">
                         <i class="fas fa-newspaper mr-2"></i>Manage Content
                     </a>

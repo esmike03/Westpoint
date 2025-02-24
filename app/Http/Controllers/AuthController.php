@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\User;
 use App\Models\Adone;
 use App\Models\Adtwo;
 use App\Models\Order;
 use App\Models\Member;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -118,9 +120,11 @@ class AuthController extends Controller
 
         // Log in user
         Auth::login($user);
-
+        $cartCount = Auth::check() ? Cart::where('user_id', Auth::id())->count() : 0;
+        $adone = Adone::all();
+        $products = Product::all();
         // Redirect to home/dashboard
-        return view('index');
+        return view('index', compact('cartCount', 'adone', 'products'));
     }
 
 

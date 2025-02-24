@@ -66,8 +66,16 @@
                     </li>
                     <li>
                         <a href="/cart">
-                            <button class="text-black hover:text-green-400"><i class="fas fa-cart-shopping"></i>
-                                Cart</button>
+                            <button class="relative text-black hover:text-green-400">
+                                <i class="fas fa-cart-shopping"></i> Cart
+                                @if ($cartCount > 0)
+                                    <span
+                                        class="absolute -top-1 -right-2 min-w-4 h-4 bg-red-500 text-xs text-white rounded-full flex items-center justify-center px-1">
+                                        {{ $cartCount }}
+                                    </span>
+                                @endif
+                            </button>
+
                         </a>
                     </li>
                     <li>
@@ -173,48 +181,8 @@
                     </span>
 
                 </div>
-                <div>
-                    <svg class="mb-2 h-8 w-8 text-gray-400 dark:text-gray-500" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                        viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
-                    </svg>
-                    <h3 class="mb-2 text-gray-500 dark:text-gray-400">Favorite products added</h3>
-                    <span class="flex items-center text-2xl font-bold text-gray-900 ">8
-                        {{-- <span
-                            class="ms-2 inline-flex items-center rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-300">
-                            <svg class="-ms-1 me-1 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="M12 6v13m0-13 4 4m-4-4-4 4"></path>
-                            </svg>
-                            12%
-                        </span> --}}
-                    </span>
 
-                </div>
-                <div>
-                    <svg class="mb-2 h-8 w-8 text-gray-400 dark:text-gray-500" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                        viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 9h13a5 5 0 0 1 0 10H7M3 9l4-4M3 9l4 4" />
-                    </svg>
-                    <h3 class="mb-2 text-gray-500 dark:text-gray-400">Product returns</h3>
-                    <span class="flex items-center text-2xl font-bold text-gray-900 ">2
-                        {{-- <span
-                            class="ms-2 inline-flex items-center rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300">
-                            <svg class="-ms-1 me-1 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="M12 6v13m0-13 4 4m-4-4-4 4"></path>
-                            </svg>
-                            50%
-                        </span> --}}
-                    </span>
 
-                </div>
             </div>
             <div class="py-4 md:py-8">
                 <div class="mb-4 grid gap-4 sm:grid-cols-2 sm:gap-8 lg:gap-16">

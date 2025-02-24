@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>About us</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="icon" type="image/png" href="{{ asset('IMAGES/logowestpoint.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     @vite('resources/css/app.css')
@@ -289,7 +290,7 @@
                                                 stroke="#4F46E5" stroke-width="2" />
                                         </svg>
                                         <h5 class="text-black text-base font-normal leading-6 ml-5">
-                                            204 sss village, Ormoc City, Ormoc City, Philippines</h5>
+                                            204 sss village, Ormoc City, Philippines</h5>
                                     </a>
                                     <a href="javascript:;" class="flex items-center mt-5">
                                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
@@ -314,21 +315,24 @@
                 <div class="bg-gray-50 p-5 lg:p-11 lg:rounded-r-2xl rounded-2xl">
                     <h2 class="text-green-600 font-manrope text-4xl font-semibold leading-10 mb-11">Send Us A Message
                     </h2>
-                    <input type="text"
-                        class="w-full h-12 text-gray-600 placeholder-gray-400  shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
-                        placeholder="Name">
-                    <input type="text"
-                        class="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
-                        placeholder="Email">
-                    <input type="text"
-                        class="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
-                        placeholder="Phone">
+                    <form id="messageForm">
+                        <input type="text" name="name" id="name"
+                            class="input-field w-full h-12 text-gray-600 placeholder-gray-400  shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
+                            placeholder="Name">
+                        <input type="text" name="email" id="email"
+                            class="input-field w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
+                            placeholder="Email">
+                        <input type="text" name="phone" id="phone"
+                            class="input-field w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
+                            placeholder="Phone">
 
-                    <input type="text"
-                        class="w-full h-12 text-gray-600 placeholder-gray-400 bg-transparent text-lg shadow-sm font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
-                        placeholder="Message">
-                    <button
-                        class="w-full h-12 text-white text-base font-semibold leading-6 rounded-full transition-all duration-700 hover:bg-green-800 bg-green-600 shadow-sm">Send</button>
+                        <textarea type="text" name="message" id="message"
+                            class="input-field w-full h-28 text-gray-600 placeholder-gray-400 bg-transparent text-lg shadow-sm font-normal leading-7 rounded-lg border border-gray-200 focus:outline-none pl-4 mb-10"
+                            placeholder="Message"> </textarea>
+                        <button
+                            class="w-full h-12 text-white text-base font-semibold leading-6 rounded-full transition-all duration-700 hover:bg-green-800 bg-green-600 shadow-sm">Send</button>
+                    </form>
+
                 </div>
             </div>
     </section>
@@ -437,6 +441,41 @@
         prev.addEventListener("click", () => {
             index = (index - 1 + slides) % slides;
             updateSlide();
+        });
+
+        document.getElementById('messageForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let formData = new FormData(this);
+
+            fetch("{{ route('send.message') }}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Message Sent!',
+                        text: data.success,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    });
+
+                    // Clear form fields after submission
+                    document.getElementById('messageForm').reset();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops!',
+                        text: 'Something went wrong. Please try again.',
+                        confirmButtonColor: '#d33'
+                    });
+                });
         });
     </script>
 </body>

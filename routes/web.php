@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingsController;
 
@@ -153,3 +155,8 @@ Route::get('/check-address', function () {
 
     return response()->json(['hasAddress' => $hasAddress]);
 });
+
+//send a message
+Route::post('/send-message', [MessageController::class, 'store'])->name('send.message');
+//admin display messages
+Route::get('/admin/messages', [MessageController::class, 'displayMessages'])->name('admin.messages');

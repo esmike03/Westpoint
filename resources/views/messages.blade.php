@@ -101,93 +101,53 @@
             </div>
         </header>
 
-        <section class="pt-24 text-xs">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="text-lg font-semibold text-gray-900 mb-4">Order List</h2>
+        <section class="pt-24">
+            <div class="container mx-auto p-5">
+                <h2 class="text-2xl font-semibold text-gray-700">Messages</h2>
 
-                <div x-data="{ search: '', statusFilter: '', openCustomer: null }" class="bg-white shadow-lg rounded-lg p-4">
-                    <!-- Search & Filter Controls -->
-                    <div class="flex justify-between items-center mb-4">
-                        <input type="text" x-model="search" placeholder="Search by customer or product..." class="border p-2 rounded-lg w-1/3 focus:ring focus:ring-green-300">
-                        <select x-model="statusFilter" class="border p-2 rounded-lg">
-                            <option value="">All Status</option>
-                            <option value="pending">Pending</option>
-                            <option value="completed">Completed</option>
-                        </select>
-                    </div>
-
-                    <div class="space-y-4">
-                        @foreach ($orders as $user_id => $userOrders)
-                            <div class="border rounded-lg overflow-hidden">
-                                <button @click="openCustomer === {{ $user_id }} ? openCustomer = null : openCustomer = {{ $user_id }}" class="w-full bg-gray-200 px-4 py-2 text-left font-semibold flex justify-between items-center">
-                                    <span>{{ $userOrders->first()->user->firstname }} {{ $userOrders->first()->user->lastname }}</span>
-                                    <span x-show="openCustomer === {{ $user_id }}">&#9650;</span>
-                                    <span x-show="openCustomer !== {{ $user_id }}">&#9660;</span>
-                                </button>
-                                <div x-show="openCustomer === {{ $user_id }}" x-collapse class="p-4 space-y-4">
-                                    @foreach ($userOrders as $order)
-                                        <div class=" shadow rounded-lg flex justify-between bg-white p-1 px-2" x-show="
-                                            ('{{ strtolower($order->user->firstname . ' ' . $order->user->lastname) }}'.includes(search.toLowerCase()) ||
-                                            '{{ strtolower($order->product->name) }}'.includes(search.toLowerCase())) &&
-                                            (statusFilter === '' || statusFilter === '{{ strtolower($order->status) }}')">
-                                            <h3 class="font-semibold text-gray-900">{{ $order->product->name }}</h3>
-                                            <p class="text-gray-700">Quantity: {{ $order->quantity }}</p>
-                                            <p class="text-gray-700">Status: <span class="px-2 rounded-lg text-white text-sm font-semibold {{ $order->status == 'pending' ? 'bg-yellow-500' : 'bg-green-500' }}">
-                                                {{ ucfirst($order->status) }}
-                                            </span></p>
-                                            <button onclick="updateStatus({{ $order->id }})" class=" px-4  bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition duration-200">
-                                                Mark as Completed
-                                            </button>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+                <div class="overflow-x-auto bg-white shadow-md rounded-lg mt-5">
+                    @if ($messages->isEmpty())
+                        <div class="p-6 text-center text-gray-500">
+                            <p class="text-lg">No messages available.</p>
+                        </div>
+                    @else
+                        <table class="min-w-full border border-gray-200">
+                            <thead>
+                                <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                                    <th class="py-3 px-6 text-left">Name</th>
+                                    <th class="py-3 px-6 text-left">Email</th>
+                                    <th class="py-3 px-6 text-left">Phone</th>
+                                    <th class="py-3 px-6 text-left">Message</th>
+                                    <th class="py-3 px-6 text-left">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600 text-sm font-light">
+                                @foreach ($messages as $message)
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="py-3 px-6">{{ $message->name }}</td>
+                                    <td class="py-3 px-6">{{ $message->email }}</td>
+                                    <td class="py-3 px-6">{{ $message->phone ?? 'N/A' }}</td>
+                                    <td class="py-3 px-6">{{ $message->message }}</td>
+                                    <td class="py-3 px-6">{{ $message->created_at->format('M d, Y H:i') }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
                 </div>
-            </div>
 
+                <!-- Pagination -->
+                @if ($messages->isNotEmpty())
+                    <div class="mt-4">
+                        {{ $messages->links() }}
+                    </div>
+                @endif
+            </div>
 
         </section>
     </main>
 
     <script>
-        function updateStatus(orderId) {
-            Swal.fire({
-                title: "Mark as Completed?",
-                text: "Are you sure you want to mark this order as completed?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, mark it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch(`/admin/orders/${orderId}/complete`, {
-                            method: "POST",
-                            headers: {
-                                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({})
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                Swal.fire("Updated!", "Order marked as completed.", "success")
-                                    .then(() => window.location.reload());
-                            } else {
-                                Swal.fire("Error!", data.message, "error");
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Error:", error);
-                            Swal.fire("Oops!", "Something went wrong.", "error");
-                        });
-                }
-            });
-        }
-
         document.getElementById('logout-btn').addEventListener('click', function(event) {
             event.preventDefault(); // Prevent default action
 
