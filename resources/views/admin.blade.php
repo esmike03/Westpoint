@@ -151,7 +151,7 @@
                     </a>
 
                 </div>
-                <div
+                {{-- <div
                     class="bg-white h-fit w-full shadow-md rounded-lg p-4 flex items-start gap-4 border border-gray-200">
                     <div class="text-green-500 text-3xl my-auto mx-4">
                         <h1 class="text-4xl">8</h1>
@@ -160,7 +160,7 @@
                         <h3 class="text-lg text-gray-600">Content Title</h3>
                         <p class="text-gray-800 text-sm font-semibold">Description</p>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </section>
     </main>

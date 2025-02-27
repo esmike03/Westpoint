@@ -22,6 +22,12 @@ class MessageController extends Controller
     }
 
     public function displayMessages() {
+
+        if (!auth()->guard('admin')->check()) {
+            // Redirect to the login page if not authenticated
+            return redirect('/admin/login')->with('message', 'Unauthorized access detected!');
+        }
+
         $messages = Message::latest()->paginate(10); // Paginate results
         return view('messages', compact('messages'));
     }
