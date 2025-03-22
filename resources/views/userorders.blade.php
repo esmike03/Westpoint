@@ -124,48 +124,98 @@
             @if ($orders->isEmpty())
                 <p class="text-center text-gray-500 text-lg">You have no orders yet.</p>
             @else
-                <div class="bg-white shadow-md rounded-xl p-3">
-                    <ul class="divide-y ">
-                        @foreach ($orders as $order_id => $orderItems)
-                            <div class="rounded-lg border-b border-gray-200 p-2 md:p-8">
-                                <ul class=" divide-y ">
-                                    @foreach ($orderItems as $order)
-                                        <li class="flex items-center justify-between py-2 bg-green-500 text-white p-2 rounded-lg mb-2 shadow-lg">
-                                            <div class="flex items-center">
-                                                <img src="{{ asset('storage/' . $order->product->image) }}" alt="{{ $order->product->name }}" class="w-10 h-10 object-cover rounded-md">
-                                                <span class="text-sm ml-4">{{ $order->product->name }}</span>
-                                            </div>
-                                            <div class="flex items-center space-x-4">
-                                                <span class=" font-medium text-sm">x{{ $order->quantity }}</span>
-                                            </div>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                <div class="flex flex-wrap items-center gap-y-4  pb-4 md:pb-5">
-                                    <dl class="w-1/2 sm:w-48">
-                                        <dt class="text-base font-medium text-gray-500">Date:</dt>
-                                        <dd class="mt-1.5 text-base font-semibold text-gray-900">{{ $orderItems[0]->created_at->format('d.m.Y') }}</dd>
-                                    </dl>
-                                    <dl class="w-1/2 sm:w-1/4 md:flex-1 lg:w-auto">
-                                        <dt class="text-base font-medium text-gray-500">Total Items:</dt>
-                                        <dd class="mt-1.5 text-base font-semibold text-gray-900">{{ count($orderItems) }}</dd>
-                                    </dl>
-                                    <dl class="w-1/2 sm:w-1/4 md:flex-1 lg:w-auto">
-                                        <dt class="text-base font-medium text-gray-500">Status:</dt>
-                                        <dd class="mt-1.5 inline-flex items-center px-2.5 py-0.5 rounded bg-yellow-100 text-yellow-800 text-xs font-medium">
-                                            <svg class="me-1 h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"></path>
-                                            </svg>
-                                            {{ ucfirst($orderItems[0]->status) }}
-                                        </dd>
-                                    </dl>
-                                </div>
+                <div x-data="{ statusFilter: '' }">
+                    <!-- Filter Dropdown -->
+                    <div class="mb-4">
+                        <select x-model="statusFilter" class="form-select border p-2 rounded">
+                            <option value="">All Statuses</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="completed">Completed</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
 
-                            </div>
-                        @endforeach
-                    </ul>
+                    <div class="bg-white shadow-md rounded-xl p-3">
+                        <ul class="divide-y">
+                            @foreach ($orders as $order_id => $orderItems)
+                                @php
+                                    $status = strtolower($orderItems[0]->status);
+                                    // Set badge and item background colors based on the status
+                                    switch ($status) {
+                                        case 'pending':
+                                            $badgeBg = 'bg-yellow-100';
+                                            $badgeText = 'text-yellow-800';
+                                            $itemBg = 'bg-yellow-500';
+                                            break;
+                                        case 'approved':
+                                            $badgeBg = 'bg-blue-100';
+                                            $badgeText = 'text-blue-800';
+                                            $itemBg = 'bg-blue-500';
+                                            break;
+                                        case 'completed':
+                                            $badgeBg = 'bg-green-100';
+                                            $badgeText = 'text-green-800';
+                                            $itemBg = 'bg-green-500';
+                                            break;
+                                        case 'rejected':
+                                            $badgeBg = 'bg-red-100';
+                                            $badgeText = 'text-red-800';
+                                            $itemBg = 'bg-red-500';
+                                            break;
+                                        default:
+                                            $badgeBg = 'bg-gray-100';
+                                            $badgeText = 'text-gray-800';
+                                            $itemBg = 'bg-gray-500';
+                                            break;
+                                    }
+                                @endphp
+
+                                <!-- Show this order group only if it matches the filter (or if filter is blank) -->
+                                <div class="rounded-lg border-b border-gray-200 p-2 md:p-8"
+                                    x-show="statusFilter === '' || statusFilter === '{{ $status }}'">
+                                    <ul class="divide-y">
+                                        @foreach ($orderItems as $order)
+                                            <li
+                                                class="flex items-center justify-between py-2 {{ $itemBg }} text-white p-2 rounded-lg mb-2 shadow-lg">
+                                                <div class="flex items-center">
+                                                    <img src="{{ asset('storage/' . $order->product->image) }}"
+                                                        alt="{{ $order->product->name }}"
+                                                        class="w-10 h-10 object-cover rounded-md">
+                                                    <span class="text-sm ml-4">{{ $order->product->name }}</span>
+                                                </div>
+                                                <div class="flex items-center space-x-4">
+                                                    <span class="font-medium text-sm">x{{ $order->quantity }}</span>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                    <div class="flex flex-wrap items-center gap-y-4 pb-4 md:pb-5">
+                                        <dl class="w-1/2 sm:w-48">
+                                            <dt class="text-base font-medium text-gray-500">Date:</dt>
+                                            <dd class="mt-1.5 text-base font-semibold text-gray-900">
+                                                {{ $orderItems[0]->created_at->format('d.m.Y') }}</dd>
+                                        </dl>
+                                        <dl class="w-1/2 sm:w-1/4 md:flex-1 lg:w-auto">
+                                            <dt class="text-base font-medium text-gray-500">Total Items:</dt>
+                                            <dd class="mt-1.5 text-base font-semibold text-gray-900">
+                                                {{ count($orderItems) }}</dd>
+                                        </dl>
+                                        <dl class="w-1/2 sm:w-1/4 md:flex-1 lg:w-auto">
+                                            <dt class="text-base font-medium text-gray-500">Status:</dt>
+                                            <dd
+                                                class="mt-1.5 inline-flex items-center px-2.5 py-0.5 rounded {{ $badgeBg }} {{ $badgeText }} text-xs font-medium">
+                                                {{ ucfirst($orderItems[0]->status) }}
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             @endif
+
         </div>
 
 

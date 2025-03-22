@@ -115,9 +115,9 @@
                             <option value="completed">Completed</option>
                         </select> --}}
                         <div class="flex gap-2">
-                            <a href="/admin/orders" class="bg-amber-500 hover:bg-amber-800 hover:scale-105 transition-transform text-white p-2 rounded-lg px-3">Pending</a>
+                            <a href="/admin/orders" class="bg-amber-800 hover:bg-amber-500 hover:scale-105 transition-transform text-white p-2 rounded-lg px-3">Pending</a>
                             <a href="/admin/orders/approved" class="bg-blue-800 hover:bg-blue-500 hover:scale-105 transition-transform text-white p-2 rounded-lg px-3">Approved</a>
-                            <a href="/admin/orders/completed" class="bg-green-800 hover:bg-green-500 hover:scale-105 transition-transform text-white p-2 rounded-lg px-3">Completed</a>
+                            <a href="/admin/orders/completed" class="bg-green-500 hover:bg-green-800 hover:scale-105 transition-transform text-white p-2 rounded-lg px-3">Completed</a>
                             <a href="/admin/orders/rejected" class="bg-red-800 hover:bg-red-500 hover:scale-105 transition-transform text-white p-2 rounded-lg px-3">Rejected</a>
                         </div>
                     </div>
@@ -126,24 +126,24 @@
                         @foreach ($orders as $user_id => $userOrders)
                             <div class="border rounded-lg overflow-hidden" x-data="{
                                 selectedOrders: [],
-                                markApproved() {
+                                markDelete() {
                                     if (this.selectedOrders.length === 0) {
                                         Swal.fire('Error', 'No orders selected.', 'error');
                                         return;
                                     }
                                     Swal.fire({
-                                        title: 'Mark as Approved?',
-                                        text: 'Are you sure you want to approve the selected orders?',
+                                        title: 'Delete?',
+                                        text: 'Are you sure you want to delete the selected orders?',
                                         icon: 'warning',
                                         showCancelButton: true,
                                         confirmButtonColor: '#3085d6',
                                         cancelButtonColor: '#d33',
-                                        confirmButtonText: 'Yes, approve!'
+                                        confirmButtonText: 'Yes, delete!'
                                     }).then((result) => {
                                         if (result.isConfirmed) {
                                             Promise.all(
                                                 this.selectedOrders.map(orderId =>
-                                                    fetch(`/admin/orders/${orderId}/approved`, {
+                                                    fetch(`/admin/orders/${orderId}/delete`, {
                                                         method: 'POST',
                                                         headers: {
                                                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -154,10 +154,10 @@
                                                 )
                                             ).then(results => {
                                                 if (results.every(result => result.success)) {
-                                                    Swal.fire('Updated!', 'Selected orders marked as approved.', 'success')
+                                                    Swal.fire('Updated!', 'Selected orders deleted.', 'success')
                                                         .then(() => window.location.reload());
                                                 } else {
-                                                    Swal.fire('Error!', 'Some orders could not be updated.', 'error');
+                                                    Swal.fire('Error!', 'Some orders could not be deleted.', 'error');
                                                 }
                                             }).catch(error => {
                                                 console.error('Error:', error);
@@ -242,14 +242,14 @@
                                     @endforeach
 
                                     <div class="flex gap-4">
-                                        <button @click="markApproved"
-                                            class="mt-2 w-full py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition duration-200">
-                                            Approved
+                                        <button @click="markDelete"
+                                            class="mt-2 w-full py-1 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition duration-200">
+                                            Delete
                                         </button>
-                                        <button @click="markReject"
+                                        {{-- <button @click="markReject"
                                             class="mt-2 w-full py-1 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition duration-200">
                                             Reject
-                                        </button>
+                                        </button> --}}
                                     </div>
                                     <!-- Single Mark as Completed button for this customer group -->
 

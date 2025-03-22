@@ -144,6 +144,9 @@ Route::post('/cart/submit', [OrderController::class, 'submitOrder'])->name('cart
 
 //show orders admin
 Route::get('/admin/orders', [OrderController::class, 'adminOrder'])->name('admin.orders');
+Route::get('/admin/orders/completed', [OrderController::class, 'adminOrderCompleted'])->name('admin.orderscompleted');
+Route::get('/admin/orders/rejected', [OrderController::class, 'adminOrderRejected'])->name('admin.ordersrejected');
+Route::get('/admin/orders/approved', [OrderController::class, 'adminOrderApproved'])->name('admin.ordersapproved');
 
 Route::get('/my-orders', [OrderController::class, 'userOrders'])->name('user.orders')->middleware('auth');
 Route::post('/update-phone', [UserController::class, 'updatePhone'])->name('update.phone');
@@ -162,3 +165,15 @@ Route::post('/send-message', [MessageController::class, 'store'])->name('send.me
 Route::get('/admin/messages', [MessageController::class, 'displayMessages'])->name('admin.messages');
 
 Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+
+Route::post('/admin/orders/{orderId}/approved', [OrderController::class, 'approved'])
+    ->name('admin.orders.approved');
+
+Route::post('/admin/orders/{orderId}/reject', [OrderController::class, 'reject'])
+    ->name('admin.orders.reject');
+
+Route::post('/admin/orders/{orderId}/complete', [OrderController::class, 'complete'])
+    ->name('admin.orders.complete');
+
+Route::post('/admin/orders/{orderId}/delete', [OrderController::class, 'delete'])
+    ->name('admin.orders.delete');
